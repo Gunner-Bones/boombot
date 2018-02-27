@@ -19,13 +19,13 @@ import time
 ##Boom Bot icon https://cdn.discordapp.com/avatars/416748497619124255/951482f7002f662404656cc2338b010a.png
 
 ##Settings File:
-##[0] Server Name
-##[1] Owner
-##[2] Bot Mods
-##[3] Persists
-##[4] Timed Roles
+##[1] Server Name
+##[2] Owner
+##[3] Bot Mods
+##[4] Persists
+##[5] Timed Roles
 
-SETTINGS_LINES = 5
+SETTINGS_LINES = 4
 ## REMEMBER TO UPDATE THIS
 
 Client = discord.Client()
@@ -78,8 +78,12 @@ def idreplace(a):
 def stnglistadd(linenum,repword,message):
     servname = "settings/" + message.server.id + "-settings.txt"
     f = open(servname, "r")
-    for i in linenum:
+    linenum = linenum + 1
+    for i in range(1,linenum):
         repline = f.readline()
+    f.close()
+    f = open(servname,"r")
+    linenum = linenum - 1
     if linenum == 3:
         replist = repline.replace("Bot Mods: ", "")
     elif linenum == 4:
@@ -92,22 +96,31 @@ def stnglistadd(linenum,repword,message):
         replist.remove("")
     replacorline = repline
     replacorline = replacorline.replace("[]", str(replist))
-    replacor = ""
-    for i in SETTINGS_LINES:
+    replacor = []
+    for i in range(0, SETTINGS_LINES):
         if i == linenum:
-            replacor = replacor + replacorline + "\n"
-        else:
-            replacor = replacor + f.readline() + "\n"
+
+            replacor.append(f.readline())
+            replacor.remove()
+            replacor[i] = replacorline
+        elif i != linenum:
+            print(i)
+            replacor.append(f.readline())
+    replacortext = ""
+    for i in range(0,(len(replacor) - 1)):
+        replacortext = replacortext + replacor[i]
     f.close()
     f = open(servname,"w")
     f.truncate()
-    f.write(replacor)
+    f.write(replacortext)
     f.close()
 def stnglistremove(linenum,repword,message):
     servname = "settings/" + message.server.id + "-settings.txt"
     f = open(servname, "r")
-    for i in linenum:
+    for i in range(1,linenum):
         repline = f.readline()
+    f.close()
+    f = open(servname, "r")
     if linenum == 3:
         replist = repline.replace("Bot Mods: ", "")
     elif linenum == 4:
@@ -120,22 +133,28 @@ def stnglistremove(linenum,repword,message):
         replist.remove("")
     replacorline = repline
     replacorline = replacorline.replace("[]", str(replist))
-    replacor = ""
-    for i in SETTINGS_LINES:
+    replacor = []
+    for i in range(0,SETTINGS_LINES):
         if i == linenum:
-            replacor = replacor + replacorline + "\n"
-        else:
-            replacor = replacor + f.readline() + "\n"
+            replacor[i] = f.readline()
+            replacor[i] = replacorline
+        elif i != linenum:
+            replacor[i] = f.readline()
+    replacortext = ""
+    for i in replacor:
+        replacortext = replacortext + replacor[i]
     f.close()
     f = open(servname,"w")
     f.truncate()
-    f.write(replacor)
+    f.write(replacortext)
     f.close()
 def stnglistfind(linenum,findword,message):
     servname = "settings/" + message.server.id + "-settings.txt"
     f = open(servname,"r")
-    for i in linenum:
+    for i in range(1,linenum):
         fwline = f.readline()
+    f.close()
+    f = open(servname, "r")
     if linenum == 3:
         fwlist = fwline.replace("Bot Mods: ", "")
     elif linenum == 4:
@@ -151,7 +170,6 @@ def stngformatlist(a):
     a = a[1:(len(a) - 2)]
     a = a.split(";")
     return a
-
 
 def serversettings():
     for server in client.servers:
@@ -284,11 +302,11 @@ async def on_message(message):
                 if stnglistfind(3,bmword,message) == False:
                     stnglistadd(3,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
-                        bmmember + " is now a Bot Mod!", "", 0x13e823, message))
+                        bmmember.name + " is now a Bot Mod!", "", 0x13e823, message))
                 else:
                     stnglistremove(3,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
-                        bmmember + " is no longer a Bot Mod!", "", 0x13e823, message))
+                        bmmember.name + " is no longer a Bot Mod!", "", 0x13e823, message))
 
 
 
