@@ -25,6 +25,9 @@ import time
 ##[3] Persists
 ##[4] Timed Roles
 
+SETTINGS_LINES = 5
+## REMEMBER TO UPDATE THIS
+
 Client = discord.Client()
 bot_prefix= "BK$"
 client = commands.Bot(command_prefix=bot_prefix)
@@ -49,6 +52,11 @@ def hasadmin(message):
             return True
     if foundadmin == False:
         return False
+def hasbotmod(message):
+    if stnglistfind(3,idreplace(message.author.id),message) == False:
+        return False
+    else:
+        return True
 def is_int(a):
     try:
         a = int(a)
@@ -66,6 +74,79 @@ def idreplace(a):
     a = a.replace("@","")
     a = a.replace("&","")
     return a
+
+def stnglistadd(linenum,repword,message):
+    servname = "settings/" + message.server.id + "-settings.txt"
+    f = open(servname, "r")
+    for i in linenum:
+        repline = f.readline()
+    if linenum == 3:
+        replist = repline.replace("Bot Mods: ", "")
+    elif linenum == 4:
+        replist = repline.replace("Persists: ","")
+    elif linenum == 5:
+        replist = repline.replace("Timed Roles: ","")
+    replist = stngformatlist(replist)
+    replist.append(repword)
+    if "[''" in str(replist):
+        replist.remove("")
+    replacorline = repline
+    replacorline = replacorline.replace("[]", str(replist))
+    replacor = ""
+    for i in SETTINGS_LINES:
+        if i == linenum:
+            replacor = replacor + replacorline + "\n"
+        else:
+            replacor = replacor + f.readline() + "\n"
+    f.close()
+    f = open(servname,"w")
+    f.truncate()
+    f.write(replacor)
+    f.close()
+def stnglistremove(linenum,repword,message):
+    servname = "settings/" + message.server.id + "-settings.txt"
+    f = open(servname, "r")
+    for i in linenum:
+        repline = f.readline()
+    if linenum == 3:
+        replist = repline.replace("Bot Mods: ", "")
+    elif linenum == 4:
+        replist = repline.replace("Persists: ","")
+    elif linenum == 5:
+        replist = repline.replace("Timed Roles: ","")
+    replist = stngformatlist(replist)
+    replist.remove(repword)
+    if "[''" in str(replist):
+        replist.remove("")
+    replacorline = repline
+    replacorline = replacorline.replace("[]", str(replist))
+    replacor = ""
+    for i in SETTINGS_LINES:
+        if i == linenum:
+            replacor = replacor + replacorline + "\n"
+        else:
+            replacor = replacor + f.readline() + "\n"
+    f.close()
+    f = open(servname,"w")
+    f.truncate()
+    f.write(replacor)
+    f.close()
+def stnglistfind(linenum,findword,message):
+    servname = "settings/" + message.server.id + "-settings.txt"
+    f = open(servname,"r")
+    for i in linenum:
+        fwline = f.readline()
+    if linenum == 3:
+        fwlist = fwline.replace("Bot Mods: ", "")
+    elif linenum == 4:
+        fwlist = fwline.replace("Persists: ","")
+    elif linenum == 5:
+        fwlist = fwline.replace("Timed Roles: ", "")
+    fwlist = stngformatlist(fwlist)
+    if findword in fwlist:
+        return True
+    else:
+        return False
 def stngformatlist(a):
     a = a[1:(len(a) - 2)]
     a = a.split(";")
@@ -103,7 +184,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if "BK$role" in message.content:
-        if hasadmin(message) == False:
+        if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
@@ -141,7 +222,7 @@ async def on_message(message):
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
     if "BK$roleremove" in message.content:
-        if hasadmin(message) == False:
+        if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
@@ -180,8 +261,9 @@ async def on_message(message):
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
     if "BK$cmdlist" in message.content:
         cle = embedder("Boom Bot currently functioning command list", " ", 0xc7f8fc, message)
-        cle.add_field(name="BK$roleadd",value="[A] Adds a role to a user",inline=True)
-        cle.add_field(name="BK$roleremove", value="[A] Removes a role to a user", inline=True)
+        cle.add_field(name="BK$roleadd",value="[BM] Adds a role to a user",inline=True)
+        cle.add_field(name="BK$roleremove", value="[BM] Removes a role to a user", inline=True)
+        cle.add_field(name="BK$botmod",value="[A] Toggles the Bot Mod *[BM]* status to a user (Bot Mods persist)",incline=True)
         await client.send_message(destination=message.channel, embed=cle)
     if "BK$botmod" in message.content:
         if hasadmin(message) == False:
@@ -190,7 +272,7 @@ async def on_message(message):
         else:
             if message.content == "BK$botmod":
                 await client.send_message(destination=message.channel, embed=embedder(
-                    "Invalid parameters!", "Usage: *BK$roleremove <user> <role>*", 0xfbc200, message))
+                    "Invalid parameters!", "Usage: *BK$botmod <user>*", 0xfbc200, message))
             else:
                 bmword = str(message.content).replace("BK$botmod ","")
                 bmword = idreplace(bmword)
@@ -199,21 +281,14 @@ async def on_message(message):
                 except UnboundLocalError:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Invalid member!", "Remember to @ the user", 0xfbc200, message))
-                servname = "settings/" + message.server.id + "-settings.txt"
-                f = open(servname,"r")
-                bmline = f.readline()
-                bmline = f.readline()
-                bmline = f.readline()
-                bmlist = bmline.replace("Bot Mods: ","")
-                bmlist = stngformatlist(bmlist)
-                bmlist.append(bmword)
-                if "[''" in str(bmlist):
-                    bmlist.remove("")
-                bmrepline = bmline
-                bmrepline = bmrepline.replace("[]",str(bmlist))
-                print(bmrepline)
-                bmreplacer = ""
-                bmrcount = 0
+                if stnglistfind(3,bmword,message) == False:
+                    stnglistadd(3,bmword,message)
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        bmmember + " is now a Bot Mod!", "", 0x13e823, message))
+                else:
+                    stnglistremove(3,bmword,message)
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        bmmember + " is no longer a Bot Mod!", "", 0x13e823, message))
 
 
 
