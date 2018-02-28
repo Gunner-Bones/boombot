@@ -1,5 +1,0 @@
-Server Name: Gunner's Meme Squad
-Owner: GunnerBones
-Bot Mods: []
-Persists: []
-Timed Roles: []

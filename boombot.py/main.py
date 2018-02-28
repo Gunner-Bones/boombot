@@ -19,14 +19,11 @@ import time
 ##Boom Bot icon https://cdn.discordapp.com/avatars/416748497619124255/951482f7002f662404656cc2338b010a.png
 
 ##Settings File:
-##[1] Server Name
-##[2] Owner
-##[3] Bot Mods
-##[4] Persists
-##[5] Timed Roles
+##[1] Bot Mods
+##[2] Persists
+##[3] Timed Roles
 
-SETTINGS_LINES = 4
-## REMEMBER TO UPDATE THIS
+
 
 Client = discord.Client()
 bot_prefix= "BK$"
@@ -53,7 +50,7 @@ def hasadmin(message):
     if foundadmin == False:
         return False
 def hasbotmod(message):
-    if stnglistfind(3,idreplace(message.author.id),message) == False:
+    if stnglistfind(1,idreplace(message.author.id),message) == False:
         return False
     else:
         return True
@@ -75,94 +72,52 @@ def idreplace(a):
     a = a.replace("&","")
     return a
 
-def stnglistadd(linenum,repword,message):
-    servname = "settings/" + message.server.id + "-settings.txt"
-    f = open(servname, "r")
-    linenum = linenum + 1
-    for i in range(1,linenum):
-        repline = f.readline()
-    f.close()
+def stnglistadd(filenum,repword,message):
+    if filenum == 1:
+        servname = "settings/botmods/" + message.server.id + ".txt"
+    elif filenum == 2:
+        servname = "settings/persistedroles/" + message.server.id + ".txt"
+    elif filenum == 3:
+        servname = "settings/timedroles/" + message.server.id + ".txt"
     f = open(servname,"r")
-    linenum = linenum - 1
-    if linenum == 3:
-        replist = repline.replace("Bot Mods: ", "")
-    elif linenum == 4:
-        replist = repline.replace("Persists: ","")
-    elif linenum == 5:
-        replist = repline.replace("Timed Roles: ","")
-    replist = stngformatlist(replist)
-    replist.append(repword)
-    if "[''" in str(replist):
-        replist.remove("")
-    replacorline = repline
-    replacorline = replacorline.replace("[]", str(replist))
-    replacor = []
-    for i in range(0, SETTINGS_LINES):
-        if i == linenum:
-
-            replacor.append(f.readline())
-            replacor.remove()
-            replacor[i] = replacorline
-        elif i != linenum:
-            print(i)
-            replacor.append(f.readline())
-    replacortext = ""
-    for i in range(0,(len(replacor) - 1)):
-        replacortext = replacortext + replacor[i]
+    repcl = f.readline()
+    repcl = repcl + repword + ";"
     f.close()
     f = open(servname,"w")
     f.truncate()
-    f.write(replacortext)
+    f.write(repcl)
     f.close()
-def stnglistremove(linenum,repword,message):
-    servname = "settings/" + message.server.id + "-settings.txt"
-    f = open(servname, "r")
-    for i in range(1,linenum):
-        repline = f.readline()
-    f.close()
-    f = open(servname, "r")
-    if linenum == 3:
-        replist = repline.replace("Bot Mods: ", "")
-    elif linenum == 4:
-        replist = repline.replace("Persists: ","")
-    elif linenum == 5:
-        replist = repline.replace("Timed Roles: ","")
-    replist = stngformatlist(replist)
-    replist.remove(repword)
-    if "[''" in str(replist):
-        replist.remove("")
-    replacorline = repline
-    replacorline = replacorline.replace("[]", str(replist))
-    replacor = []
-    for i in range(0,SETTINGS_LINES):
-        if i == linenum:
-            replacor[i] = f.readline()
-            replacor[i] = replacorline
-        elif i != linenum:
-            replacor[i] = f.readline()
-    replacortext = ""
-    for i in replacor:
-        replacortext = replacortext + replacor[i]
+def stnglistremove(filenum,repword,message):
+    if filenum == 1:
+        servname = "settings/botmods/" + message.server.id + ".txt"
+    elif filenum == 2:
+        servname = "settings/persistedroles/" + message.server.id + ".txt"
+    elif filenum == 3:
+        servname = "settings/timedroles/" + message.server.id + ".txt"
+    f = open(servname,"r")
+    repcl = f.readline()
+    replist = repcl.split(";")
+    for i in range(0,(len(replist) - 1)):
+        if replist[i] == repword:
+            replist.remove(replist[i])
+    repcl = ""
+    for i in range(0,(len(replist) - 1)):
+        repcl = repcl + replist[i] + ";"
     f.close()
     f = open(servname,"w")
     f.truncate()
-    f.write(replacortext)
+    f.write(repcl)
     f.close()
-def stnglistfind(linenum,findword,message):
-    servname = "settings/" + message.server.id + "-settings.txt"
+def stnglistfind(filenum,findword,message):
+    if filenum == 1:
+        servname = "settings/botmods/" + message.server.id + ".txt"
+    elif filenum == 2:
+        servname = "settings/persistedroles/" + message.server.id + ".txt"
+    elif filenum == 3:
+        servname = "settings/timedroles/" + message.server.id + "txt"
     f = open(servname,"r")
-    for i in range(1,linenum):
-        fwline = f.readline()
-    f.close()
-    f = open(servname, "r")
-    if linenum == 3:
-        fwlist = fwline.replace("Bot Mods: ", "")
-    elif linenum == 4:
-        fwlist = fwline.replace("Persists: ","")
-    elif linenum == 5:
-        fwlist = fwline.replace("Timed Roles: ", "")
-    fwlist = stngformatlist(fwlist)
-    if findword in fwlist:
+    repcl = f.readline()
+    if findword in repcl:
         return True
     else:
         return False
@@ -171,23 +126,62 @@ def stngformatlist(a):
     a = a.split(";")
     return a
 
+def cmdprefix(message):
+    servname = "settings/prefix/" + message.server.id + ".txt"
+    f = open(servname,"r")
+    cpreturn = f.readline()
+    f.close()
+    return cpreturn
+
+def updateprefix(message,newprefix):
+    servname = "settings/prefix/" + message.server.id + ".txt"
+    f = open(servname,"w")
+    f.truncate()
+    f.write(newprefix)
+    f.close()
+
 def serversettings():
     for server in client.servers:
         try:
-            servname = server.id + '-settings.txt'
+            servname = server.id + '.txt'
             f = open(servname,'a')
-            sortsn = 'settings/' + servname
+            sortsn = 'settings/botmods/' + servname
             f.close()
             os.rename(servname,sortsn)
         except:
             os.remove(servname)
-        f = open(sortsn, "r")
-        if len(f.readlines()) < 5:
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/persistedroles/' + servname
             f.close()
-            setapp = "Server Name: " + server.name + "\nOwner: " + server.owner.name + "\nBot Mods: []\n" \
-            "Persists: []\nTimed Roles: []"
-            f = open(sortsn, "a")
-            f.write(setapp)
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/timedroles/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/prefix/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("BK$")
             f.close()
         else:
             f.close()
@@ -198,19 +192,22 @@ async def on_ready():
     print("ID: {}".format(client.user.id))
     await client.change_presence(game=bbgame)
     serversettings()
+    print("Connected servers:")
+    for server in client.servers:
+        print("ID " + server.id + " " + server.name)
 
 @client.event
 async def on_message(message):
-    if "BK$role" in message.content:
+    if cmdprefix(message) + "roleadd" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
-            if message.content == "BK$roleadd":
+            if message.content == cmdprefix(message) + "roleadd":
                 await client.send_message(destination=message.channel, embed=embedder(
-                    "Invalid parameters!", "Usage: *BK$roleadd <user> <role>*", 0xfbc200, message))
+                    "Invalid parameters!", "Usage: *"+ cmdprefix(message) +"roleadd <user> <role>*", 0xfbc200, message))
             else:
-                raword = str(message.content).replace("BK$roleadd","")
+                raword = str(message.content).replace(cmdprefix(message) + "roleadd","")
                 ralist = raword.split()
                 try:
                     ralist[1] = str(ralist[1])
@@ -239,16 +236,16 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
-    if "BK$roleremove" in message.content:
+    if cmdprefix(message) + "roleremove" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
-            if message.content == "BK$roleremove":
+            if message.content == cmdprefix(message) + "roleremove":
                 await client.send_message(destination=message.channel, embed=embedder(
-                    "Invalid parameters!", "Usage: *BK$roleremove <user> <role>*", 0xfbc200, message))
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "roleremove <user> <role>*", 0xfbc200, message))
             else:
-                rrword = str(message.content).replace("BK$roleremove", "")
+                rrword = str(message.content).replace(cmdprefix(message) + "roleremove", "")
                 rrlist = rrword.split()
                 try:
                     rrlist[1] = str(rrlist[1])
@@ -277,38 +274,48 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
-    if "BK$cmdlist" in message.content:
+    if cmdprefix(message) + "cmdlist" in message.content:
         cle = embedder("Boom Bot currently functioning command list", " ", 0xc7f8fc, message)
-        cle.add_field(name="BK$roleadd",value="[BM] Adds a role to a user",inline=True)
-        cle.add_field(name="BK$roleremove", value="[BM] Removes a role to a user", inline=True)
-        cle.add_field(name="BK$botmod",value="[A] Toggles the Bot Mod *[BM]* status to a user (Bot Mods persist)",incline=True)
+        cle.add_field(name=cmdprefix(message) + "roleadd <user> <role>",value="[BM] Adds a role to a user",inline=True)
+        cle.add_field(name=cmdprefix(message) + "roleremove <user> <role>", value="[BM] Removes a role to a user", inline=True)
+        cle.add_field(name=cmdprefix(message) + "botmod <user>",value="[A] Toggles the Bot Mod *[BM]* status to a user *(Bot Mods persist)*",inline=True)
+        cle.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
         await client.send_message(destination=message.channel, embed=cle)
-    if "BK$botmod" in message.content:
+    if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
         else:
-            if message.content == "BK$botmod":
+            if message.content == cmdprefix(message) + "botmod":
                 await client.send_message(destination=message.channel, embed=embedder(
-                    "Invalid parameters!", "Usage: *BK$botmod <user>*", 0xfbc200, message))
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "botmod <user>*", 0xfbc200, message))
             else:
-                bmword = str(message.content).replace("BK$botmod ","")
+                bmword = str(message.content).replace(cmdprefix(message) + "botmod ","")
                 bmword = idreplace(bmword)
                 try:
                     bmmember = discord.utils.get(message.server.members, id=bmword)
                 except UnboundLocalError:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Invalid member!", "Remember to @ the user", 0xfbc200, message))
-                if stnglistfind(3,bmword,message) == False:
-                    stnglistadd(3,bmword,message)
+                if stnglistfind(1,bmword,message) == False:
+                    stnglistadd(1,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
                         bmmember.name + " is now a Bot Mod!", "", 0x13e823, message))
                 else:
-                    stnglistremove(3,bmword,message)
+                    stnglistremove(1,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
                         bmmember.name + " is no longer a Bot Mod!", "", 0x13e823, message))
-
-
-
-
+    if cmdprefix(message) + "changeprefix" in message.content:
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            if message.content == cmdprefix(message) + "changeprefix":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *"+cmdprefix(message)+"changeprefix <new prefix>*", 0xfbc200, message))
+            else:
+                cpword = str(message.content).replace(cmdprefix(message) + "changeprefix ", "")
+                updateprefix(message,cpword)
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Changed prefix to " + cpword + "!", "", 0x13e823, message))
 client.run(runpass)
