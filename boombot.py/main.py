@@ -38,7 +38,7 @@ runpass = str(runpass)
 trtlrunpass = dict.fromkeys(map(ord, '[\']'), None)
 runpass = runpass.translate(trtlrunpass)
 
-bbgame = discord.Game(name="Holy War on repeat")
+bbgame = discord.Game(name="Firewall on repeat")
 embedtest = None
 
 def hasadmin(message):
@@ -125,6 +125,12 @@ def stngformatlist(a):
     a = a[1:(len(a) - 2)]
     a = a.split(";")
     return a
+def stngfilelistconvert(a):
+    a = a.replace("[","")
+    a = a.replace("]","")
+    a = a.replace("'","")
+    a = a.replace("\"","")
+    return a
 
 def cmdprefix(message):
     servname = "settings/prefix/" + message.server.id + ".txt"
@@ -195,6 +201,23 @@ async def on_ready():
     print("Connected servers:")
     for server in client.servers:
         print("ID " + server.id + " " + server.name)
+
+@client.event
+async def on_member_join(member):
+    if stnglistfind(2,member.id,member) == True:
+        time.sleep(1)
+        servname = 'settings/persistedroles/' + member.server.id + ".txt"
+        f = open(servname,"r")
+        rpline = f.readline()
+        rpline = rpline.split(";")
+        for i in range(0,len(rpline) - 1):
+            if member.id in rpline[i]:
+                rpfound = rpline[i]
+        rpfound = stngfilelistconvert(rpfound)
+        rpfound = rpfound.split(",")
+        rpfound[1] = (rpfound[1])[1:]
+        rprole = discord.utils.get(member.server.roles, id=rpfound[1])
+        await client.add_roles(member,rprole)
 
 @client.event
 async def on_message(message):
@@ -318,4 +341,57 @@ async def on_message(message):
                 updateprefix(message,cpword)
                 await client.send_message(destination=message.channel, embed=embedder(
                     "Changed prefix to " + cpword + "!", "", 0x13e823, message))
+    if cmdprefix(message) + "persistrole" in message.content:
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            if message.content == cmdprefix(message) + "persistrole":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *"+cmdprefix(message)+"persistrole <user> <role>*", 0xfbc200, message))
+            else:
+                rpword = str(message.content).replace(cmdprefix(message) + "persistrole", "")
+                rplist = rpword.split()
+                try:
+                    rplist[1] = str(rplist[1])
+                except IndexError:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No role specified!", "Remember to @ the role", 0xfbc200, message))
+                rplist[1] = idreplace(rplist[1])
+                rplist[0] = idreplace(rplist[0])
+                rprole = discord.utils.get(message.server.roles, id=rplist[1])
+                for i in message.server.members:
+                    if i.id == rplist[0]:
+                        rpmemberid = i.id
+                try:
+                    rpmember = discord.utils.get(message.server.members, id=rpmemberid)
+                except UnboundLocalError:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                try:
+                    rpword = []
+                    rpword.append(rplist[0])
+                    rpword.append(rplist[1])
+                    rpword = str(rpword)
+                    if stnglistfind(2,rpword,message) == False:
+                        try:
+                            await client.add_roles(rpmember,rprole)
+                            stnglistadd(2,rpword,message)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
+                        except AttributeError:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                    elif stnglistfind(2,rpword,message) == True:
+                        try:
+                            await client.remove_roles(rpmember,rprole)
+                            stnglistremove(2,rpword,message)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Removed persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
+                        except AttributeError:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                except discord.errors.Forbidden:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
 client.run(runpass)
