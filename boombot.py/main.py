@@ -2,7 +2,7 @@ import discord
 import discord.ext.commands
 from discord.ext import commands
 import asyncio
-from datetime import date
+import datetime
 import random
 import math
 import sys
@@ -114,7 +114,7 @@ def stnglistfind(filenum,findword,message):
     elif filenum == 2:
         servname = "settings/persistedroles/" + message.server.id + ".txt"
     elif filenum == 3:
-        servname = "settings/timedroles/" + message.server.id + "txt"
+        servname = "settings/timedroles/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     if findword in repcl:
@@ -144,6 +144,34 @@ def updateprefix(message,newprefix):
     f = open(servname,"w")
     f.truncate()
     f.write(newprefix)
+    f.close()
+
+def trinit(trword,message):
+    servname = "settings/timedroles/" + message.server.id + ".txt"
+    f = open(servname,"r")
+    truse = f.readline()
+    truse = truse.split(";")
+    trfound = ""
+    for i in range(0,len(truse) - 1):
+        if trword in truse[i]:
+            trfound = truse[i]
+    trfoundo = trfound
+    trfound = stngfilelistconvert(trfound)
+    trfound = trfound.split(",")
+    tridate = int(trfound[2])
+    trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
+    trfound[2] = trenddate
+    trreplace = ""
+    for i in range(0,len(truse) - 1):
+        if trfoundo in truse[i]:
+            trreplace = trreplace + str(trfound) + ";"
+    for i in range(0,len(truse) - 1):
+        if trfoundo not in truse[i]:
+            trreplace = trreplace + truse[i] + ";"
+    f.close()
+    f = open(servname,"w")
+    f.truncate()
+    f.write(trreplace)
     f.close()
 
 def serversettings():
@@ -303,6 +331,7 @@ async def on_message(message):
         cle.add_field(name=cmdprefix(message) + "roleremove <user> <role>", value="[BM] Removes a role to a user", inline=True)
         cle.add_field(name=cmdprefix(message) + "botmod <user>",value="[A] Toggles the Bot Mod *[BM]* status to a user *(Bot Mods persist)*",inline=True)
         cle.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
+        cle.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         await client.send_message(destination=message.channel, embed=cle)
     if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
@@ -394,4 +423,71 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+    if cmdprefix(message) + "timedrole" in message.content:
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel,embed=embedder(
+                "You do not have permissions to do this!","",0xfb0006,message))
+        else:
+            if message.content == cmdprefix(message) + "roleadd":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *"+ cmdprefix(message) +"timedrole <user> <role> <days>*", 0xfbc200, message))
+            else:
+                trword = str(message.content).replace(cmdprefix(message) + "timedrole","")
+                trlist = trword.split()
+                try:
+                    trlist[1] = str(trlist[1])
+                except IndexError:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No role specified!", "Remember to @ the role", 0xfbc200, message))
+                try:
+                    trlist[2] = int(trlist[2])
+                except IndexError:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No time specified!", "Enter the amount in days", 0xfbc200, message))
+                trlist[1] = idreplace(trlist[1])
+                trlist[0] = idreplace(trlist[0])
+                trrole = discord.utils.get(message.server.roles,id=trlist[1])
+                for i in message.server.members:
+                    if i.id == trlist[0]:
+                        trmemberid = i.id
+                try:
+                    trmember = discord.utils.get(message.server.members,id=trmemberid)
+                except UnboundLocalError:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                trtime = trlist[2]
+                pdays = " days"
+                if trtime == 1:
+                    pdays = " day"
+                trword = []
+                trword.append(trlist[0])
+                trword.append(trlist[1])
+                trword.append(trlist[2])
+                trword = str(trword)
+                try:
+                    if stnglistfind(3,trword,message) == False:
+                        try:
+                            stnglistadd(3,trword,message)
+                            await client.add_roles(trmember,trrole)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
+                            trinit(trword,message)
+                        except AttributeError:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                    elif stnglistfind(3,trword,message) == True:
+                        try:
+                            stnglistremove(3,trword,message)
+                            await client.remove_roles(trmember,trrole)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Timed role removed", "", 0x13e823, message))
+                        except AttributeError:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                except discord.errors.Forbidden:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+
+
+
 client.run(runpass)
