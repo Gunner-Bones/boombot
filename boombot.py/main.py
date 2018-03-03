@@ -10,7 +10,7 @@ import os
 import traceback
 import time
 
-##join link: https://discordapp.com/oauth2/authorize?client_id=416748497619124255&scope=bot
+##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
 
 ##Red Color 0xfb0006
 ##Green Color 0x13e823
@@ -38,7 +38,7 @@ runpass = str(runpass)
 trtlrunpass = dict.fromkeys(map(ord, '[\']'), None)
 runpass = runpass.translate(trtlrunpass)
 
-bbgame = discord.Game(name="Firewall on repeat")
+bbgame = discord.Game(name="https://discord.gg/hCTykNU")
 embedtest = None
 
 def hasadmin(message):
@@ -173,6 +173,68 @@ def trinit(trword,message):
     f.truncate()
     f.write(trreplace)
     f.close()
+    trloop(message)
+
+def trloop(message):
+    servname = "settings/timedroles/" + message.server.id + ".txt"
+    f = open(servname,"r")
+    truse = f.readline()
+    truse = truse.split(";")
+    for i in range(0, len(truse) - 1):
+        trfound = truse[i]
+        trflist = str(stngformatlist(str(trfound)))
+        trflist = trflist.split(",")
+        trflist[1] = (trflist[1])[3:(len(trflist[1]) - 1)]
+        trflist[0] = (trflist[0])[3:(len(trflist[0]) - 1)]
+        cdate = datetime.datetime.now()
+        dta = trflist[2]
+        dta = dta.split("-")
+        dta[0] = int((dta[0])[2:])
+        dta[1] = int(dta[1])
+        dta[2] = int((dta[2])[:2])
+        edate = datetime.datetime(year=dta[0],month=dta[1],day=dta[2])
+        trmember = discord.utils.get(message.server.members, id=trflist[0])
+        trrole = discord.utils.get(message.server.roles, id=trflist[1])
+        if cdate >= edate:
+            stnglistremove(3,trfound,message)
+            snt = "settings/timedroles/" + message.server.id + "-tu.txt"
+            t = open(snt,"r")
+            snto = t.readline()
+            snta = "[" + trflist[0] + "," + trflist[1] + "];"
+            snto = snto + snta
+            t.close()
+            t = open(snt,"w")
+            t.truncate()
+            t.write(snto)
+            t.close()
+    f.close()
+
+def tchecknd(message):
+    servname = "settings/today.txt"
+    f = open(servname,"r")
+    if len(f.readline()) < 4:
+        replacor = str(datetime.datetime.now())
+        f.close()
+        f = open(servname,"w")
+        f.truncate()
+        f.write(replacor)
+        f.close()
+    else:
+        f.close()
+        f = open(servname,"r")
+        dta = f.readline()
+        dta = dta.split("-")
+        dta[0] = int(dta[0])
+        dta[1] = int(dta[1])
+        dta[2] = int((dta[2])[:2])
+        if datetime.datetime(year=dta[0],month=dta[1],day=dta[2]) + datetime.timedelta(days=1) <= datetime.datetime.now():
+            trloop(message)
+            f.close()
+            replacor = str(datetime.datetime.now())
+            f = open(servname,"w")
+            f.truncate()
+            f.write(replacor)
+            f.close()
 
 def serversettings():
     for server in client.servers:
@@ -196,6 +258,15 @@ def serversettings():
     for server in client.servers:
         try:
             servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/timedroles/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '-tu.txt'
             f = open(servname,'a')
             sortsn = 'settings/timedroles/' + servname
             f.close()
@@ -229,6 +300,10 @@ async def on_ready():
     print("Connected servers:")
     for server in client.servers:
         print("ID " + server.id + " " + server.name)
+    print("")
+    for server in client.servers:
+        for member in server.members:
+            tchecknd(member)
 
 @client.event
 async def on_member_join(member):
@@ -248,7 +323,30 @@ async def on_member_join(member):
         await client.add_roles(member,rprole)
 
 @client.event
+async def on_typing(channel,user,when):
+    snt = "settings/timedroles/" + channel.server.id + "-tu.txt"
+    t = open(snt, "r")
+    tur = t.readline()
+    if len(tur) > 5:
+        tur = tur.split(";")
+        for i in range(0,(len(tur) - 1)):
+            tun = tur[i]
+            tun = tun.replace("[","")
+            tun = tun.replace("]","")
+            tun = tun.split(",")
+            turole = discord.utils.get(channel.server.roles,id=tun[1])
+            tumember = discord.utils.get(channel.server.members,id=tun[0])
+            await client.remove_roles(tumember,turole)
+            print("Removed timed role " + turole.name + " from " + tumember.name)
+    t.close()
+    t = open(snt,"w")
+    t.truncate()
+    t.close()
+
+@client.event
 async def on_message(message):
+    if message.server == None:
+        await client.send_message(message.author,"?")
     if cmdprefix(message) + "roleadd" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
@@ -332,6 +430,7 @@ async def on_message(message):
         cle.add_field(name=cmdprefix(message) + "botmod <user>",value="[A] Toggles the Bot Mod *[BM]* status to a user *(Bot Mods persist)*",inline=True)
         cle.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
         cle.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
+        cle.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         await client.send_message(destination=message.channel, embed=cle)
     if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
