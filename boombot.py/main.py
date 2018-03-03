@@ -9,6 +9,7 @@ import sys
 import os
 import traceback
 import time
+import bbmusic
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
 
@@ -321,6 +322,20 @@ async def on_member_join(member):
         rpfound[1] = (rpfound[1])[1:]
         rprole = discord.utils.get(member.server.roles, id=rpfound[1])
         await client.add_roles(member,rprole)
+    if stnglistfind(3,member.id,member) == True:
+        time.sleep(1)
+        servname = 'settings/timedroles/' + member.server.id + ".txt"
+        f = open(servname,"r")
+        tuline = f.readline()
+        tuline = tuline.split(";")
+        for i in range(0,len(tuline) - 1):
+            if member.id in tuline[i]:
+                tufound = tuline[i]
+        tufound = stngfilelistconvert(tufound)
+        tufound = tufound.split(",")
+        tufound[1] = (tufound[1])[1:]
+        turole = discord.utils.get(member.server.roles, id=tufound[1])
+        await client.add_roles(member,turole)
 
 @client.event
 async def on_typing(channel,user,when):
@@ -345,6 +360,9 @@ async def on_typing(channel,user,when):
 
 @client.event
 async def on_message(message):
+    ## NORMAL COMMANDS
+    ## NORMAL COMMANDS
+    ## NORMAL COMMANDS
     if message.server == None:
         await client.send_message(message.author,"?")
     if cmdprefix(message) + "roleadd" in message.content:
@@ -586,7 +604,20 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
-
+    ## MUSIC COMMANDS
+    ## MUSIC COMMANDS
+    ## MUSIC COMMANDS
+    if cmdprefix(message) + "vcjoinme" in message.content:
+        if client.is_voice_connected(message.server) == True:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Boom Bot is already in a voice channel!", "", 0xfb0006, message))
+        else:
+            if message.author.is_voice_connected(message.server) == False:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "You are not in a voice channel!", "", 0xfbc200, message))
+            else:
+                avc = discord.VoiceClient(message.author)
+                await client.join_voice_channel(avc.channel)
 
 
 client.run(runpass)
