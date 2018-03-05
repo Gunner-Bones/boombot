@@ -9,7 +9,7 @@ import sys
 import os
 import traceback
 import time
-import bbmusic
+import inspect
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
 
@@ -23,6 +23,8 @@ import bbmusic
 ##[1] Bot Mods
 ##[2] Persists
 ##[3] Timed Roles
+##[4] VC: Current Author
+##[5] VC: Current Song
 
 
 
@@ -66,6 +68,19 @@ def embedder(etitle,edes,ecol,message):
     emb = discord.Embed(title=etitle,description=edes,color=ecol)
     emb.set_author(name=message.author,icon_url=message.author.avatar_url)
     return emb
+def ytembedder(etitle,edes,eauth,edur,message):
+    edsf = edes[:49] + "..."
+    emb = discord.Embed(title=etitle,description=edsf,color=0xc7f8fc)
+    emb.set_author(name=message.author,icon_url=message.author.avatar_url)
+    emb.add_field(name="Uploaded by:",value=eauth,inline=True)
+    edm = 0
+    while (edur - 60) >= 0:
+        edur = edur - 60
+        edm = edm + 1
+    edf = str(edm) + "m " + str(edur) + "s"
+    emb.add_field(name="Duration:",value=edf)
+    return emb
+
 def idreplace(a):
     a = a.replace("<","")
     a = a.replace(">","")
@@ -80,6 +95,10 @@ def stnglistadd(filenum,repword,message):
         servname = "settings/persistedroles/" + message.server.id + ".txt"
     elif filenum == 3:
         servname = "settings/timedroles/" + message.server.id + ".txt"
+    elif filenum == 4:
+        servname = "settings/vc/cauthor/" + message.server.id + ".txt"
+    elif filenum == 5:
+        servname = "settings/vc/csong/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = repcl + repword + ";"
@@ -95,6 +114,10 @@ def stnglistremove(filenum,repword,message):
         servname = "settings/persistedroles/" + message.server.id + ".txt"
     elif filenum == 3:
         servname = "settings/timedroles/" + message.server.id + ".txt"
+    elif filenum == 4:
+        servname = "settings/vc/cauthor/" + message.server.id + ".txt"
+    elif filenum == 5:
+        servname = "settings/vc/csong/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     replist = repcl.split(";")
@@ -116,6 +139,10 @@ def stnglistfind(filenum,findword,message):
         servname = "settings/persistedroles/" + message.server.id + ".txt"
     elif filenum == 3:
         servname = "settings/timedroles/" + message.server.id + ".txt"
+    elif filenum == 4:
+        servname = "settings/vc/cauthor/" + message.server.id + ".txt"
+    elif filenum == 5:
+        servname = "settings/vc/csong/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     if findword in repcl:
@@ -291,6 +318,24 @@ def serversettings():
             f.close()
         else:
             f.close()
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/vc/cauthor/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/vc/csong/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
 @client.event
 async def on_ready():
     print("Bot Online!")
@@ -357,6 +402,14 @@ async def on_typing(channel,user,when):
     t = open(snt,"w")
     t.truncate()
     t.close()
+
+@client.event
+async def on_voice_state_update(before,after):
+    if stnglistfind(4,idreplace(after.id),after) == True:
+        if after.voice_channel == None:
+            for x in client.voice_clients:
+                if (x.server == after.server):
+                    await x.disconnect()
 
 @client.event
 async def on_message(message):
@@ -442,14 +495,19 @@ async def on_message(message):
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
     if cmdprefix(message) + "cmdlist" in message.content:
-        cle = embedder("Boom Bot currently functioning command list", " ", 0xc7f8fc, message)
-        cle.add_field(name=cmdprefix(message) + "roleadd <user> <role>",value="[BM] Adds a role to a user",inline=True)
-        cle.add_field(name=cmdprefix(message) + "roleremove <user> <role>", value="[BM] Removes a role to a user", inline=True)
-        cle.add_field(name=cmdprefix(message) + "botmod <user>",value="[A] Toggles the Bot Mod *[BM]* status to a user *(Bot Mods persist)*",inline=True)
-        cle.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
-        cle.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
-        cle.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
-        await client.send_message(destination=message.channel, embed=cle)
+        cle1 = embedder("Boom Bot currently functioning command list", " ", 0xc7f8fc, message)
+        cle2 = embedder("", " ", 0xc7f8fc, message)
+        cle1.add_field(name=cmdprefix(message) + "roleadd <user> <role>",value="[BM] Adds a role to a user",inline=True)
+        cle1.add_field(name=cmdprefix(message) + "roleremove <user> <role>", value="[BM] Removes a role to a user", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "botmod <user>",value="[A] Toggles the Bot Mod *[BM]* status to a user *(Bot Mods persist)*",inline=True)
+        cle1.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
+        cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
+        cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
+        cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
+        cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
+        cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
+        await client.send_message(destination=message.channel, embed=cle1)
+        await client.send_message(destination=message.channel, embed=cle2)
     if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -608,16 +666,94 @@ async def on_message(message):
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
     if cmdprefix(message) + "vcjoinme" in message.content:
-        if client.is_voice_connected(message.server) == True:
+        if stnglistfind(4,idreplace(message.author.id),message) == True:
             await client.send_message(destination=message.channel, embed=embedder(
                 "Boom Bot is already in a voice channel!", "", 0xfb0006, message))
         else:
-            if message.author.is_voice_connected(message.server) == False:
+            if message.author.voice.voice_channel == None:
                 await client.send_message(destination=message.channel, embed=embedder(
                     "You are not in a voice channel!", "", 0xfbc200, message))
             else:
-                avc = discord.VoiceClient(message.author)
-                await client.join_voice_channel(avc.channel)
-
+                avc = message.author.voice
+                try:
+                    await client.join_voice_channel(avc.voice_channel)
+                except discord.errors.Forbidden:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+                for i in client.voice_clients:
+                    if (i.server == message.server):
+                        vju = message.author.id
+                        vju = idreplace(vju)
+                        stnglistadd(4,vju,message)
+    if cmdprefix(message) + "vcleaveme" in message.content:
+        if stnglistfind(4,idreplace(message.author.id),message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Boom Bot is not in a voice channel, or you are not in charge of Boom Bot!", "", 0xfb0006, message))
+        else:
+            if message.author.voice.voice_channel == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "You are not in a voice channel!", "", 0xfbc200, message))
+            else:
+                for x in list(client.voice_clients):
+                    if (x.server == message.server):
+                        await x.disconnect()
+                        vju = message.author.id
+                        vju = idreplace(vju)
+                        stnglistremove(4, vju, message)
+                        servname = "settings/vc/csong/" + message.server.id + ".txt"
+                        f = open(servname,"w")
+                        f.truncate()
+                        f.close()
+    if cmdprefix(message) + "ord" in message.content:
+        if hasbotmod(message) == True:
+            for x in list(client.voice_clients):
+                if (x.server == message.server):
+                    await x.disconnect()
+    if cmdprefix(message) + "ytplay" in message.content:
+        if stnglistfind(4,idreplace(message.author.id),message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Boom Bot is not in a voice channel, or you are not in charge of Boom Bot!", "", 0xfb0006, message))
+        else:
+            if message.author.voice.voice_channel == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "You are not in a voice channel!", "", 0xfbc200, message))
+            else:
+                if message.content == cmdprefix(message) + "ytplay":
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No song specified!", "Full links please", 0xfbc200, message))
+                else:
+                    for i in list(client.voice_clients):
+                        if (i.server == message.server):
+                            vpv = i
+                    vps = str(message.content).replace(cmdprefix(message) + "ytplay ","")
+                    try:
+                        vpp = await vpv.create_ytdl_player(vps)
+                    except Exception as e:
+                        print(e)
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Invalid link!", "Full links please", 0xfbc200, message))
+                    print(vpp.buff)
+                    print(vpp._connected)
+                    vpp.start()
+                    stnglistadd(5,str(vpp),message)
+                    await client.send_message(destination=message.channel, embed=ytembedder(
+                        vpp.title, vpp.description, vpp.uploader, vpp.duration, message))
+    if cmdprefix(message) + "vcstop" in message.content:
+        if stnglistfind(4,idreplace(message.author.id),message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Boom Bot is not in a voice channel, or you are not in charge of Boom Bot!", "", 0xfb0006, message))
+        else:
+            if message.author.voice.voice_channel == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "You are not in a voice channel!", "", 0xfbc200, message))
+            else:
+                servname = "settings/vc/csong/" + message.server.id + ".txt"
+                f = open(servname,"r")
+                vpc = f.readline()
+                vpcf = vpc[14:(len(vpc) - 3)]
+                vpcf = vpcf.split(",")
+                vpcf[1] = (vpcf[1])[1:]
+                vpcu = discord.voice_client.StreamPlayer(vpcf[0],vpcf[1])
+                vpcu.stop()
 
 client.run(runpass)
