@@ -44,6 +44,23 @@ runpass = runpass.translate(trtlrunpass)
 bbgame = discord.Game(name="https://discord.gg/hCTykNU")
 embedtest = None
 
+class ObjStore(object):
+    def __init__(self):
+        self.oslist = []
+    def startlistobj(self,clist):
+        self.oslist = clist
+    def callobj(self,cnum):
+        return self.oslist[cnum]
+    def insobj(self,sobj):
+        self.oslist.append(sobj)
+        return self.oslist.index(sobj)
+    def delobj(self,cnum):
+        self.oslist.remove(self.oslist[cnum])
+    def delallobj(self):
+        self.oslist = []
+
+vpcl = ObjStore()
+
 def hasadmin(message):
     foundadmin = False
     for i in message.author.roles:
@@ -506,6 +523,10 @@ async def on_message(message):
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
+        cle2.add_field(name=cmdprefix(message) + "ytplay <link>", value="Plays a song from a YouTube link",inline=True)
+        cle2.add_field(name=cmdprefix(message) + "vcstop", value="Stops the song you\'re playing",inline=True)
+        cle2.add_field(name=cmdprefix(message) + "vcpr", value="Toggles pause or resume on the current song",inline=True)
+        cle2.add_field(name=cmdprefix(message) + "vcvol <volume>", value="Sets the volume of the song. Values are 0-100, 100 being 100%",inline=True)
         await client.send_message(destination=message.channel, embed=cle1)
         await client.send_message(destination=message.channel, embed=cle2)
     if cmdprefix(message) + "botmod" in message.content:
@@ -722,22 +743,31 @@ async def on_message(message):
                     await client.send_message(destination=message.channel, embed=embedder(
                         "No song specified!", "Full links please", 0xfbc200, message))
                 else:
-                    for i in list(client.voice_clients):
-                        if (i.server == message.server):
-                            vpv = i
-                    vps = str(message.content).replace(cmdprefix(message) + "ytplay ","")
-                    try:
-                        vpp = await vpv.create_ytdl_player(vps)
-                    except Exception as e:
-                        print(e)
+                    servname = "settings/vc/csong/" + message.server.id + ".txt"
+                    t = open(servname,"r")
+                    if len(t.readline()) < 6:
+                        t.close()
+                        for i in list(client.voice_clients):
+                            if (i.server == message.server):
+                                vpv = i
+                        vps = str(message.content).replace(cmdprefix(message) + "ytplay ","")
+                        try:
+                            vpp = await vpv.create_ytdl_player(vps)
+                            print("Playing song " + vpp.title + " from " + message.author.name + " in " + message.author.voice.voice_channel.name + "("
+                                   + message.server.name + ")")
+                        except Exception as e:
+                            print(e)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid link!", "Full links please", 0xfbc200, message))
+                        vpap = [vpp,0]
+                        vpcl.startlistobj(vpap)
+                        vpp.start()
+                        stnglistadd(5,str(vps),message)
+                        await client.send_message(destination=message.channel, embed=ytembedder(
+                            vpp.title, vpp.description, vpp.uploader, vpp.duration, message))
+                    else:
                         await client.send_message(destination=message.channel, embed=embedder(
-                            "Invalid link!", "Full links please", 0xfbc200, message))
-                    print(vpp.buff)
-                    print(vpp._connected)
-                    vpp.start()
-                    stnglistadd(5,str(vpp),message)
-                    await client.send_message(destination=message.channel, embed=ytembedder(
-                        vpp.title, vpp.description, vpp.uploader, vpp.duration, message))
+                            "A song is already playing!", "Use *" + cmdprefix(message) + "vcstop* to stop the current song.", 0xfbc200, message))
     if cmdprefix(message) + "vcstop" in message.content:
         if stnglistfind(4,idreplace(message.author.id),message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -747,13 +777,89 @@ async def on_message(message):
                 await client.send_message(destination=message.channel, embed=embedder(
                     "You are not in a voice channel!", "", 0xfbc200, message))
             else:
+                try:
+                    vpp = vpcl.callobj(0)
+                except:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No song is currently playing!", "", 0xfbc200, message))
+                vpp.stop()
+                vpcl.delallobj()
+                vpcl.startlistobj([])
                 servname = "settings/vc/csong/" + message.server.id + ".txt"
-                f = open(servname,"r")
-                vpc = f.readline()
-                vpcf = vpc[14:(len(vpc) - 3)]
-                vpcf = vpcf.split(",")
-                vpcf[1] = (vpcf[1])[1:]
-                vpcu = discord.voice_client.StreamPlayer(vpcf[0],vpcf[1])
-                vpcu.stop()
-
+                f = open(servname,"w")
+                f.truncate()
+                f.close()
+                await client.send_message(destination=message.channel, embed=embedder(
+                    vpp.title, "Song stopped", 0xc7f8fc, message))
+    if cmdprefix(message) + "vcpr" in message.content:
+        if stnglistfind(4,idreplace(message.author.id),message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Boom Bot is not in a voice channel, or you are not in charge of Boom Bot!", "", 0xfb0006, message))
+        else:
+            if message.author.voice.voice_channel == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "You are not in a voice channel!", "", 0xfbc200, message))
+            else:
+                try:
+                    vpcn = vpcl.callobj(1)
+                except IndexError:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No song is currently playing!", "", 0xfbc200, message))
+                if vpcn == 0:
+                    vpp = vpcl.callobj(0)
+                    vpp.pause()
+                    vpcl.delobj(1)
+                    vpcl.insobj(1)
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        vpp.title, "Song paused", 0xc7f8fc, message))
+                elif vpcn == 1:
+                    vpp = vpcl.callobj(0)
+                    vpp.resume()
+                    vpcl.delobj(1)
+                    vpcl.insobj(0)
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        vpp.title, "Song resumed", 0xc7f8fc, message))
+    if cmdprefix(message) + "vcvol" in message.content:
+        if stnglistfind(4,idreplace(message.author.id),message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Boom Bot is not in a voice channel, or you are not in charge of Boom Bot!", "", 0xfb0006, message))
+        else:
+            if message.author.voice.voice_channel == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "You are not in a voice channel!", "", 0xfbc200, message))
+            else:
+                if message.content == cmdprefix(message) + "vcvol":
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No volume specified!", "Values between 0 and 100, 100 being 100% volume", 0xfbc200, message))
+                else:
+                    vpv = str((message.content).replace(cmdprefix(message) + "vcvol ",""))
+                    if is_int(vpv) == False:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Invalid volume value!", "Values between 0 and 100, 100 being 100% volume", 0xfbc200,
+                            message))
+                    else:
+                        try:
+                            vpv = int(vpv)
+                        except:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "No song is currently playing!", "", 0xfbc200, message))
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "No song is currently playing!", "", 0xfbc200, message))
+                        vpvo = vpv
+                        if vpv < 0 or vpv > 200:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid volume value!", "Values between 0 and 100, 100 being 100% volume", 0xfbc200,
+                                message))
+                        else:
+                            vpv = float(vpv) / 100.0
+                            vpp = vpcl.callobj(0)
+                            vpp.volume = vpv
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                vpp.title, "Volume changed to " + str(vpvo) + "%", 0xc7f8fc, message))
+    if cmdprefix(message) + "orac" in message.content:
+        if hasbotmod(message) == True:
+            servname = "settings/vc/cauthor/" + message.server.id + ".txt"
+            f = open(servname,"w")
+            f.truncate()
+            f.close()
 client.run(runpass)

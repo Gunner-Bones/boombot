@@ -14,21 +14,11 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="736" column="31" lean-forward="true" selection-start-line="736" selection-start-column="31" selection-end-line="736" selection-end-column="31" />
+            <state relative-caret-position="358">
+              <caret line="855" column="44" lean-forward="true" selection-start-line="855" selection-start-column="44" selection-end-line="855" selection-end-column="44" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="voice_client.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/voice_client.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="100" column="31" lean-forward="true" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -81,7 +71,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -93,6 +82,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -205,6 +195,24 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/voice_client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1496">
+          <caret line="100" column="31" lean-forward="true" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -398,16 +406,16 @@
     <entry file="file://$PROJECT_DIR$/bbmusic.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/voice_client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="100" column="31" lean-forward="true" selection-start-line="100" selection-start-column="31" selection-end-line="100" selection-end-column="31" />
+        <state relative-caret-position="-814">
+          <caret line="80" column="20" lean-forward="false" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="736" column="31" lean-forward="true" selection-start-line="736" selection-start-column="31" selection-end-line="736" selection-end-column="31" />
+        <state relative-caret-position="358">
+          <caret line="855" column="44" lean-forward="true" selection-start-line="855" selection-start-column="44" selection-end-line="855" selection-end-column="44" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
