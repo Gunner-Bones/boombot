@@ -19,6 +19,8 @@ import inspect
 ##Neutral Blue Color 0xc7f8fc
 ##Boom Bot icon https://cdn.discordapp.com/avatars/416748497619124255/951482f7002f662404656cc2338b010a.png
 
+##Boom Box 2.0 join link https://discord.gg/hCTykNU
+
 ##Settings File:
 ##[1] Bot Mods
 ##[2] Persists
@@ -41,7 +43,7 @@ runpass = str(runpass)
 trtlrunpass = dict.fromkeys(map(ord, '[\']'), None)
 runpass = runpass.translate(trtlrunpass)
 
-bbgame = discord.Game(name="https://discord.gg/hCTykNU")
+bbgame = discord.Game(name="god")
 embedtest = None
 
 class ObjStore(object):
@@ -683,6 +685,14 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+    if cmdprefix(message) + "about" in message.content:
+        cas = discord.utils.get(client.servers,id='419227324232499200')
+        cabk = discord.utils.get(cas.members,id='236330023190134785')
+        cagb = discord.utils.get(cas.members,id='172861416364179456')
+        cae = embedder("Boom Bot v1.0", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
+        cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
+        await client.send_message(destination=message.channel, embed=cae)
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
@@ -863,3 +873,5 @@ async def on_message(message):
             f.truncate()
             f.close()
 client.run(runpass)
+
+
