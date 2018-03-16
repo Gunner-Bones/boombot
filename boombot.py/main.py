@@ -43,7 +43,7 @@ runpass = str(runpass)
 trtlrunpass = dict.fromkeys(map(ord, '[\']'), None)
 runpass = runpass.translate(trtlrunpass)
 
-bbgame = discord.Game(name="god")
+bbgame = discord.Game(name="Firewall")
 embedtest = None
 
 class ObjStore(object):
@@ -62,6 +62,48 @@ class ObjStore(object):
         self.oslist = []
 
 vpcl = ObjStore()
+
+class FAILSAFE(object):
+    def __init__(self,maxallowed):
+        self.time = 0.0
+        self.start = False
+        self.tNow = datetime.datetime.now()
+        self.tTotal = 0.0
+        self.mA = maxallowed
+    def inctime(self):
+        self.time = self.time + 1.0
+        tD = datetime.datetime.now() - self.tNow
+        self.tTotal = self.tTotal + tD.seconds
+        self.tNow = datetime.datetime.now()
+    def clear(self):
+        self.time = 0.0
+        self.start = False
+    def startrun(self):
+        if self.start == False:
+            self.tNow = datetime.datetime.now()
+            self.start = True
+    def evaluate(self):
+        tAv = self.tTotal / self.time
+        if tAv < self.mA:
+            return True
+        else:
+            return False
+
+class SpecializedNameStoring(object):
+    def __init__(self):
+        self.name = ""
+    def saymyname(self):
+        return self.name
+    def whatisit(self,name):
+        self.name = name
+
+clientname = SpecializedNameStoring()
+
+#Types of suspicious behavior for bot to detect
+FAILSAFE_CDS = FAILSAFE(3.0) #Channel Delete Spam
+FAILSAFE_MKS = FAILSAFE(3.0) #Member Kick Spam
+FAILSAFE_MBS = FAILSAFE(3.0) #Member Ban Spam
+
 
 def hasadmin(message):
     foundadmin = False
@@ -359,6 +401,7 @@ def serversettings():
 async def on_ready():
     print("Bot Online!")
     print("Name: {}".format(client.user.name))
+    clientname.whatisit(client.user.name)
     print("ID: {}".format(client.user.id))
     await client.change_presence(game=bbgame)
     serversettings()
@@ -421,6 +464,23 @@ async def on_typing(channel,user,when):
     t = open(snt,"w")
     t.truncate()
     t.close()
+    await client.wait_until_ready()
+    time.sleep(1)
+    if client.user.name != clientname.saymyname():
+        for server in client.servers:
+            if server.id == "419227324232499200":
+                mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
+        await client.send_message(mG,
+                                  "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                  "(Username Change) " + channel.server.name + " and left all servers")
+        await client.send_message(mB,
+                                  "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                  "(Username Change) " + channel.server.name + " and left all servers")
+        for server in client.servers:
+            await client.leave_server(server)
+        await client.close()
+        EMERGENCY_SHUTDOWN("Username Change")
 
 @client.event
 async def on_voice_state_update(before,after):
@@ -429,6 +489,61 @@ async def on_voice_state_update(before,after):
             for x in client.voice_clients:
                 if (x.server == after.server):
                     await x.disconnect()
+
+def EMERGENCY_SHUTDOWN(reason):
+    print( "Boom Bot has initiated emergency shutdown due to being compromised (" + reason + ") at " + str(datetime.datetime.now()))
+    sys.exit("Emergency Shutdown")
+
+@client.event
+async def on_channel_delete(channel):
+    FAILSAFE_CDS.startrun()
+    FAILSAFE_CDS.inctime()
+    if FAILSAFE_CDS.time == 3:
+        if FAILSAFE_CDS.evaluate() == True:
+            for server in client.servers:
+                if server.id == "419227324232499200":
+                    mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                    mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
+            await client.send_message(mG,
+                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      "(Rapid Channel Delete) " + channel.server.name + " and left all servers")
+            await client.send_message(mB,
+                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      "(Rapid Channel Delete) " + channel.server.name + " and left all servers")
+            for server in client.servers:
+                await client.leave_server(server)
+            await client.close()
+            FAILSAFE_CDS.clear()
+            EMERGENCY_SHUTDOWN("Rapid Channel Delete")
+        else:
+            FAILSAFE_MBS.clear()
+
+
+
+@client.event
+async def on_member_ban(member):
+    FAILSAFE_MBS.startrun()
+    FAILSAFE_MBS.inctime()
+    if FAILSAFE_MBS.time == 3:
+        if FAILSAFE_MBS.evaluate() == True:
+            for server in client.servers:
+                if server.id == "419227324232499200":
+                    mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                    mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
+            await client.send_message(mG,
+                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      "(Rapid Member Ban) " + member.server.name + " and left all servers")
+            await client.send_message(mB,
+                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      "(Rapid Member Ban) " + member.server.name + " and left all servers")
+            for server in client.servers:
+                await client.leave_server(server)
+            await client.close()
+            FAILSAFE_MBS.clear()
+            EMERGENCY_SHUTDOWN("Rapid Member Ban")
+        else:
+            FAILSAFE_MBS.clear()
+
 
 @client.event
 async def on_message(message):
@@ -872,6 +987,6 @@ async def on_message(message):
             f = open(servname,"w")
             f.truncate()
             f.close()
+
+
 client.run(runpass)
-
-
