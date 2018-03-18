@@ -42,6 +42,8 @@ runpass = f.readlines()
 runpass = str(runpass)
 trtlrunpass = dict.fromkeys(map(ord, '[\']'), None)
 runpass = runpass.translate(trtlrunpass)
+if sys.platform != "win32":
+    runpass = runpass[:(len(runpass) - 2)]
 
 bbgame = discord.Game(name="Firewall")
 embedtest = None
@@ -397,6 +399,87 @@ def serversettings():
             os.rename(servname,sortsn)
         except:
             os.remove(servname)
+
+def serversettingslinux():
+    for server in client.servers:
+        try:
+            f = open('settings/botmods/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/botmods/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/persistedroles/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/persistedroles/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/timedroles/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/timedroles/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/timedroles/' + server.id + "-tu.txt","r")
+            f.close()
+        except:
+            servname = server.id + '-tu.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/timedroles/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        sortsn = "settings/prefix/" + server.id + ".txt"
+        try:
+            f = open('settings/prefix/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/prefix/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("BK$")
+            f.close()
+        else:
+            f.close()
+    for server in client.servers:
+        try:
+            f = open('settings/vc/cauthor/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/vc/cauthor/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/vc/csong/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/vc/csong/' + servname
+            f.close()
+            os.rename(servname, sortsn)
 @client.event
 async def on_ready():
     print("Bot Online!")
@@ -404,7 +487,10 @@ async def on_ready():
     clientname.whatisit(client.user.name)
     print("ID: {}".format(client.user.id))
     await client.change_presence(game=bbgame)
-    serversettings()
+    if sys.platform != "win32":
+        serversettingslinux()
+    else:
+        serversettings()
     print("Connected servers:")
     for server in client.servers:
         print("ID " + server.id + " " + server.name)
@@ -464,23 +550,29 @@ async def on_typing(channel,user,when):
     t = open(snt,"w")
     t.truncate()
     t.close()
-    await client.wait_until_ready()
-    time.sleep(1)
-    if client.user.name != clientname.saymyname():
-        for server in client.servers:
-            if server.id == "419227324232499200":
-                mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
-                mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
-        await client.send_message(mG,
-                                  "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
-                                  "(Username Change) " + channel.server.name + " and left all servers")
-        await client.send_message(mB,
-                                  "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
-                                  "(Username Change) " + channel.server.name + " and left all servers")
-        for server in client.servers:
-            await client.leave_server(server)
-        await client.close()
-        EMERGENCY_SHUTDOWN("Username Change")
+    if client._is_ready:
+        if client.user.name != clientname.saymyname():
+            for server in client.servers:
+                if server.id == "419227324232499200":
+                    mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                    mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
+            await client.send_message(mG,
+                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      "(Username Change) " + channel.server.name + " and left all servers")
+            await client.send_message(mB,
+                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      "(Username Change) " + channel.server.name + " and left all servers")
+            for server in client.servers:
+                await client.leave_server(server)
+            await client.close()
+            EMERGENCY_SHUTDOWN("Username Change")
+
+@client.event
+async def on_server_join(server):
+    if sys.platform != "win32":
+        serversettingslinux()
+    else:
+        serversettings()
 
 @client.event
 async def on_voice_state_update(before,after):
