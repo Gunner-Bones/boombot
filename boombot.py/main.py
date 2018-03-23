@@ -550,22 +550,22 @@ async def on_typing(channel,user,when):
     t = open(snt,"w")
     t.truncate()
     t.close()
-    if client._is_ready:
-        if client.user.name != clientname.saymyname():
-            for server in client.servers:
-                if server.id == "419227324232499200":
-                    mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
-                    mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
-            await client.send_message(mG,
-                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
-                                      "(Username Change) " + channel.server.name + " and left all servers")
-            await client.send_message(mB,
-                                      "**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
-                                      "(Username Change) " + channel.server.name + " and left all servers")
-            for server in client.servers:
-                await client.leave_server(server)
-            await client.close()
-            EMERGENCY_SHUTDOWN("Username Change")
+    ##if client._is_ready:
+        ##if client.user.name != clientname.saymyname():
+            ##for server in client.servers:
+                ##if server.id == "419227324232499200":
+                    ##mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                    ##mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
+            ##await client.send_message(mG,
+                                      ##"**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      ##"(Username Change) " + channel.server.name + " and left all servers")
+            ##await client.send_message(mB,
+                                      ##"**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                      ##"(Username Change) " + channel.server.name + " and left all servers")
+            ##for server in client.servers:
+                ##await client.leave_server(server)
+            ##await client.close()
+            ##EMERGENCY_SHUTDOWN("Username Change")
 
 @client.event
 async def on_server_join(server):
