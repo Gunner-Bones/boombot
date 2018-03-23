@@ -149,6 +149,7 @@ def idreplace(a):
     a = a.replace(">","")
     a = a.replace("@","")
     a = a.replace("&","")
+    a = a.replace("!", "")
     return a
 
 def stnglistadd(filenum,repword,message):
@@ -168,8 +169,10 @@ def stnglistadd(filenum,repword,message):
     f.close()
     f = open(servname,"w")
     f.truncate()
+    f.seek(0)
     f.write(repcl)
     f.close()
+
 def stnglistremove(filenum,repword,message):
     if filenum == 1:
         servname = "settings/botmods/" + message.server.id + ".txt"
@@ -184,18 +187,19 @@ def stnglistremove(filenum,repword,message):
     f = open(servname,"r")
     repcl = f.readline()
     replist = repcl.split(";")
-    for i in range(0,(len(replist) - 1)):
+    for i in range(0, (len(replist) - 1)):
         if replist[i] == repword:
             replist.remove(replist[i])
     repcl = ""
-    for i in range(0,(len(replist) - 1)):
+    for i in range(0, (len(replist) - 1)):
         repcl = repcl + replist[i] + ";"
     f.close()
-    f = open(servname,"w")
+    f = open(servname, "w")
     f.truncate()
     f.write(repcl)
     f.close()
-def stnglistfind(filenum,findword,message):
+
+def stnglistfind(filenum, findword, message):
     if filenum == 1:
         servname = "settings/botmods/" + message.server.id + ".txt"
     elif filenum == 2:
@@ -206,7 +210,7 @@ def stnglistfind(filenum,findword,message):
         servname = "settings/vc/cauthor/" + message.server.id + ".txt"
     elif filenum == 5:
         servname = "settings/vc/csong/" + message.server.id + ".txt"
-    f = open(servname,"r")
+    f = open(servname, "r")
     repcl = f.readline()
     if findword in repcl:
         return True
