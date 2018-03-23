@@ -241,6 +241,14 @@ def updateprefix(message,newprefix):
     f.write(newprefix)
     f.close()
 
+def finduser(message,uname):
+    umember = discord.utils.find(lambda m: uname in m.name,message.server.members)
+    return umember
+
+def findrole(message,urole):
+    urole = discord.utils.find(lambda r: urole in r.name,message.server.roles)
+    return urole
+
 def trinit(trword,message):
     servname = "settings/timedroles/" + message.server.id + ".txt"
     f = open(servname,"r")
@@ -663,26 +671,23 @@ async def on_message(message):
                     ralist[1] = str(ralist[1])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "No role specified!", "Remember to @ the role", 0xfbc200, message))
-                ralist[1] = idreplace(ralist[1])
-                ralist[0] = idreplace(ralist[0])
-                rarole = discord.utils.get(message.server.roles,id=ralist[1])
-                for i in message.server.members:
-                    if i.id == ralist[0]:
-                        ramemberid = i.id
-                try:
-                    ramember = discord.utils.get(message.server.members,id=ramemberid)
-                except UnboundLocalError:
+                        "No role specified!", "Remember to type in the name of the role", 0xfbc200, message))
+                ramember = finduser(message,ralist[0])
+                rarole = findrole(message,ralist[1])
+                if ramember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                        "Could not find member with name " + ralist[0], "Remember to type in the name of the member", 0xfbc200, message))
+                if rarole == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Could not find role with name " + ralist[1], "Remember to type in the name of the role", 0xfbc200, message))
                 try:
                     try:
                         await client.add_roles(ramember,rarole)
                         await client.send_message(destination=message.channel, embed=embedder(
-                            "Role successfully added!", "", 0x13e823, message))
+                            "Role " + rarole.name + " added to " + ramember.name, "", 0x13e823, message))
                     except AttributeError:
                         await client.send_message(destination=message.channel, embed=embedder(
-                            "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                            "Invalid role!", "Remember to type in the name of the role", 0xfbc200, message))
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
@@ -702,25 +707,24 @@ async def on_message(message):
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "No role specified!", "Remember to @ the role", 0xfbc200, message))
-                rrlist[1] = idreplace(rrlist[1])
-                rrlist[0] = idreplace(rrlist[0])
-                rrrole = discord.utils.get(message.server.roles, id=rrlist[1])
-                for i in message.server.members:
-                    if i.id == rrlist[0]:
-                        rrmemberid = i.id
-                try:
-                    rrmember = discord.utils.get(message.server.members, id=rrmemberid)
-                except UnboundLocalError:
+                rrmember = finduser(message, rrlist[0])
+                rrrole = findrole(message, rrlist[1])
+                if rrmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                        "Could not find member with name " + rrlist[0], "Remember to type in the name of the member",
+                        0xfbc200, message))
+                if rrrole == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Could not find role with name " + rrlist[1], "Remember to type in the name of the role",
+                        0xfbc200, message))
                 try:
                     try:
                         await client.remove_roles(rrmember, rrrole)
                         await client.send_message(destination=message.channel, embed=embedder(
-                            "Role successfully removed!", "", 0x13e823, message))
+                            "Role " + rrrole.name + "removed from " + rrmember.name, "", 0x13e823, message))
                     except AttributeError:
                         await client.send_message(destination=message.channel, embed=embedder(
-                            "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                            "Invalid role!", "Remember to type in the name of the role", 0xfbc200, message))
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
@@ -752,12 +756,12 @@ async def on_message(message):
                     "Invalid parameters!", "Usage: *" + cmdprefix(message) + "botmod <user>*", 0xfbc200, message))
             else:
                 bmword = str(message.content).replace(cmdprefix(message) + "botmod ","")
-                bmword = idreplace(bmword)
-                try:
-                    bmmember = discord.utils.get(message.server.members, id=bmword)
-                except UnboundLocalError:
+                bmmember = finduser(message,bmword)
+                bmword = bmmember.id
+                if bmmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                        "Could not find member with name " + bmword, "Remember to type in the name of the member (Capitilization counts!)",
+                        0xfbc200, message))
                 if stnglistfind(1,bmword,message) == False:
                     stnglistadd(1,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
@@ -794,18 +798,19 @@ async def on_message(message):
                     rplist[1] = str(rplist[1])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "No role specified!", "Remember to @ the role", 0xfbc200, message))
-                rplist[1] = idreplace(rplist[1])
-                rplist[0] = idreplace(rplist[0])
-                rprole = discord.utils.get(message.server.roles, id=rplist[1])
-                for i in message.server.members:
-                    if i.id == rplist[0]:
-                        rpmemberid = i.id
-                try:
-                    rpmember = discord.utils.get(message.server.members, id=rpmemberid)
-                except UnboundLocalError:
+                        "No role specified!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
+                rpmember = finduser(message,rplist[0])
+                rprole = findrole(message,rplist[1])
+                if rpmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                        "Could not find member with name " + rplist[0], "Remember to type in the name of the member (Capitilization counts!)",
+                        0xfbc200, message))
+                if rprole == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Could not find role with name " + rplist[1], "Remember to type in the name of the member (Capitilization counts!)",
+                        0xfbc200, message))
+                rplist[0] = rpmember.id
+                rplist[1] = rprole.id
                 try:
                     rpword = []
                     rpword.append(rplist[0])
@@ -819,7 +824,7 @@ async def on_message(message):
                                 "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
                     elif stnglistfind(2,rpword,message) == True:
                         try:
                             await client.remove_roles(rpmember,rprole)
@@ -828,7 +833,7 @@ async def on_message(message):
                                 "Removed persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
@@ -847,23 +852,20 @@ async def on_message(message):
                     trlist[1] = str(trlist[1])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "No role specified!", "Remember to @ the role", 0xfbc200, message))
+                        "No role specified!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
                 try:
                     trlist[2] = int(trlist[2])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "No time specified!", "Enter the amount in days", 0xfbc200, message))
-                trlist[1] = idreplace(trlist[1])
-                trlist[0] = idreplace(trlist[0])
-                trrole = discord.utils.get(message.server.roles,id=trlist[1])
-                for i in message.server.members:
-                    if i.id == trlist[0]:
-                        trmemberid = i.id
-                try:
-                    trmember = discord.utils.get(message.server.members,id=trmemberid)
-                except UnboundLocalError:
+                trrole = findrole(message,trlist[1])
+                trmember = finduser(message,trlist[0])
+                if trmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Invalid member!", "Remember to @ the user", 0xfbc200, message))
+                        "Could not find member with name " + trmember, "Remember to type in the name of the member (Capitilization counts!)",
+                        0xfbc200, message))
+                trlist[0] = trmember.id
+                trlist[1] = trrole.id
                 trtime = trlist[2]
                 pdays = " days"
                 if trtime == 1:
@@ -883,7 +885,7 @@ async def on_message(message):
                             trinit(trword,message)
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the the role (Capitilization counts!)", 0xfbc200, message))
                     elif stnglistfind(3,trword,message) == True:
                         try:
                             stnglistremove(3,trword,message)
@@ -892,7 +894,7 @@ async def on_message(message):
                                 "Timed role removed", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to @ the role", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
