@@ -242,11 +242,15 @@ def updateprefix(message,newprefix):
     f.close()
 
 def finduser(message,uname):
-    umember = discord.utils.find(lambda m: uname in m.name,message.server.members)
+    if "<@" in uname:
+        uname = idreplace(uname)
+        umember = discord.utils.get(message.server.members,id=uname)
+    else:
+        umember = discord.utils.find(lambda m: uname.lower() in m.name.lower(),message.server.members)
     return umember
 
-def findrole(message,urole):
-    urole = discord.utils.find(lambda r: urole in r.name,message.server.roles)
+def findrole(message,urolename):
+    urole = discord.utils.find(lambda r: urolename.lower() in r.name.lower(),message.server.roles)
     return urole
 
 def trinit(trword,message):
