@@ -710,7 +710,7 @@ async def on_message(message):
                     rrlist[1] = str(rrlist[1])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "No role specified!", "Remember to @ the role", 0xfbc200, message))
+                        "No role specified!", "Remember to type the name of the role", 0xfbc200, message))
                 rrmember = finduser(message, rrlist[0])
                 rrrole = findrole(message, rrlist[1])
                 if rrmember == None:
@@ -725,7 +725,7 @@ async def on_message(message):
                     try:
                         await client.remove_roles(rrmember, rrrole)
                         await client.send_message(destination=message.channel, embed=embedder(
-                            "Role " + rrrole.name + "removed from " + rrmember.name, "", 0x13e823, message))
+                            "Role " + rrrole.name + " removed from " + rrmember.name, "", 0x13e823, message))
                     except AttributeError:
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Invalid role!", "Remember to type in the name of the role", 0xfbc200, message))
@@ -764,7 +764,7 @@ async def on_message(message):
                 bmword = bmmember.id
                 if bmmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Could not find member with name " + bmword, "Remember to type in the name of the member (Capitilization counts!)",
+                        "Could not find member with name " + bmword, "Remember to type in the name of the member",
                         0xfbc200, message))
                 if stnglistfind(1,bmword,message) == False:
                     stnglistadd(1,bmword,message)
@@ -802,16 +802,16 @@ async def on_message(message):
                     rplist[1] = str(rplist[1])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "No role specified!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
+                        "No role specified!", "Remember to type the name of the role", 0xfbc200, message))
                 rpmember = finduser(message,rplist[0])
                 rprole = findrole(message,rplist[1])
                 if rpmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Could not find member with name " + rplist[0], "Remember to type in the name of the member (Capitilization counts!)",
+                        "Could not find member with name " + rplist[0], "Remember to type in the name of the member",
                         0xfbc200, message))
                 if rprole == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Could not find role with name " + rplist[1], "Remember to type in the name of the member (Capitilization counts!)",
+                        "Could not find role with name " + rplist[1], "Remember to type in the name of the member",
                         0xfbc200, message))
                 rplist[0] = rpmember.id
                 rplist[1] = rprole.id
@@ -828,7 +828,7 @@ async def on_message(message):
                                 "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
                     elif stnglistfind(2,rpword,message) == True:
                         try:
                             await client.remove_roles(rpmember,rprole)
@@ -837,7 +837,7 @@ async def on_message(message):
                                 "Removed persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
@@ -856,7 +856,7 @@ async def on_message(message):
                     trlist[1] = str(trlist[1])
                 except IndexError:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "No role specified!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
+                        "No role specified!", "Remember to type the name of the role", 0xfbc200, message))
                 try:
                     trlist[2] = int(trlist[2])
                 except IndexError:
@@ -866,7 +866,7 @@ async def on_message(message):
                 trmember = finduser(message,trlist[0])
                 if trmember == None:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Could not find member with name " + trmember, "Remember to type in the name of the member (Capitilization counts!)",
+                        "Could not find member with name " + trmember, "Remember to type in the name of the member",
                         0xfbc200, message))
                 trlist[0] = trmember.id
                 trlist[1] = trrole.id
@@ -889,7 +889,7 @@ async def on_message(message):
                             trinit(trword,message)
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to type the name of the the role (Capitilization counts!)", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the the role", 0xfbc200, message))
                     elif stnglistfind(3,trword,message) == True:
                         try:
                             stnglistremove(3,trword,message)
@@ -898,7 +898,7 @@ async def on_message(message):
                                 "Timed role removed", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to type the name of the role (Capitilization counts!)", 0xfbc200, message))
+                                "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
@@ -906,7 +906,7 @@ async def on_message(message):
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.0", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v1.2", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
