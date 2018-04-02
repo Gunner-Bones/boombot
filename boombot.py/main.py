@@ -10,6 +10,7 @@ import os
 import traceback
 import time
 import inspect
+import subprocess
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
 
@@ -163,6 +164,8 @@ def stnglistadd(filenum,repword,message):
         servname = "settings/vc/cauthor/" + message.server.id + ".txt"
     elif filenum == 5:
         servname = "settings/vc/csong/" + message.server.id + ".txt"
+    elif filenum == 6:
+        servname = "settings/timedemoji/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = repcl + repword + ";"
@@ -184,6 +187,8 @@ def stnglistremove(filenum,repword,message):
         servname = "settings/vc/cauthor/" + message.server.id + ".txt"
     elif filenum == 5:
         servname = "settings/vc/csong/" + message.server.id + ".txt"
+    elif filenum == 6:
+        servname = "settings/timedemoji/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     replist = repcl.split(";")
@@ -210,6 +215,8 @@ def stnglistfind(filenum, findword, message):
         servname = "settings/vc/cauthor/" + message.server.id + ".txt"
     elif filenum == 5:
         servname = "settings/vc/csong/" + message.server.id + ".txt"
+    elif filenum == 6:
+        servname = "settings/timedemoji/" + message.server.id + ".txt"
     f = open(servname, "r")
     repcl = f.readline()
     if findword in repcl:
@@ -253,68 +260,141 @@ def findrole(message,urolename):
     urole = discord.utils.find(lambda r: urolename.lower() in r.name.lower(),message.server.roles)
     return urole
 
-def trinit(trword,message):
-    servname = "settings/timedroles/" + message.server.id + ".txt"
-    f = open(servname,"r")
-    truse = f.readline()
-    truse = truse.split(";")
-    trfound = ""
-    for i in range(0,len(truse) - 1):
-        if trword in truse[i]:
-            trfound = truse[i]
-    trfoundo = trfound
-    trfound = stngfilelistconvert(trfound)
-    trfound = trfound.split(",")
-    tridate = int(trfound[2])
-    trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
-    trfound[2] = trenddate
-    trreplace = ""
-    for i in range(0,len(truse) - 1):
-        if trfoundo in truse[i]:
-            trreplace = trreplace + str(trfound) + ";"
-    for i in range(0,len(truse) - 1):
-        if trfoundo not in truse[i]:
-            trreplace = trreplace + truse[i] + ";"
-    f.close()
-    f = open(servname,"w")
-    f.truncate()
-    f.write(trreplace)
-    f.close()
-    trloop(message)
+def findemoji(message,uemojiname):
+    ffc = uemojiname.index(":")
+    for i in uemojiname:
+        ffc += 1
+        if uemojiname[ffc] == ":":
+            ffc += 1
+            break
+    uemojiname = uemojiname[ffc:len(uemojiname) - 1]
+    uemojiname = str(uemojiname)
+    uemojiname = discord.utils.get(message.server.emojis,id=uemojiname)
+    return uemojiname
 
-def trloop(message):
-    servname = "settings/timedroles/" + message.server.id + ".txt"
-    f = open(servname,"r")
-    truse = f.readline()
-    truse = truse.split(";")
-    for i in range(0, len(truse) - 1):
-        trfound = truse[i]
-        trflist = str(stngformatlist(str(trfound)))
-        trflist = trflist.split(",")
-        trflist[1] = (trflist[1])[3:(len(trflist[1]) - 1)]
-        trflist[0] = (trflist[0])[3:(len(trflist[0]) - 1)]
-        cdate = datetime.datetime.now()
-        dta = trflist[2]
-        dta = dta.split("-")
-        dta[0] = int((dta[0])[2:])
-        dta[1] = int(dta[1])
-        dta[2] = int((dta[2])[:2])
-        edate = datetime.datetime(year=dta[0],month=dta[1],day=dta[2])
-        trmember = discord.utils.get(message.server.members, id=trflist[0])
-        trrole = discord.utils.get(message.server.roles, id=trflist[1])
-        if cdate >= edate:
-            stnglistremove(3,trfound,message)
-            snt = "settings/timedroles/" + message.server.id + "-tu.txt"
-            t = open(snt,"r")
-            snto = t.readline()
-            snta = "[" + trflist[0] + "," + trflist[1] + "];"
-            snto = snto + snta
-            t.close()
-            t = open(snt,"w")
-            t.truncate()
-            t.write(snto)
-            t.close()
-    f.close()
+def trinit(trword,message,ttype):
+    if ttype == 1:  # Timed Roles
+        servname = "settings/timedroles/" + message.server.id + ".txt"
+        f = open(servname,"r")
+        truse = f.readline()
+        truse = truse.split(";")
+        trfound = ""
+        for i in range(0,len(truse) - 1):
+            if trword in truse[i]:
+                trfound = truse[i]
+        trfoundo = trfound
+        trfound = stngfilelistconvert(trfound)
+        trfound = trfound.split(",")
+        tridate = int(trfound[2])
+        trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
+        trfound[2] = trenddate
+        trreplace = ""
+        for i in range(0,len(truse) - 1):
+            if trfoundo in truse[i]:
+                trreplace = trreplace + str(trfound) + ";"
+        for i in range(0,len(truse) - 1):
+            if trfoundo not in truse[i]:
+                trreplace = trreplace + truse[i] + ";"
+        f.close()
+        f = open(servname,"w")
+        f.truncate()
+        f.write(trreplace)
+        f.close()
+        trloop(message,1)
+    elif ttype == 2:  # Timed Emoji
+        servname = "settings/timedemoji/" + message.server.id + ".txt"
+        f = open(servname, "r")
+        truse = f.readline()
+        truse = truse.split(";")
+        trfound = ""
+        for i in range(0, len(truse) - 1):
+            if trword in truse[i]:
+                trfound = truse[i]
+        trfoundo = trfound
+        trfound = stngfilelistconvert(trfound)
+        trfound = trfound.split(",")
+        tridate = int(trfound[1])
+        trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
+        trfound[1] = trenddate
+        trreplace = ""
+        for i in range(0, len(truse) - 1):
+            if trfoundo in truse[i]:
+                trreplace = trreplace + str(trfound) + ";"
+        for i in range(0, len(truse) - 1):
+            if trfoundo not in truse[i]:
+                trreplace = trreplace + truse[i] + ";"
+        f.close()
+        f = open(servname, "w")
+        f.truncate()
+        f.write(trreplace)
+        f.close()
+        trloop(message,2)
+
+def trloop(message,ttype):
+    if ttype == 1:
+        servname = "settings/timedroles/" + message.server.id + ".txt"
+        f = open(servname,"r")
+        truse = f.readline()
+        truse = truse.split(";")
+        for i in range(0, len(truse) - 1):
+            trfound = truse[i]
+            trflist = str(stngformatlist(str(trfound)))
+            trflist = trflist.split(",")
+            trflist[1] = (trflist[1])[3:(len(trflist[1]) - 1)]
+            trflist[0] = (trflist[0])[3:(len(trflist[0]) - 1)]
+            cdate = datetime.datetime.now()
+            dta = trflist[2]
+            dta = dta.split("-")
+            dta[0] = int((dta[0])[2:])
+            dta[1] = int(dta[1])
+            dta[2] = int((dta[2])[:2])
+            edate = datetime.datetime(year=dta[0],month=dta[1],day=dta[2])
+            trmember = discord.utils.get(message.server.members, id=trflist[0])
+            trrole = discord.utils.get(message.server.roles, id=trflist[1])
+            if cdate >= edate:
+                stnglistremove(3,trfound,message)
+                snt = "settings/timedroles/" + message.server.id + "-tu.txt"
+                t = open(snt,"r")
+                snto = t.readline()
+                snta = "[" + trflist[0] + "," + trflist[1] + "];"
+                snto = snto + snta
+                t.close()
+                t = open(snt,"w")
+                t.truncate()
+                t.write(snto)
+                t.close()
+        f.close()
+    elif ttype == 2:
+        servname = "settings/timedemoji/" + message.server.id + ".txt"
+        f = open(servname, "r")
+        truse = f.readline()
+        truse = truse.split(";")
+        for i in range(0, len(truse) - 1):
+            trfound = truse[i]
+            trflist = str(stngformatlist(str(trfound)))
+            trflist = trflist.split(",")
+            trflist[0] = (trflist[0])[3:(len(trflist[0]) - 1)]
+            cdate = datetime.datetime.now()
+            dta = trflist[1]
+            dta = dta.split("-")
+            dta[0] = int((dta[0])[2:])
+            dta[1] = int(dta[1])
+            dta[2] = int((dta[2])[:2])
+            edate = datetime.datetime(year=dta[0], month=dta[1], day=dta[2])
+            tremoji = discord.utils.get(message.server.emojis, id=trflist[0])
+            if cdate >= edate:
+                stnglistremove(6, trfound, message)
+                snt = "settings/timedemoji/" + message.server.id + "-tu.txt"
+                t = open(snt, "r")
+                snto = t.readline()
+                snta = "[" + trflist[0] + "];"
+                snto = snto + snta
+                t.close()
+                t = open(snt, "w")
+                t.truncate()
+                t.write(snto)
+                t.close()
+        f.close()
 
 def tchecknd(message):
     servname = "settings/today.txt"
@@ -373,9 +453,27 @@ def serversettings():
             os.remove(servname)
     for server in client.servers:
         try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/timedemoji/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
             servname = server.id + '-tu.txt'
             f = open(servname,'a')
             sortsn = 'settings/timedroles/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '-tu.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/timedemoji/' + servname
             f.close()
             os.rename(servname,sortsn)
         except:
@@ -455,6 +553,26 @@ def serversettingslinux():
             servname = server.id + '-tu.txt'
             f = open(servname, 'a')
             sortsn = 'settings/timedroles/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/timedemoji/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/timedemoji/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/timedemoji/' + server.id + "-tu.txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/timedemoji/' + servname
             f.close()
             os.rename(servname, sortsn)
     for server in client.servers:
@@ -564,6 +682,23 @@ async def on_typing(channel,user,when):
             print("Removed timed role " + turole.name + " from " + tumember.name)
     t.close()
     t = open(snt,"w")
+    t.truncate()
+    t.close()
+
+    snt = "settings/timedemoji/" + channel.server.id + "-tu.txt"
+    t = open(snt, "r")
+    tur = t.readline()
+    if len(tur) > 5:
+        tur = tur.split(";")
+        for i in range(0, (len(tur) - 1)):
+            tun = tur[i]
+            tun = tun.replace("[", "")
+            tun = tun.replace("]", "")
+            tuemoji = discord.utils.get(channel.server.emojis, id=tun)
+            await client.delete_custom_emoji(tuemoji)
+            print("Removed emoji " + tuemoji.name)
+    t.close()
+    t = open(snt, "w")
     t.truncate()
     t.close()
     ##if client._is_ready:
@@ -741,6 +876,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
+        cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
@@ -846,7 +982,7 @@ async def on_message(message):
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
-            if message.content == cmdprefix(message) + "roleadd":
+            if message.content == cmdprefix(message) + "timedrole":
                 await client.send_message(destination=message.channel, embed=embedder(
                     "Invalid parameters!", "Usage: *"+ cmdprefix(message) +"timedrole <user> <role> <days>*", 0xfbc200, message))
             else:
@@ -886,7 +1022,7 @@ async def on_message(message):
                             await client.add_roles(trmember,trrole)
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
-                            trinit(trword,message)
+                            trinit(trword,message,1)
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the the role", 0xfbc200, message))
@@ -906,10 +1042,49 @@ async def on_message(message):
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.2", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v1.3", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
+    if cmdprefix(message) + "timedemoji" in message.content:
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel,embed=embedder(
+                "You do not have permissions to do this!","",0xfb0006,message))
+        else:
+            if message.content == cmdprefix(message) + "timedemoji":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *"+ cmdprefix(message) +"timedemoji <emoji> <days>*", 0xfbc200, message))
+            else:
+                tel = str(message.content).replace(cmdprefix(message) + "timedemoji ","")
+                tel = tel.split(" ")
+                tee = findemoji(message,tel[0])
+                if tee == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Invalid emoji!", "Usage: *" + cmdprefix(message) + "timedemoji <emoji> <days>*", 0xfbc200,
+                        message))
+                else:
+                    ted = tel[1]
+                    edays = " days"
+                    if ted == 1:
+                        edays = " day"
+                    teword = []
+                    teword.append(tee.id)
+                    teword.append(ted)
+                    teword = str(teword)
+                    try:
+                        if stnglistfind(6, teword, message) == False:
+                            stnglistadd(6, teword, message)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Emoji " + tee.name + " set for " + str(ted) + edays, "", 0x13e823, message))
+                            trinit(teword, message,2)
+                        elif stnglistfind(6, teword, message) == True:
+                            stnglistremove(6, teword, message)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Timed Emoji removed!", "", 0x13e823, message))
+                    except discord.errors.Forbidden:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
@@ -1089,6 +1264,7 @@ async def on_message(message):
             f = open(servname,"w")
             f.truncate()
             f.close()
+                    
 
 
 client.run(runpass)
