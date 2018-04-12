@@ -153,6 +153,94 @@ def idreplace(a):
     a = a.replace("!", "")
     return a
 
+def stngupdater(server):
+    # Set to remove whitespace currently but can be added on to
+    fname = "botmods"
+    su_removeblanks(fname,server,1)
+
+    fname = "persistedroles"
+    su_removeblanks(fname,server,2)
+
+    fname = "timedroles"
+    su_removeblanks(fname,server,3)
+
+    fname = "vc/cauthor"
+    su_removeblanks(fname,server,4)
+
+    fname = "vc/csong"
+    su_removeblanks(fname,server,5)
+
+    fname = "timedemoji"
+    su_removeblanks(fname,server,6)
+
+def su_removeblanks(fname,server,filenum):
+    rd = stngmultiplelines(server,filenum)
+    rd = rd.split(";")
+    for i in rd:
+        if len(i) > 6:
+            ov = i
+            i = stngfilelistconvert(i)
+            i = i.split(",")
+            for j in i:
+                ap = j.replace(" ","")
+                i[i.index(j)] = ap
+            rd[rd.index(ov)] = i
+        else:
+            rd.remove(i)
+    if len(rd) == 0:
+        rd = ""
+        nw = ""
+    else:
+        rd = (str(rd))[1:len(str(rd)) - 1]
+        rd = rd.replace("],",";")
+        rd = rd.replace("[","")
+        rd = rd.replace("]","")
+        rd = rd.replace("'","")
+        rd = rd.split("; ")
+        nw = ""
+        for k in rd:
+            rk = "["
+            k = k.split(", ")
+            for l in k:
+                rk = rk + "'" + l + "', "
+            rk = rk[:len(rk) - 2]
+            rk = rk + "]"
+            nw = nw + rk + ";"
+    n = open("settings/" + fname + "/" + server.id + ".txt","w")
+    n.truncate()
+    n.write(nw)
+    n.close()
+
+def stngmultiplelines(server,filenum):
+    if filenum == 1:
+        servname = "settings/botmods/" + server.id + ".txt"
+    elif filenum == 2:
+        servname = "settings/persistedroles/" + server.id + ".txt"
+    elif filenum == 3:
+        servname = "settings/timedroles/" + server.id + ".txt"
+    elif filenum == 4:
+        servname = "settings/vc/cauthor/" + server.id + ".txt"
+    elif filenum == 5:
+        servname = "settings/vc/csong/" + server.id + ".txt"
+    elif filenum == 6:
+        servname = "settings/timedemoji/" + server.id + ".txt"
+    d = open(servname,"r")
+    fcount = 0
+    for i in d.readlines():
+        fcount += 1
+    d.close()
+    d = open(servname, "r")
+    if fcount <= 1:
+        ret = d.readline()
+        d.close()
+        return ret
+    else:
+        output = ""
+        for i in range(1,fcount):
+            output = output + d.readline()
+        d.close()
+        return output
+
 def stnglistadd(filenum,repword,message):
     if filenum == 1:
         servname = "settings/botmods/" + message.server.id + ".txt"
@@ -168,6 +256,7 @@ def stnglistadd(filenum,repword,message):
         servname = "settings/timedemoji/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
+    repcl = stngmultiplelines(message.server, filenum)
     repcl = repcl + repword + ";"
     f.close()
     f = open(servname,"w")
@@ -191,10 +280,15 @@ def stnglistremove(filenum,repword,message):
         servname = "settings/timedemoji/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
+    repcl = stngmultiplelines(message.server, filenum)
     replist = repcl.split(";")
     for i in range(0, (len(replist) - 1)):
-        if replist[i] == repword:
-            replist.remove(replist[i])
+        if filenum != 1:
+            if replist[i] == repword:
+                replist.remove(replist[i])
+        else:
+            if repword in replist[i]:
+                replist.remove(replist[i])
     repcl = ""
     for i in range(0, (len(replist) - 1)):
         repcl = repcl + replist[i] + ";"
@@ -219,6 +313,7 @@ def stnglistfind(filenum, findword, message):
         servname = "settings/timedemoji/" + message.server.id + ".txt"
     f = open(servname, "r")
     repcl = f.readline()
+    repcl = stngmultiplelines(message.server,filenum)
     if findword in repcl:
         return True
     else:
@@ -345,7 +440,7 @@ def trloop(message,ttype):
             cdate = datetime.datetime.now()
             dta = trflist[2]
             dta = dta.split("-")
-            dta[0] = int((dta[0])[2:])
+            dta[0] = int(((dta[0])[2:]).replace("'",""))
             dta[1] = int(dta[1])
             dta[2] = int((dta[2])[:2])
             edate = datetime.datetime(year=dta[0],month=dta[1],day=dta[2])
@@ -377,7 +472,7 @@ def trloop(message,ttype):
             cdate = datetime.datetime.now()
             dta = trflist[1]
             dta = dta.split("-")
-            dta[0] = int((dta[0])[2:])
+            dta[0] = int(((dta[0])[2:]).replace("'",""))
             dta[1] = int(dta[1])
             dta[2] = int((dta[2])[:2])
             edate = datetime.datetime(year=dta[0], month=dta[1], day=dta[2])
@@ -415,7 +510,8 @@ def tchecknd(message):
         dta[1] = int(dta[1])
         dta[2] = int((dta[2])[:2])
         if datetime.datetime(year=dta[0],month=dta[1],day=dta[2]) + datetime.timedelta(days=1) <= datetime.datetime.now():
-            trloop(message)
+            trloop(message,1)
+            trloop(message,2)
             f.close()
             replacor = str(datetime.datetime.now())
             f = open(servname,"w")
@@ -630,6 +726,7 @@ async def on_ready():
         print("ID " + server.id + " " + server.name)
     print("")
     for server in client.servers:
+        stngupdater(server)
         for member in server.members:
             tchecknd(member)
 
@@ -906,10 +1003,12 @@ async def on_message(message):
                     stnglistadd(1,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
                         bmmember.name + " is now a Bot Mod!", "", 0x13e823, message))
+                    stngupdater(message.server)
                 else:
                     stnglistremove(1,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
                         bmmember.name + " is no longer a Bot Mod!", "", 0x13e823, message))
+                    stngupdater(message.server)
     if cmdprefix(message) + "changeprefix" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -960,6 +1059,7 @@ async def on_message(message):
                         try:
                             await client.add_roles(rpmember,rprole)
                             stnglistadd(2,rpword,message)
+                            stngupdater(message.server)
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
@@ -969,6 +1069,7 @@ async def on_message(message):
                         try:
                             await client.remove_roles(rpmember,rprole)
                             stnglistremove(2,rpword,message)
+                            stngupdater(message.server)
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Removed persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
@@ -1023,6 +1124,7 @@ async def on_message(message):
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
                             trinit(trword,message,1)
+                            stngupdater(message.server)
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the the role", 0xfbc200, message))
@@ -1032,6 +1134,7 @@ async def on_message(message):
                             await client.remove_roles(trmember,trrole)
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Timed role removed", "", 0x13e823, message))
+                            stngupdater(message.server)
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
@@ -1077,10 +1180,12 @@ async def on_message(message):
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Emoji " + tee.name + " set for " + str(ted) + edays, "", 0x13e823, message))
                             trinit(teword, message,2)
+                            stngupdater(message.server)
                         elif stnglistfind(6, teword, message) == True:
                             stnglistremove(6, teword, message)
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Timed Emoji removed!", "", 0x13e823, message))
+                            stngupdater(message.server)
                     except discord.errors.Forbidden:
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
@@ -1108,6 +1213,7 @@ async def on_message(message):
                         vju = message.author.id
                         vju = idreplace(vju)
                         stnglistadd(4,vju,message)
+                        stngupdater(message.server)
     if cmdprefix(message) + "vcleaveme" in message.content:
         if stnglistfind(4,idreplace(message.author.id),message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -1127,6 +1233,7 @@ async def on_message(message):
                         f = open(servname,"w")
                         f.truncate()
                         f.close()
+                        stngupdater(message.server)
     if cmdprefix(message) + "ord" in message.content:
         if hasbotmod(message) == True:
             for x in list(client.voice_clients):
@@ -1165,6 +1272,7 @@ async def on_message(message):
                         vpcl.startlistobj(vpap)
                         vpp.start()
                         stnglistadd(5,str(vps),message)
+                        stngupdater(message.server)
                         await client.send_message(destination=message.channel, embed=ytembedder(
                             vpp.title, vpp.description, vpp.uploader, vpp.duration, message))
                     else:
@@ -1191,6 +1299,7 @@ async def on_message(message):
                 f = open(servname,"w")
                 f.truncate()
                 f.close()
+                stngupdater(message.server)
                 await client.send_message(destination=message.channel, embed=embedder(
                     vpp.title, "Song stopped", 0xc7f8fc, message))
     if cmdprefix(message) + "vcpr" in message.content:
