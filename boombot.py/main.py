@@ -890,6 +890,23 @@ async def on_message(message):
     ## NORMAL COMMANDS
     ## NORMAL COMMANDS
     ## NORMAL COMMANDS
+    if cmdprefix(message) + "repeat" in message.content:
+        if message.server == None and message.author.id == "172861416364179456":
+            rw = str(message.content).replace(cmdprefix(message) + "repeat ","")
+            bks = discord.utils.get(client.servers, id="407306176020086784")
+            bkls = discord.utils.get(bks.channels,id="407432034231779328")
+            await client.send_message(bkls,rw)
+        else:
+            if message.server != None:
+                if hasbotmod(message):
+                    rw = str(message.content).replace(cmdprefix(message) + "repeat ", "")
+                    bks = discord.utils.get(client.servers, id="407306176020086784")
+                    if message.server == bks:
+                        bkls = discord.utils.get(bks.channels, id="407432034231779328")
+                        await client.send_message(bkls, rw)
+                else:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "You do not have permissions to do this!", "", 0xfb0006, message))
     if message.server == None:
         await client.send_message(message.author,"?")
     if cmdprefix(message) + "roleadd" in message.content:
@@ -974,6 +991,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "repeat <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
@@ -1145,7 +1163,7 @@ async def on_message(message):
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.3", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v1.5", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
@@ -1189,7 +1207,6 @@ async def on_message(message):
                     except discord.errors.Forbidden:
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
-
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
