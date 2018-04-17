@@ -224,6 +224,8 @@ def stngmultiplelines(server,filenum):
         servname = "settings/vc/csong/" + server.id + ".txt"
     elif filenum == 6:
         servname = "settings/timedemoji/" + server.id + ".txt"
+    elif filenum == 7:
+        servname = "settings/tempbans/" + server.id + ".txt"
     d = open(servname,"r")
     fcount = 0
     for i in d.readlines():
@@ -254,6 +256,8 @@ def stnglistadd(filenum,repword,message):
         servname = "settings/vc/csong/" + message.server.id + ".txt"
     elif filenum == 6:
         servname = "settings/timedemoji/" + message.server.id + ".txt"
+    elif filenum == 7:
+        servname = "settings/tempbans/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server, filenum)
@@ -278,6 +282,8 @@ def stnglistremove(filenum,repword,message):
         servname = "settings/vc/csong/" + message.server.id + ".txt"
     elif filenum == 6:
         servname = "settings/timedemoji/" + message.server.id + ".txt"
+    elif filenum == 7:
+        servname = "settings/tempbans/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server, filenum)
@@ -311,6 +317,8 @@ def stnglistfind(filenum, findword, message):
         servname = "settings/vc/csong/" + message.server.id + ".txt"
     elif filenum == 6:
         servname = "settings/timedemoji/" + message.server.id + ".txt"
+    elif filenum == 7:
+        servname = "settings/tempbans/" + message.server.id + ".txt"
     f = open(servname, "r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server,filenum)
@@ -424,6 +432,34 @@ def trinit(trword,message,ttype):
         f.write(trreplace)
         f.close()
         trloop(message,2)
+    elif ttype == 3:  # Temp Ban
+        servname = "settings/tempbans/" + message.server.id + ".txt"
+        f = open(servname, "r")
+        truse = f.readline()
+        truse = truse.split(";")
+        trfound = ""
+        for i in range(0, len(truse) - 1):
+            if trword in truse[i]:
+                trfound = truse[i]
+        trfoundo = trfound
+        trfound = stngfilelistconvert(trfound)
+        trfound = trfound.split(",")
+        tridate = int(trfound[1])
+        trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
+        trfound[1] = trenddate
+        trreplace = ""
+        for i in range(0, len(truse) - 1):
+            if trfoundo in truse[i]:
+                trreplace = trreplace + str(trfound) + ";"
+        for i in range(0, len(truse) - 1):
+            if trfoundo not in truse[i]:
+                trreplace = trreplace + truse[i] + ";"
+        f.close()
+        f = open(servname, "w")
+        f.truncate()
+        f.write(trreplace)
+        f.close()
+        trloop(message,3)
 
 def trloop(message,ttype):
     if ttype == 1:
@@ -480,6 +516,36 @@ def trloop(message,ttype):
             if cdate >= edate:
                 stnglistremove(6, trfound, message)
                 snt = "settings/timedemoji/" + message.server.id + "-tu.txt"
+                t = open(snt, "r")
+                snto = t.readline()
+                snta = "[" + trflist[0] + "];"
+                snto = snto + snta
+                t.close()
+                t = open(snt, "w")
+                t.truncate()
+                t.write(snto)
+                t.close()
+        f.close()
+    elif ttype == 3:
+        servname = "settings/tempbans/" + message.server.id + ".txt"
+        f = open(servname, "r")
+        truse = f.readline()
+        truse = truse.split(";")
+        for i in range(0, len(truse) - 1):
+            trfound = truse[i]
+            trflist = str(stngformatlist(str(trfound)))
+            trflist = trflist.split(",")
+            trflist[0] = (trflist[0])[3:(len(trflist[0]) - 1)]
+            cdate = datetime.datetime.now()
+            dta = trflist[1]
+            dta = dta.split("-")
+            dta[0] = int(((dta[0])[2:]).replace("'",""))
+            dta[1] = int(dta[1])
+            dta[2] = int((dta[2])[:2])
+            edate = datetime.datetime(year=dta[0], month=dta[1], day=dta[2])
+            if cdate >= edate:
+                stnglistremove(6, trfound, message)
+                snt = "settings/tempbans/" + message.server.id + "-tu.txt"
                 t = open(snt, "r")
                 snto = t.readline()
                 snta = "[" + trflist[0] + "];"
@@ -552,6 +618,24 @@ def serversettings():
             servname = server.id + '.txt'
             f = open(servname,'a')
             sortsn = 'settings/timedemoji/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/tempbans/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '-tu.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/tempbans/' + servname
             f.close()
             os.rename(servname,sortsn)
         except:
@@ -666,9 +750,29 @@ def serversettingslinux():
             f = open('settings/timedemoji/' + server.id + "-tu.txt","r")
             f.close()
         except:
-            servname = server.id + '.txt'
+            servname = server.id + '-tu.txt'
             f = open(servname, 'a')
             sortsn = 'settings/timedemoji/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/tempbans/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/tempbans/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/tempbans/' + server.id + "-tu.txt","r")
+            f.close()
+        except:
+            servname = server.id + '-tu.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/tempbans/' + servname
             f.close()
             os.rename(servname, sortsn)
     for server in client.servers:
@@ -798,6 +902,23 @@ async def on_typing(channel,user,when):
     t = open(snt, "w")
     t.truncate()
     t.close()
+
+    snt = "settings/tempbans/" + channel.server.id + "-tu.txt"
+    t = open(snt, "r")
+    tur = t.readline()
+    if len(tur) > 5:
+        tur = tur.split(";")
+        for i in range(0, (len(tur) - 1)):
+            tun = tur[i]
+            tun = tun.replace("[", "")
+            tun = tun.replace("]", "")
+            tbu = discord.utils.get(channel.server.members, id=tun)
+            await client.unban(channel.server,tbu)
+            print("Unbanned temp ban on " + tbu.name)
+    t.close()
+    t = open(snt, "w")
+    t.truncate()
+    t.close()
     ##if client._is_ready:
         ##if client.user.name != clientname.saymyname():
             ##for server in client.servers:
@@ -890,19 +1011,24 @@ async def on_message(message):
     ## NORMAL COMMANDS
     ## NORMAL COMMANDS
     ## NORMAL COMMANDS
-    if cmdprefix(message) + "repeat" in message.content:
+    if "BKrepeat" in message.content:
         if message.server == None and message.author.id == "172861416364179456":
-            rw = str(message.content).replace(cmdprefix(message) + "repeat ","")
+            rw = str(message.content).replace("BKrepeat ","")
             bks = discord.utils.get(client.servers, id="407306176020086784")
             bkls = discord.utils.get(bks.channels,id="407432034231779328")
             await client.send_message(bkls,rw)
-        else:
-            if message.server != None:
+    elif cmdprefix(message) + "repeat" in message.content:
+        if message.server != None:
+            if message.content == cmdprefix(message) + "repeat":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "repeat <message>*", 0xfbc200,
+                    message))
+            else:
                 if hasbotmod(message):
                     rw = str(message.content).replace(cmdprefix(message) + "repeat ", "")
                     bks = discord.utils.get(client.servers, id="407306176020086784")
                     if message.server == bks:
-                        bkls = discord.utils.get(bks.channels, id="407432034231779328")
+                        bkls = discord.utils.get(client.get_all_channels(), id="407432034231779328")
                         await client.send_message(bkls, rw)
                 else:
                     await client.send_message(destination=message.channel, embed=embedder(
@@ -992,6 +1118,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeat <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "tempban <user> <days>",value="[BM] Bans a User for a specified amount of Days", inline=True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
@@ -1001,6 +1128,44 @@ async def on_message(message):
         cle2.add_field(name=cmdprefix(message) + "vcvol <volume>", value="Sets the volume of the song. Values are 0-100, 100 being 100%",inline=True)
         await client.send_message(destination=message.channel, embed=cle1)
         await client.send_message(destination=message.channel, embed=cle2)
+    if cmdprefix(message) + "tempban" in message.content:
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel, embed=embedder(
+            "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            if message.content == cmdprefix(message) + "tempban":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "tempban <user> <days>*", 0xfbc200, message))
+            else:
+                tbm = str(message.content).replace(cmdprefix(message) + "tempban ","")
+                tbm = tbm.split(" ")
+                tbu = finduser(message,tbm[0])
+                if tbu == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Invalid user!", "Usage: *" + cmdprefix(message) + "tempban <user> <days>*", 0xfbc200,message))
+                else:
+                    if not is_int(tbm[1]):
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Invalid time!", "Usage: *" + cmdprefix(message) + "tempban <user> <days>*", 0xfbc200, message))
+                    else:
+                        tbd = int(tbm[1])
+                        tbl = []
+                        tbl.append(tbu.id)
+                        tbl.append(tbd)
+                        tbl = str(tbl)
+                        if stnglistfind(7,tbl,message):
+                            stnglistremove(7,tbl,message)
+                            await client.unban(message.server,tbu)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                tbu.name + " is removed from the Temporary Ban", "", 0x13e823, message))
+                            stngupdater(message.server)
+                        else:
+                            stnglistadd(7,tbl,message)
+                            await client.ban(tbu,0)
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                tbu.name + " has been Temporarily Banned for " + str(tbd) + " days", "", 0x13e823, message))
+                            stngupdater(message.server)
+
     if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
