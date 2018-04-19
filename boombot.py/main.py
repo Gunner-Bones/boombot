@@ -11,6 +11,11 @@ import traceback
 import time
 import inspect
 import subprocess
+import unicodedata
+
+
+"🇧"
+"🇦"
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
 
@@ -1038,9 +1043,9 @@ async def on_message(message):
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
-            rpe = embedder("Welcome to the BoomBot Repeater for " + message.server.name, "Set settings, and type >>rp <message> to send a "
+            rpe = embedder("Welcome to the BoomBot Repeater for " + message.server.name, "Set settings, and type rp>>> <message> to send a "
                         "message. Type \'DONE\' when done. Use " + cmdprefix(message) + "repeathelp for more information.", 0xc7f8fc, message)
-            rpe.add_field(name="Send to:",value="null",inline=True)
+            rpe.add_field(name="Send to:",value="No Channel Set",inline=True)
             rpe.add_field(name="Message Type:",value="Message",inline=True)
             rpe.add_field(name="Commands:",value="rp>>setchannel <channel>, rp>>messagetype <message|embed>, rp>>react <emoji>, "
                                                  "rp>>kick <member>, rp>>wordreact <word>")
@@ -1063,11 +1068,185 @@ async def on_message(message):
                             rm = str(rm).replace("<","")
                             rm = str(rm).replace(">","")
                             rm = str(rm).replace("#", "")
+                            rmcn = False
                             for channel in message.server.channels:
                                 if channel.id == rm:
                                     RP_CHANNEL = channel
                                     rpe.set_field_at(0,name="Send to:",value="#" + RP_CHANNEL.name,inline=True)
                                     await client.edit_message(message=rpgui,embed=rpe)
+                                    rpe.set_field_at(3, name="Set channel to " + RP_CHANNEL.name, value="", inline=False)
+                                    await client.edit_message(message=rpgui, embed=rpe)
+                                    time.sleep(2)
+                                    rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                    rmcn = True
+                            if not rmcn:
+                                rpe.set_field_at(3, name="Invalid channel!", value="", inline=False)
+                                await client.edit_message(message=rpgui, embed=rpe)
+                                time.sleep(2)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                await client.edit_message(message=rpgui, embed=rpe)
+                        else:
+                            rmcn = False
+                            for channel in message.server.channels:
+                                if channel.name == rm:
+                                    RP_CHANNEL = channel
+                                    rpe.set_field_at(0, name="Send to:", value="#" + RP_CHANNEL.name, inline=True)
+                                    await client.edit_message(message=rpgui, embed=rpe)
+                                    rpe.set_field_at(3, name="Set channel to " + RP_CHANNEL.name, value="", inline=False)
+                                    await client.edit_message(message=rpgui, embed=rpe)
+                                    time.sleep(2)
+                                    rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                    rmcn = True
+                            if not rmcn:
+                                rpe.set_field_at(3, name="Invalid channel!", value="", inline=False)
+                                await client.edit_message(message=rpgui, embed=rpe)
+                                time.sleep(2)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                await client.edit_message(message=rpgui, embed=rpe)
+                if "rp>>messagetype" in rpmes:
+                    rm = rpmes.replace("rp>>messagetype ", "")
+                    if rm == "":
+                        rpe.set_field_at(3, name="Invalid Message Type!", value="", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                    else:
+                        if rm.lower() == "message":
+                            RP_MESSAGETYPE = 0
+                            rpe.set_field_at(1,name="Message Type:",value="Message",inline=True)
+                            await client.edit_message(message=rpgui,embed=rpe)
+                            rpe.set_field_at(3, name="Set Message Type to Message", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        elif rm.lower() == "embed":
+                            RP_MESSAGETYPE = 1
+                            rpe.set_field_at(1, name="Message Type:", value="Embed", inline=True)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            rpe.set_field_at(3, name="Set Message Type to Embed", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        else:
+                            rpe.set_field_at(3, name="Invalid Message Type!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                if "rp>>>" in rpmes:
+                    rm = rpmes.replace("rp>>> ","")
+                    if RP_CHANNEL == None:
+                        rpe.set_field_at(3, name="No Channel set!", value="Use rp>>setchannel <channel>", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                    else:
+                        if RP_MESSAGETYPE == 0:
+                            await client.send_message(destination=RP_CHANNEL,content=rm)
+                            rpe.set_field_at(3, name="Sent message!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        elif RP_MESSAGETYPE == 1:
+                            rme = embedder(rm,"",0xc7f8fc,message)
+                            await client.send_message(destination=RP_CHANNEL,embed=rme)
+                            rpe.set_field_at(3, name="Sent embed!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                if "rp>>react" in rpmes:
+                    rm = rm.replace("rp>>react ","")
+                    rm = str(rm).replace("<","")
+                    rm = rm.replace(">","")
+                    if len(rm) < 10:
+                        rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                    elif rm == "":
+                        rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                    else:
+                        rmci = len(rm) - 1
+                        while is_int(rm[rmci]):
+                            rmci -= 1
+                        rm = rm[rmci + 1:len(rm) - 1]
+                        if not is_int(rm):
+                            rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rmen = False
+                        for emoji in message.server.emojis:
+                            if emoji.id == rm:
+                                rmen = True
+                                async for message in client.logs_from(RP_CHANNEL):
+                                    try:
+                                        await client.add_reaction(message,emoji)
+                                        rpe.set_field_at(3, name="Reacted successfully!", value="", inline=False)
+                                        await client.edit_message(message=rpgui, embed=rpe)
+                                        time.sleep(2)
+                                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                    except:
+                                        rpe.set_field_at(3, name="BoomBot is not allowed to React!", value="",inline=False)
+                                        await client.edit_message(message=rpgui, embed=rpe)
+                                        time.sleep(2)
+                                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                    break
+                        if not rmen:
+                            rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                if "rp>>kick" in rpmes:
+                    rm = rpmes.replace("rp>>kick ","")
+                    if rm == "":
+                        rpe.set_field_at(3, name="Invalid Member!", value="", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                    else:
+                        rm = finduser(message,rm)
+                        if rm == None:
+                            rpe.set_field_at(3, name="Invalid Member!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        else:
+                            try:
+                                await client.kick(rm)
+                                rpe.set_field_at(3, name="Kicked " + rm.name, value="", inline=False)
+                                await client.edit_message(message=rpgui, embed=rpe)
+                                time.sleep(2)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            except:
+                                rpe.set_field_at(3, name="BoomBot is not allowed to Kick!", value="", inline=False)
+                                await client.edit_message(message=rpgui, embed=rpe)
+                                time.sleep(2)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                if "rp>>wordreact" in rpmes:
+                    rm = rpmes.replace("rp>>wordreact ","")
+                    if rm == "":
+                        rpe.set_field_at(3, name="Invalid Message!", value="", inline=False)
+                        await client.edit_message(message=rpgui, embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                    else:
+                        if " " in rm:
+                            rpe.set_field_at(3, name="Single words only!", value="", inline=False)
+                            await client.edit_message(message=rpgui, embed=rpe)
+                            time.sleep(2)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        else:
+                            rml = list(rm)
+                            for el in rml:
+                                elu = str(unicodedata.lookup("REGIONAL INDICATOR SYMBOL LETTER " + str(el).upper()))
+                                async for message in client.logs_from(RP_CHANNEL):
+                                    await client.add_reaction(message,elu)
+                                    break
+            await client.edit_message(message=rpgui,embed=rpe)
 
     if cmdprefix(message) + "repeathelp" in message.content:
         cae = embedder(cmdprefix(message) + "repeat help", "", 0xc7f8fc, message)
@@ -1075,7 +1254,7 @@ async def on_message(message):
                                                "to send messages via BoomBot to the channel specified. While talking, use commands "
                                                "(rp>>) to edit parameters for the Repeat command or preform tasks via BoomBot. When "
                                                "finished, type DONE.",inline=False)
-        cae.add_field(name="rp>> <message>",value="Sends a message (make sure you set a channel first!)",inline=True)
+        cae.add_field(name="rp>>> <message>",value="Sends a message (make sure you set a channel first!)",inline=True)
         cae.add_field(name="rp>>setchannel <channel>", value="Changes the channel to send messages to", inline=True)
         cae.add_field(name="rp>>messagetype <message|embed>", value="Changes whether messages are sent as normal messages or embeds", inline=True)
         cae.add_field(name="rp>>react <emoji>",value="Reacts to the most recent message sent in the send channel with an emoji",inline=True)
