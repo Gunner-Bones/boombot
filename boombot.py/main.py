@@ -1011,21 +1011,21 @@ async def on_message(message):
     ## NORMAL COMMANDS
     ## NORMAL COMMANDS
     ## NORMAL COMMANDS
-    if "BKrepeat" in message.content:
+    if "BKrepeatold" in message.content:
         if message.server == None and message.author.id == "172861416364179456":
-            rw = str(message.content).replace("BKrepeat ","")
+            rw = str(message.content).replace("BKrepeatold ","")
             bks = discord.utils.get(client.servers, id="407306176020086784")
             bkls = discord.utils.get(bks.channels,id="407432034231779328")
             await client.send_message(bkls,rw)
-    elif cmdprefix(message) + "repeat" in message.content:
+    elif cmdprefix(message) + "repeatold" in message.content:
         if message.server != None:
-            if message.content == cmdprefix(message) + "repeat":
+            if message.content == cmdprefix(message) + "repeatold":
                 await client.send_message(destination=message.channel, embed=embedder(
-                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "repeat <message>*", 0xfbc200,
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "repeatold <message>*", 0xfbc200,
                     message))
             else:
                 if hasbotmod(message):
-                    rw = str(message.content).replace(cmdprefix(message) + "repeat ", "")
+                    rw = str(message.content).replace(cmdprefix(message) + "repeatold ", "")
                     bks = discord.utils.get(client.servers, id="407306176020086784")
                     if message.server == bks:
                         bkls = discord.utils.get(client.get_all_channels(), id="407432034231779328")
@@ -1033,6 +1033,56 @@ async def on_message(message):
                 else:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "You do not have permissions to do this!", "", 0xfb0006, message))
+    if message.content == cmdprefix(message) + "repeat":
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel,embed=embedder(
+                "You do not have permissions to do this!","",0xfb0006,message))
+        else:
+            rpe = embedder("Welcome to the BoomBot Repeater for " + message.server.name, "Set settings, and type >>rp <message> to send a "
+                        "message. Type \'DONE\' when done. Use " + cmdprefix(message) + "repeathelp for more information.", 0xc7f8fc, message)
+            rpe.add_field(name="Send to:",value="null",inline=True)
+            rpe.add_field(name="Message Type:",value="Message",inline=True)
+            rpe.add_field(name="Commands:",value="rp>>setchannel <channel>, rp>>messagetype <message|embed>, rp>>react <emoji>, "
+                                                 "rp>>kick <member>, rp>>wordreact <word>")
+            rpe.add_field(name="Don\'t overuse this command!",value="",inline=False)
+            RP_CHANNEL = None
+            RP_MESSAGETYPE = 0
+            rpgui = await client.send_message(destination=message.channel,embed=rpe)
+            rpmes = await client.wait_for_message(message.author)
+            while rpmes != "DONE":
+                if "rp>>setchannel" in rpmes:
+                    rm = rpmes.replace("rp>>setchannel ","")
+                    if rm == "":
+                        rpe.set_field_at(3,name="Invalid channel!",value="",inline=False)
+                        await client.edit_message(message=rpgui,embed=rpe)
+                        time.sleep(2)
+                        rpe.set_field_at(3,name="Don\'t overuse this command!",value="",inline=False)
+                        await client.edit_message(message=rpgui,embed=rpe)
+                    else:
+                        if str(rm).startswith("<#"):
+                            rm = str(rm).replace("<","")
+                            rm = str(rm).replace(">","")
+                            rm = str(rm).replace("#", "")
+                            for channel in message.server.channels:
+                                if channel.id == rm:
+                                    RP_CHANNEL = channel
+                                    rpe.set_field_at(0,name="Send to:",value="#" + RP_CHANNEL.name,inline=True)
+                                    await client.edit_message(message=rpgui,embed=rpe)
+
+    if cmdprefix(message) + "repeathelp" in message.content:
+        cae = embedder(cmdprefix(message) + "repeat help", "", 0xc7f8fc, message)
+        cae.add_field(name="How to Use:",value="Once you use the command, a GUI will appear. Send messages in the channel you activated the command in "
+                                               "to send messages via BoomBot to the channel specified. While talking, use commands "
+                                               "(rp>>) to edit parameters for the Repeat command or preform tasks via BoomBot. When "
+                                               "finished, type DONE.",inline=False)
+        cae.add_field(name="rp>> <message>",value="Sends a message (make sure you set a channel first!)",inline=True)
+        cae.add_field(name="rp>>setchannel <channel>", value="Changes the channel to send messages to", inline=True)
+        cae.add_field(name="rp>>messagetype <message|embed>", value="Changes whether messages are sent as normal messages or embeds", inline=True)
+        cae.add_field(name="rp>>react <emoji>",value="Reacts to the most recent message sent in the send channel with an emoji",inline=True)
+        cae.add_field(name="rp>>kick <member>",value="Kicks a member",inline=True)
+        cae.add_field(name="rp>>wordreact <word>",value="Reacts with each induvidial letter from the specified word. For example, if"
+                                                        " the word is \'NO\', then the bot reacts with the letters N and O.",inline=True)
+        await client.send_message(destination=message.channel, embed=cae)
     if message.server == None:
         await client.send_message(message.author,"?")
     if cmdprefix(message) + "roleadd" in message.content:
