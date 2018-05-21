@@ -14,9 +14,6 @@ import subprocess
 import unicodedata
 
 
-"🇧"
-"🇦"
-
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
 
 ##Red Color 0xfb0006
@@ -881,11 +878,21 @@ async def on_typing(channel,user,when):
             tun = tur[i]
             tun = tun.replace("[","")
             tun = tun.replace("]","")
+            tun = tun.replace("'", "")
             tun = tun.split(",")
+            if len(tun[1]) == 17:
+                tun[1] = "4" + tun[1]
             turole = discord.utils.get(channel.server.roles,id=tun[1])
             tumember = discord.utils.get(channel.server.members,id=tun[0])
-            await client.remove_roles(tumember,turole)
-            print("Removed timed role " + turole.name + " from " + tumember.name)
+            if tumember == None:
+                print("Skipped member with ID " + str(tun[0]) + " for not being in server")
+            else:
+                try:
+                    await client.remove_roles(tumember,turole)
+                    print("Removed timed role " + turole.name + " from " + tumember.name)
+                except Exception as e:
+                    print(e)
+                    print("Couldn't remove member " + str(tumember) + " (" + str(tun[0]) + ") role " + str(turole) + " (" + str(tun[1]) + ")")
     t.close()
     t = open(snt,"w")
     t.truncate()
@@ -900,6 +907,8 @@ async def on_typing(channel,user,when):
             tun = tur[i]
             tun = tun.replace("[", "")
             tun = tun.replace("]", "")
+            if len(tun) == 17:
+                tun = "4" + tun
             tuemoji = discord.utils.get(channel.server.emojis, id=tun)
             await client.delete_custom_emoji(tuemoji)
             print("Removed emoji " + tuemoji.name)
@@ -917,6 +926,8 @@ async def on_typing(channel,user,when):
             tun = tur[i]
             tun = tun.replace("[", "")
             tun = tun.replace("]", "")
+            if len(tun) == 17:
+                tun = "4" + tun
             tbu = discord.utils.get(channel.server.members, id=tun)
             await client.unban(channel.server,tbu)
             print("Unbanned temp ban on " + tbu.name)
@@ -1043,16 +1054,16 @@ async def on_message(message):
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
-            rpe = embedder("Welcome to the BoomBot Repeater for " + message.server.name, "Set settings, and type rp>>> <message> to send a "
-                        "message. Type \'DONE\' when done. Use " + cmdprefix(message) + "repeathelp for more information.", 0xc7f8fc, message)
-            rpe.add_field(name="Send to:",value="No Channel Set",inline=True)
-            rpe.add_field(name="Message Type:",value="Message",inline=True)
-            rpe.add_field(name="Commands:",value="rp>>setchannel <channel>, rp>>messagetype <message|embed>, rp>>react <emoji>, "
-                                                 "rp>>kick <member>, rp>>wordreact <word>")
+            rpe = embedder("Welcome to the BoomBot Repeater","",0xc7f8fc,message)
+            rpe.add_field(name="Send to>>",value="No Channel Set",inline=True)
+            rpe.add_field(name="Message Type>>",value="Message",inline=True)
+            rpe.add_field(name="Use " + cmdprefix(message) + "repeathelp for help",value="",inline=False)
             rpe.add_field(name="Don\'t overuse this command!",value="",inline=False)
+            rpe2 = embedder("Commands>>","rp>>setchannel <channel>, rp>>messagetype <message/embed>, rp>>react <emoji>, rp>>kick <member>, rp>>wordreact <word>",0xc7f8fc,message)
             RP_CHANNEL = None
             RP_MESSAGETYPE = 0
             rpgui = await client.send_message(destination=message.channel,embed=rpe)
+            await client.send_message(destination=message.channel, embed=rpe2)
             rpmes = await client.wait_for_message(message.author)
             while rpmes != "DONE":
                 if "rp>>setchannel" in rpmes:
@@ -1246,7 +1257,8 @@ async def on_message(message):
                                 async for message in client.logs_from(RP_CHANNEL):
                                     await client.add_reaction(message,elu)
                                     break
-            await client.edit_message(message=rpgui,embed=rpe)
+            rpef = embedder("Repeater finished!","",0x13e823,message)
+            await client.edit_message(message=rpgui,embed=rpef)
 
     if cmdprefix(message) + "repeathelp" in message.content:
         cae = embedder(cmdprefix(message) + "repeat help", "", 0xc7f8fc, message)
