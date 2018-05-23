@@ -119,6 +119,8 @@ def hasadmin(message):
     if foundadmin == False:
         return False
 def hasbotmod(message):
+    if message.server == None:
+        return False
     if stnglistfind(1,idreplace(message.author.id),message) == False:
         return False
     else:
@@ -134,6 +136,11 @@ def embedder(etitle,edes,ecol,message):
     emb = discord.Embed(title=etitle,description=edes,color=ecol)
     emb.set_author(name=message.author,icon_url=message.author.avatar_url)
     return emb
+
+def embedderna(etitle,edes,ecol,message):
+    emb = discord.Embed(title=etitle,description=edes,color=ecol)
+    return emb
+
 def ytembedder(etitle,edes,eauth,edur,message):
     edsf = edes[:49] + "..."
     emb = discord.Embed(title=etitle,description=edsf,color=0xc7f8fc)
@@ -228,6 +235,8 @@ def stngmultiplelines(server,filenum):
         servname = "settings/timedemoji/" + server.id + ".txt"
     elif filenum == 7:
         servname = "settings/tempbans/" + server.id + ".txt"
+    elif filenum == 8:
+        servname = "settings/updates/" + message.server.id + ".txt"
     d = open(servname,"r")
     fcount = 0
     for i in d.readlines():
@@ -260,6 +269,8 @@ def stnglistadd(filenum,repword,message):
         servname = "settings/timedemoji/" + message.server.id + ".txt"
     elif filenum == 7:
         servname = "settings/tempbans/" + message.server.id + ".txt"
+    elif filenum == 8:
+        servname = "settings/updates/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server, filenum)
@@ -286,6 +297,8 @@ def stnglistremove(filenum,repword,message):
         servname = "settings/timedemoji/" + message.server.id + ".txt"
     elif filenum == 7:
         servname = "settings/tempbans/" + message.server.id + ".txt"
+    elif filenum == 8:
+        servname = "settings/updates/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server, filenum)
@@ -321,6 +334,8 @@ def stnglistfind(filenum, findword, message):
         servname = "settings/timedemoji/" + message.server.id + ".txt"
     elif filenum == 7:
         servname = "settings/tempbans/" + message.server.id + ".txt"
+    elif filenum == 8:
+        servname = "settings/updates/" + message.server.id + ".txt"
     f = open(servname, "r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server,filenum)
@@ -340,7 +355,25 @@ def stngfilelistconvert(a):
     return a
 
 def cmdprefix(message):
+    if message.server == None:
+        return "BK$"
     servname = "settings/prefix/" + message.server.id + ".txt"
+    f = open(servname,"r")
+    cpreturn = f.readline()
+    f.close()
+    return cpreturn
+
+def updateschannel(message,sv):
+    MSG = None
+    if message.server != None:
+        MSG = message.server
+    else:
+        svf = discord.utils.get(client.servers, id=sv)
+        if svf == None:
+            return None
+    if svf != None:
+        MSG = svf
+    servname = "settings/updates/" + MSG.id + ".txt"
     f = open(servname,"r")
     cpreturn = f.readline()
     f.close()
@@ -351,6 +384,18 @@ def updateprefix(message,newprefix):
     f = open(servname,"w")
     f.truncate()
     f.write(newprefix)
+    f.close()
+
+def updateupdates(message,newchannel):
+    if not is_int(str(newchannel)):
+        try:
+            newchannel = newchannel.id
+        except:
+            pass
+    servname = "settings/updates/" + message.server.id + ".txt"
+    f = open(servname,"w")
+    f.truncate()
+    f.write(newchannel)
     f.close()
 
 def finduser(message,uname):
@@ -610,6 +655,15 @@ def serversettings():
         try:
             servname = server.id + '.txt'
             f = open(servname,'a')
+            sortsn = 'settings/updates/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
             sortsn = 'settings/timedroles/' + servname
             f.close()
             os.rename(servname,sortsn)
@@ -681,6 +735,23 @@ def serversettings():
         try:
             servname = server.id + '.txt'
             f = open(servname,'a')
+            sortsn = 'settings/updates/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("None")
+            f.close()
+        else:
+            f.close()
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
             sortsn = 'settings/vc/cauthor/' + servname
             f.close()
             os.rename(servname,sortsn)
@@ -717,6 +788,25 @@ def serversettingslinux():
             sortsn = 'settings/persistedroles/' + servname
             f.close()
             os.rename(servname, sortsn)
+    for server in client.servers:
+        sortsn = "settings/prefix/" + server.id + ".txt"
+        try:
+            f = open('settings/updates/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/updates/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("None")
+            f.close()
+        else:
+            f.close()
     for server in client.servers:
         try:
             f = open('settings/timedroles/' + server.id + ".txt","r")
@@ -869,88 +959,89 @@ async def on_member_join(member):
 
 @client.event
 async def on_typing(channel,user,when):
-    snt = "settings/timedroles/" + channel.server.id + "-tu.txt"
-    t = open(snt, "r")
-    tur = t.readline()
-    if len(tur) > 5:
-        tur = tur.split(";")
-        for i in range(0,(len(tur) - 1)):
-            tun = tur[i]
-            tun = tun.replace("[","")
-            tun = tun.replace("]","")
-            tun = tun.replace("'", "")
-            tun = tun.split(",")
-            if len(tun[1]) == 17:
-                tun[1] = "4" + tun[1]
-            turole = discord.utils.get(channel.server.roles,id=tun[1])
-            tumember = discord.utils.get(channel.server.members,id=tun[0])
-            if tumember == None:
-                print("Skipped member with ID " + str(tun[0]) + " for not being in server")
-            else:
-                try:
-                    await client.remove_roles(tumember,turole)
-                    print("Removed timed role " + turole.name + " from " + tumember.name)
-                except Exception as e:
-                    print(e)
-                    print("Couldn't remove member " + str(tumember) + " (" + str(tun[0]) + ") role " + str(turole) + " (" + str(tun[1]) + ")")
-    t.close()
-    t = open(snt,"w")
-    t.truncate()
-    t.close()
+    if channel.server != None:
+        snt = "settings/timedroles/" + channel.server.id + "-tu.txt"
+        t = open(snt, "r")
+        tur = t.readline()
+        if len(tur) > 5:
+            tur = tur.split(";")
+            for i in range(0,(len(tur) - 1)):
+                tun = tur[i]
+                tun = tun.replace("[","")
+                tun = tun.replace("]","")
+                tun = tun.replace("'", "")
+                tun = tun.split(",")
+                if len(tun[1]) == 17:
+                    tun[1] = "4" + tun[1]
+                turole = discord.utils.get(channel.server.roles,id=tun[1])
+                tumember = discord.utils.get(channel.server.members,id=tun[0])
+                if tumember == None:
+                    print("Skipped member with ID " + str(tun[0]) + " for not being in server")
+                else:
+                    try:
+                        await client.remove_roles(tumember,turole)
+                        print("Removed timed role " + turole.name + " from " + tumember.name)
+                    except Exception as e:
+                        print(e)
+                        print("Couldn't remove member " + str(tumember) + " (" + str(tun[0]) + ") role " + str(turole) + " (" + str(tun[1]) + ")")
+        t.close()
+        t = open(snt,"w")
+        t.truncate()
+        t.close()
 
-    snt = "settings/timedemoji/" + channel.server.id + "-tu.txt"
-    t = open(snt, "r")
-    tur = t.readline()
-    if len(tur) > 5:
-        tur = tur.split(";")
-        for i in range(0, (len(tur) - 1)):
-            tun = tur[i]
-            tun = tun.replace("[", "")
-            tun = tun.replace("]", "")
-            if len(tun) == 17:
-                tun = "4" + tun
-            tuemoji = discord.utils.get(channel.server.emojis, id=tun)
-            await client.delete_custom_emoji(tuemoji)
-            print("Removed emoji " + tuemoji.name)
-    t.close()
-    t = open(snt, "w")
-    t.truncate()
-    t.close()
+        snt = "settings/timedemoji/" + channel.server.id + "-tu.txt"
+        t = open(snt, "r")
+        tur = t.readline()
+        if len(tur) > 5:
+            tur = tur.split(";")
+            for i in range(0, (len(tur) - 1)):
+                tun = tur[i]
+                tun = tun.replace("[", "")
+                tun = tun.replace("]", "")
+                if len(tun) == 17:
+                    tun = "4" + tun
+                tuemoji = discord.utils.get(channel.server.emojis, id=tun)
+                await client.delete_custom_emoji(tuemoji)
+                print("Removed emoji " + tuemoji.name)
+        t.close()
+        t = open(snt, "w")
+        t.truncate()
+        t.close()
 
-    snt = "settings/tempbans/" + channel.server.id + "-tu.txt"
-    t = open(snt, "r")
-    tur = t.readline()
-    if len(tur) > 5:
-        tur = tur.split(";")
-        for i in range(0, (len(tur) - 1)):
-            tun = tur[i]
-            tun = tun.replace("[", "")
-            tun = tun.replace("]", "")
-            if len(tun) == 17:
-                tun = "4" + tun
-            tbu = discord.utils.get(channel.server.members, id=tun)
-            await client.unban(channel.server,tbu)
-            print("Unbanned temp ban on " + tbu.name)
-    t.close()
-    t = open(snt, "w")
-    t.truncate()
-    t.close()
-    ##if client._is_ready:
-        ##if client.user.name != clientname.saymyname():
-            ##for server in client.servers:
-                ##if server.id == "419227324232499200":
-                    ##mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
-                    ##mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
-            ##await client.send_message(mG,
-                                      ##"**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
-                                      ##"(Username Change) " + channel.server.name + " and left all servers")
-            ##await client.send_message(mB,
-                                      ##"**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
-                                      ##"(Username Change) " + channel.server.name + " and left all servers")
-            ##for server in client.servers:
-                ##await client.leave_server(server)
-            ##await client.close()
-            ##EMERGENCY_SHUTDOWN("Username Change")
+        snt = "settings/tempbans/" + channel.server.id + "-tu.txt"
+        t = open(snt, "r")
+        tur = t.readline()
+        if len(tur) > 5:
+            tur = tur.split(";")
+            for i in range(0, (len(tur) - 1)):
+                tun = tur[i]
+                tun = tun.replace("[", "")
+                tun = tun.replace("]", "")
+                if len(tun) == 17:
+                    tun = "4" + tun
+                tbu = discord.utils.get(channel.server.members, id=tun)
+                await client.unban(channel.server,tbu)
+                print("Unbanned temp ban on " + tbu.name)
+        t.close()
+        t = open(snt, "w")
+        t.truncate()
+        t.close()
+        ##if client._is_ready:
+            ##if client.user.name != clientname.saymyname():
+                ##for server in client.servers:
+                    ##if server.id == "419227324232499200":
+                        ##mG = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                        ##mB = discord.utils.find(lambda m: m.id == "236330023190134785", server.members)
+                ##await client.send_message(mG,
+                                          ##"**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                          ##"(Username Change) " + channel.server.name + " and left all servers")
+                ##await client.send_message(mB,
+                                          ##"**ALERT!** Boom Bot has initiated the Failsafe due to suspicious activity of being compromised "
+                                          ##"(Username Change) " + channel.server.name + " and left all servers")
+                ##for server in client.servers:
+                    ##await client.leave_server(server)
+                ##await client.close()
+                ##EMERGENCY_SHUTDOWN("Username Change")
 
 @client.event
 async def on_server_join(server):
@@ -1050,29 +1141,34 @@ async def on_message(message):
                     await client.send_message(destination=message.channel, embed=embedder(
                         "You do not have permissions to do this!", "", 0xfb0006, message))
     if message.content == cmdprefix(message) + "repeat":
-        if hasbotmod(message) == False:
+        if hasbotmod(message) or message.author.id != "172861416364179456":
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
         else:
-            rpe = embedder("Welcome to the BoomBot Repeater","",0xc7f8fc,message)
+            RP_SERVER = message.server
+            if message.server == None and message.author.id == "172861416364179456":
+                RP_SERVER = discord.utils.get(client.servers, id="407306176020086784")
+            rpe = embedder("Welcome to the BoomBot Repeater (" + RP_SERVER.name + ")","",0xc7f8fc,message)
             rpe.add_field(name="Send to>>",value="No Channel Set",inline=True)
             rpe.add_field(name="Message Type>>",value="Message",inline=True)
-            rpe.add_field(name="Use " + cmdprefix(message) + "repeathelp for help",value="",inline=False)
-            rpe.add_field(name="Don\'t overuse this command!",value="",inline=False)
-            rpe2 = embedder("Commands>>","rp>>setchannel <channel>, rp>>messagetype <message/embed>, rp>>react <emoji>, rp>>kick <member>, rp>>wordreact <word>",0xc7f8fc,message)
+            rpe.add_field(name="Help: " + cmdprefix(message) + "repeathelp",value="__________",inline=False)
+            rpe.add_field(name="Don't overuse this command!",value="__________",inline=False)
+            rpe2 = embedder("Commands>>","rp>>setchannel <channel>, rp>>messagetype <message|embed>, rp>>kick <member>, rp>>wordreact <word>",0xc7f8fc,message)
             RP_CHANNEL = None
             RP_MESSAGETYPE = 0
             rpgui = await client.send_message(destination=message.channel,embed=rpe)
             await client.send_message(destination=message.channel, embed=rpe2)
-            rpmes = await client.wait_for_message(message.author)
-            while rpmes != "DONE":
+            rpmes = ""
+            while rpmes != "DONE" or rpmes != cmdprefix(message) + "repeat":
+                rpmes = await client.wait_for_message(author=message.author)
+                rpmes = rpmes.content
                 if "rp>>setchannel" in rpmes:
                     rm = rpmes.replace("rp>>setchannel ","")
                     if rm == "":
-                        rpe.set_field_at(3,name="Invalid channel!",value="",inline=False)
+                        rpe.set_field_at(3,name="Invalid channel!",value="__________",inline=False)
                         await client.edit_message(message=rpgui,embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3,name="Don\'t overuse this command!",value="",inline=False)
+                        rpe.set_field_at(3,name="Don\'t overuse this command!",value="__________",inline=False)
                         await client.edit_message(message=rpgui,embed=rpe)
                     else:
                         if str(rm).startswith("<#"):
@@ -1080,115 +1176,116 @@ async def on_message(message):
                             rm = str(rm).replace(">","")
                             rm = str(rm).replace("#", "")
                             rmcn = False
-                            for channel in message.server.channels:
+                            for channel in RP_SERVER.channels:
                                 if channel.id == rm:
                                     RP_CHANNEL = channel
                                     rpe.set_field_at(0,name="Send to:",value="#" + RP_CHANNEL.name,inline=True)
                                     await client.edit_message(message=rpgui,embed=rpe)
-                                    rpe.set_field_at(3, name="Set channel to " + RP_CHANNEL.name, value="", inline=False)
+                                    rpe.set_field_at(3, name="Set channel to " + RP_CHANNEL.name, value="__________", inline=False)
                                     await client.edit_message(message=rpgui, embed=rpe)
                                     time.sleep(2)
-                                    rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                    rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                                     rmcn = True
                             if not rmcn:
-                                rpe.set_field_at(3, name="Invalid channel!", value="", inline=False)
+                                rpe.set_field_at(3, name="Invalid channel!", value="__________", inline=False)
                                 await client.edit_message(message=rpgui, embed=rpe)
                                 time.sleep(2)
-                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                                 await client.edit_message(message=rpgui, embed=rpe)
                         else:
                             rmcn = False
-                            for channel in message.server.channels:
+                            for channel in RP_SERVER.channels:
                                 if channel.name == rm:
                                     RP_CHANNEL = channel
                                     rpe.set_field_at(0, name="Send to:", value="#" + RP_CHANNEL.name, inline=True)
                                     await client.edit_message(message=rpgui, embed=rpe)
-                                    rpe.set_field_at(3, name="Set channel to " + RP_CHANNEL.name, value="", inline=False)
+                                    rpe.set_field_at(3, name="Set channel to " + RP_CHANNEL.name, value="__________", inline=False)
                                     await client.edit_message(message=rpgui, embed=rpe)
                                     time.sleep(2)
-                                    rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                    rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                                     rmcn = True
                             if not rmcn:
-                                rpe.set_field_at(3, name="Invalid channel!", value="", inline=False)
+                                rpe.set_field_at(3, name="Invalid channel!", value="__________", inline=False)
                                 await client.edit_message(message=rpgui, embed=rpe)
                                 time.sleep(2)
-                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                                 await client.edit_message(message=rpgui, embed=rpe)
                 if "rp>>messagetype" in rpmes:
                     rm = rpmes.replace("rp>>messagetype ", "")
                     if rm == "":
-                        rpe.set_field_at(3, name="Invalid Message Type!", value="", inline=False)
+                        rpe.set_field_at(3, name="Invalid Message Type!", value="__________", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                     else:
                         if rm.lower() == "message":
                             RP_MESSAGETYPE = 0
                             rpe.set_field_at(1,name="Message Type:",value="Message",inline=True)
                             await client.edit_message(message=rpgui,embed=rpe)
-                            rpe.set_field_at(3, name="Set Message Type to Message", value="", inline=False)
+                            rpe.set_field_at(3, name="Set Message Type to Message", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         elif rm.lower() == "embed":
                             RP_MESSAGETYPE = 1
                             rpe.set_field_at(1, name="Message Type:", value="Embed", inline=True)
                             await client.edit_message(message=rpgui, embed=rpe)
-                            rpe.set_field_at(3, name="Set Message Type to Embed", value="", inline=False)
+                            rpe.set_field_at(3, name="Set Message Type to Embed", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         else:
-                            rpe.set_field_at(3, name="Invalid Message Type!", value="", inline=False)
+                            rpe.set_field_at(3, name="Invalid Message Type!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                 if "rp>>>" in rpmes:
                     rm = rpmes.replace("rp>>> ","")
                     if RP_CHANNEL == None:
                         rpe.set_field_at(3, name="No Channel set!", value="Use rp>>setchannel <channel>", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                     else:
                         if RP_MESSAGETYPE == 0:
                             await client.send_message(destination=RP_CHANNEL,content=rm)
-                            rpe.set_field_at(3, name="Sent message!", value="", inline=False)
+                            rpe.set_field_at(3, name="Sent message!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         elif RP_MESSAGETYPE == 1:
-                            rme = embedder(rm,"",0xc7f8fc,message)
+                            rme = embedderna(rm,"",0xc7f8fc,message)
                             await client.send_message(destination=RP_CHANNEL,embed=rme)
-                            rpe.set_field_at(3, name="Sent embed!", value="", inline=False)
+                            rpe.set_field_at(3, name="Sent embed!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
-                if "rp>>react" in rpmes:
-                    rm = rm.replace("rp>>react ","")
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
+                if "rp>>reactrrr" in rpmes:
+                    rm = rm.replace("rp>>reactrrr ","")
+                    print(rm)
                     rm = str(rm).replace("<","")
                     rm = rm.replace(">","")
                     if len(rm) < 10:
-                        rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                        rpe.set_field_at(3, name="Invalid Emoji!", value="__________", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                     elif rm == "":
-                        rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                        rpe.set_field_at(3, name="Invalid Emoji!", value="__________", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                     else:
                         rmci = len(rm) - 1
                         while is_int(rm[rmci]):
                             rmci -= 1
                         rm = rm[rmci + 1:len(rm) - 1]
                         if not is_int(rm):
-                            rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                            rpe.set_field_at(3, name="Invalid Emoji!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         rmen = False
                         for emoji in message.server.emojis:
                             if emoji.id == rm:
@@ -1196,60 +1293,60 @@ async def on_message(message):
                                 async for message in client.logs_from(RP_CHANNEL):
                                     try:
                                         await client.add_reaction(message,emoji)
-                                        rpe.set_field_at(3, name="Reacted successfully!", value="", inline=False)
+                                        rpe.set_field_at(3, name="Reacted successfully!", value="__________", inline=False)
                                         await client.edit_message(message=rpgui, embed=rpe)
                                         time.sleep(2)
-                                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                                     except:
                                         rpe.set_field_at(3, name="BoomBot is not allowed to React!", value="",inline=False)
                                         await client.edit_message(message=rpgui, embed=rpe)
                                         time.sleep(2)
-                                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                                     break
                         if not rmen:
-                            rpe.set_field_at(3, name="Invalid Emoji!", value="", inline=False)
+                            rpe.set_field_at(3, name="Invalid Emoji!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                 if "rp>>kick" in rpmes:
                     rm = rpmes.replace("rp>>kick ","")
                     if rm == "":
-                        rpe.set_field_at(3, name="Invalid Member!", value="", inline=False)
+                        rpe.set_field_at(3, name="Invalid Member!", value="__________", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                     else:
                         rm = finduser(message,rm)
                         if rm == None:
-                            rpe.set_field_at(3, name="Invalid Member!", value="", inline=False)
+                            rpe.set_field_at(3, name="Invalid Member!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         else:
                             try:
                                 await client.kick(rm)
-                                rpe.set_field_at(3, name="Kicked " + rm.name, value="", inline=False)
+                                rpe.set_field_at(3, name="Kicked " + rm.name, value="__________", inline=False)
                                 await client.edit_message(message=rpgui, embed=rpe)
                                 time.sleep(2)
-                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                             except:
-                                rpe.set_field_at(3, name="BoomBot is not allowed to Kick!", value="", inline=False)
+                                rpe.set_field_at(3, name="BoomBot is not allowed to Kick!", value="__________", inline=False)
                                 await client.edit_message(message=rpgui, embed=rpe)
                                 time.sleep(2)
-                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                                rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                 if "rp>>wordreact" in rpmes:
                     rm = rpmes.replace("rp>>wordreact ","")
                     if rm == "":
-                        rpe.set_field_at(3, name="Invalid Message!", value="", inline=False)
+                        rpe.set_field_at(3, name="Invalid Message!", value="__________", inline=False)
                         await client.edit_message(message=rpgui, embed=rpe)
                         time.sleep(2)
-                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                        rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                     else:
                         if " " in rm:
-                            rpe.set_field_at(3, name="Single words only!", value="", inline=False)
+                            rpe.set_field_at(3, name="Single words only!", value="__________", inline=False)
                             await client.edit_message(message=rpgui, embed=rpe)
                             time.sleep(2)
-                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="", inline=False)
+                            rpe.set_field_at(3, name="Don\'t overuse this command!", value="__________", inline=False)
                         else:
                             rml = list(rm)
                             for el in rml:
@@ -1259,6 +1356,26 @@ async def on_message(message):
                                     break
             rpef = embedder("Repeater finished!","",0x13e823,message)
             await client.edit_message(message=rpgui,embed=rpef)
+    if "BK$$test" in message.content:
+        ccc = embedder("Test","",0xc7f8fc,message)
+        ccc.add_field(name="Great>>",value="Job>>",inline=True)
+        await client.send_message(destination=message.channel,embed=ccc)
+
+    if "BKsendupdates" in message.content and message.server == None:
+        if message.author.id == "172861416364179456":
+            upc = 0
+            dn = str(datetime.datetime.now())
+            dn = dn.split(" ")
+            dn = dn[0]
+            umsg = str(message.content).replace("BKsendupdates ","")
+            upe = discord.Embed(title=dn,description=umsg,color=0xb03cff)
+            upe.set_author(name="BoomBot Updates",icon_url="https://cdn.discordapp.com/avatars/416748497619124255/951482f7002f662404656cc2338b010a.png")
+            for server in client.servers:
+                sc = discord.utils.get(server.channels, id=updateschannel(message,server.id))
+                if sc != None:
+                    await client.send_message(destination=sc,embed=upe)
+                    upc += 1
+            await client.send_message(destination=message.channel, embed=embedder("Updates sent to " + str(upc) + " servers", "", 0x13e823, message))
 
     if cmdprefix(message) + "repeathelp" in message.content:
         cae = embedder(cmdprefix(message) + "repeat help", "", 0xc7f8fc, message)
@@ -1360,6 +1477,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeat <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
         cle1.add_field(name=cmdprefix(message) + "tempban <user> <days>",value="[BM] Bans a User for a specified amount of Days", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "updates <channel>",value="[BM] Optional, sets a channel for BoomBot to send updates to", inline = True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
@@ -1369,6 +1487,38 @@ async def on_message(message):
         cle2.add_field(name=cmdprefix(message) + "vcvol <volume>", value="Sets the volume of the song. Values are 0-100, 100 being 100%",inline=True)
         await client.send_message(destination=message.channel, embed=cle1)
         await client.send_message(destination=message.channel, embed=cle2)
+
+    if cmdprefix(message) + "updates" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            um = str(message.content).replace(cmdprefix(message) + "updates ","")
+            uc = None
+            if um.startswith("<#"):
+                um = um.replace("<","")
+                um = um.replace("#","")
+                um = um.replace(">","")
+                for channel in message.server.channels:
+                    if channel.id == um:
+                        uc = channel
+            elif um.lower() == "none":
+                uc = "None"
+            else:
+                for channel in message.server.channels:
+                    if channel.name == um:
+                        uc = channel
+            if uc == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Channel not found!", "Usage: *" + cmdprefix(message) + "updates <channel>*", 0xfbc200, message))
+            else:
+                updateupdates(message,uc)
+                if str(uc).lower() != "none":
+                    ucn = uc.name
+                else:
+                    ucn = uc
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Changed updates channel to " + ucn + "!", "", 0x13e823, message))
     if cmdprefix(message) + "tempban" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
