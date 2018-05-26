@@ -48,7 +48,7 @@ runpass = runpass.translate(trtlrunpass)
 if sys.platform != "win32":
     runpass = runpass[:(len(runpass) - 2)]
 
-bbgame = discord.Game(name="Firewall")
+bbgame = discord.Game(name="Tokyo Takedown")
 embedtest = None
 
 class ObjStore(object):
@@ -236,7 +236,7 @@ def stngmultiplelines(server,filenum):
     elif filenum == 7:
         servname = "settings/tempbans/" + server.id + ".txt"
     elif filenum == 8:
-        servname = "settings/updates/" + message.server.id + ".txt"
+        servname = "settings/updates/" + server.id + ".txt"
     d = open(servname,"r")
     fcount = 0
     for i in d.readlines():
@@ -1475,7 +1475,9 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
-        cle1.add_field(name=cmdprefix(message) + "repeat <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "repeatold <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "repeathelp", value="Help documentation for Repeat command", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "repeat", value="[BM] Opens a GUI for sending messages through BoomBot", inline=True)
         cle1.add_field(name=cmdprefix(message) + "tempban <user> <days>",value="[BM] Bans a User for a specified amount of Days", inline=True)
         cle1.add_field(name=cmdprefix(message) + "updates <channel>",value="[BM] Optional, sets a channel for BoomBot to send updates to", inline = True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
@@ -1719,7 +1721,7 @@ async def on_message(message):
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.5", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v1.7", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
