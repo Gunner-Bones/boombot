@@ -1470,6 +1470,7 @@ async def on_message(message):
         cle2 = embedder("", " ", 0xc7f8fc, message)
         cle1.add_field(name=cmdprefix(message) + "roleadd <user> <role>",value="[BM] Adds a role to a user",inline=True)
         cle1.add_field(name=cmdprefix(message) + "roleremove <user> <role>", value="[BM] Removes a role to a user", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "report <message>",value="Report a bug/Suggest a feature",inline=True)
         cle1.add_field(name=cmdprefix(message) + "botmod <user>",value="[A] Toggles the Bot Mod *[BM]* status to a user *(Bot Mods persist)*",inline=True)
         cle1.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
@@ -1480,6 +1481,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "repeat", value="[BM] Opens a GUI for sending messages through BoomBot", inline=True)
         cle1.add_field(name=cmdprefix(message) + "tempban <user> <days>",value="[BM] Bans a User for a specified amount of Days", inline=True)
         cle1.add_field(name=cmdprefix(message) + "updates <channel>",value="[BM] Optional, sets a channel for BoomBot to send updates to", inline = True)
+        cle1.add_field(name=cmdprefix(message) + "purgerole <role> <days of inactivity>",value="[BM] Purges those with that highest ranking role who haven't spoken in X days",inline=True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
@@ -1489,7 +1491,22 @@ async def on_message(message):
         cle2.add_field(name=cmdprefix(message) + "vcvol <volume>", value="Sets the volume of the song. Values are 0-100, 100 being 100%",inline=True)
         await client.send_message(destination=message.channel, embed=cle1)
         await client.send_message(destination=message.channel, embed=cle2)
-
+    if cmdprefix(message) + "report" in message.content:
+        if message.content == cmdprefix(message) + "report":
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Invalid message!", "Usage: *" + cmdprefix(message) + "report <message>*", 0xfbc200, message))
+        else:
+            rpmessage = str(message.content).replace(cmdprefix(message) + "report ","")
+            if len(rpmessage) >= 400:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Message is too long!", "Usage: *" + cmdprefix(message) + "report <message>*", 0xfbc200, message))
+            else:
+                rpreport = "NEW REPORT\nServer: " + message.server.name + "\nUser: " + message.author.name + "\nMessage: " + rpmessage
+                for server in client.servers:
+                    if server.id == "407306176020086784":
+                        gb = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
+                await client.send_message(destination=gb,content=rpreport)
+                await client.send_message(destination=message.channel, embed=embedder("Sent report!", "", 0x13e823, message))
     if cmdprefix(message) + "updates" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
@@ -1598,6 +1615,75 @@ async def on_message(message):
                 updateprefix(message,cpword)
                 await client.send_message(destination=message.channel, embed=embedder(
                     "Changed prefix to " + cpword + "!", "", 0x13e823, message))
+    if cmdprefix(message) + "purgerole" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            if message.content == cmdprefix(message) + "purgerole":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "purgerole <role> <days of inactivity>*", 0xfbc200,message))
+            else:
+                prword = str(message.content).replace(cmdprefix(message) + "purgerole ","")
+                prword = prword.split(" ")
+                prrole = prword[0]
+                prrole = findrole(message,prrole)
+                if prrole is None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Could not find role with name " + prword[0], "Remember to type in the name of the member",
+                        0xfbc200, message))
+                else:
+                    prdays = prword[1]
+                    if not is_int(prdays):
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Invalid days!", "Usage: *" + cmdprefix(message) + "purgerole <role> <days of inactivity>*", 0xfbc200, message))
+                    else:
+                        prdays = int(prdays)
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Starting search for inactive " + prrole.name + "s... this may take awhile.", "", 0xc7f8fc, message))
+                        # The main search process
+                        prinactive = []
+                        for channel in message.server.channels:
+                            prsafe = []
+                            async for message in client.logs_from(channel):
+                                smfound = False
+                                for savedmessage in prsafe:
+                                    if savedmessage.author == message.author:
+                                        smfound = True
+                                if not smfound:
+                                    prsafe.append(message)
+                            inactivedate = datetime.datetime.now() + datetime.timedelta(days=prdays)
+                            for savedmessage in prsafe:
+                                if savedmessage.timestamp >= inactivedate:
+                                    prinactive.append(savedmessage.author)
+                        prph = []
+                        for im in prinactive:
+                            if im not in prph and im.top_role == prrole:
+                                prph.append(im)
+                        prinactive = prph
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Found " + str(len(prinactive)) + " inactive " + prrole.name + "s. Kick these members?",
+                            "Type yes or no", 0xc7f8fc, message))
+                        prchoice = await client.wait_for_message(author=message.author)
+                        if prchoice != "yes":
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Purge averted!", "", 0x13e823, message))
+                        else:
+                            prkicked = 0
+                            prkicksuccess = False
+                            for m in prinactive:
+                                try:
+                                    await client.kick(m)
+                                    prkicksuccess = True
+                                    prkicked += 1
+                                except:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                    "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+                                    prkicksuccess = False
+                                    break
+                            if prkicksuccess:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Purged " + str(prkicked) + " " + prrole.name + "s", "", 0x13e823, message))
     if cmdprefix(message) + "persistrole" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -1721,7 +1807,7 @@ async def on_message(message):
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.7", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v1.8", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
