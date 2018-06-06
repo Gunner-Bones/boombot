@@ -12,6 +12,7 @@ import time
 import inspect
 import subprocess
 import unicodedata
+import urllib.request as urlr
 
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
@@ -109,6 +110,21 @@ FAILSAFE_CDS = FAILSAFE(3.0) #Channel Delete Spam
 FAILSAFE_MKS = FAILSAFE(3.0) #Member Kick Spam
 FAILSAFE_MBS = FAILSAFE(3.0) #Member Ban Spam
 
+def ubget(serverid,user,message):
+    ubg = "https://unbelievable.pizza/api/guilds/" + serverid + "/users/" + user.id
+    ubg = urlr.Request(ubg, headers={'User-Agent': 'Mozilla/5.0'})
+    ubw = str(urlr.urlopen(ubg).read())
+    ubg = ubw
+    ubw = ubw.split(",")
+    ubw[0] = (ubw[0])[((ubw[0]).index(":") + 2):(len(ubw[0]) - 1)]
+    ubw[1] = (ubw[1])[7:]
+    ubw[2] = (ubw[2])[7:]
+    ubw[3] = (ubw[3])[8:(len(ubw[3]) - 2)]
+    ube = embedder("Currency for " + user.name,"",0xc7f8fc,message)
+    ube.add_field(name="Cash",value=ubw[1],inline=True)
+    ube.add_field(name="Bank",value=ubw[2],inline=True)
+    ube.add_field(name="Total",value=ubw[3],inline=True)
+    return ube
 
 def hasadmin(message):
     foundadmin = False
@@ -1639,51 +1655,99 @@ async def on_message(message):
                             "Invalid days!", "Usage: *" + cmdprefix(message) + "purgerole <role> <days of inactivity>*", 0xfbc200, message))
                     else:
                         prdays = int(prdays)
-                        await client.send_message(destination=message.channel, embed=embedder(
-                            "Starting search for inactive " + prrole.name + "s... this may take awhile.", "", 0xc7f8fc, message))
-                        # The main search process
-                        prinactive = []
-                        for channel in message.server.channels:
-                            prsafe = []
-                            async for message in client.logs_from(channel):
-                                smfound = False
-                                for savedmessage in prsafe:
-                                    if savedmessage.author == message.author:
-                                        smfound = True
-                                if not smfound:
-                                    prsafe.append(message)
-                            inactivedate = datetime.datetime.now() + datetime.timedelta(days=prdays)
-                            for savedmessage in prsafe:
-                                if savedmessage.timestamp >= inactivedate:
-                                    prinactive.append(savedmessage.author)
-                        prph = []
-                        for im in prinactive:
-                            if im not in prph and im.top_role == prrole:
-                                prph.append(im)
-                        prinactive = prph
-                        await client.send_message(destination=message.channel, embed=embedder(
-                            "Found " + str(len(prinactive)) + " inactive " + prrole.name + "s. Kick these members?",
-                            "Type yes or no", 0xc7f8fc, message))
-                        prchoice = await client.wait_for_message(author=message.author)
-                        if prchoice != "yes":
+                        if prdays == 0:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Purge averted!", "", 0x13e823, message))
+                                "Days must be at least 1!", "Usage: *" + cmdprefix(message) + "purgerole <role> <days of inactivity>*", 0xfbc200,message))
                         else:
-                            prkicked = 0
-                            prkicksuccess = False
-                            for m in prinactive:
-                                try:
-                                    await client.kick(m)
-                                    prkicksuccess = True
-                                    prkicked += 1
-                                except:
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                    "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
-                                    prkicksuccess = False
-                                    break
-                            if prkicksuccess:
+                            if prdays > 80:
                                 await client.send_message(destination=message.channel, embed=embedder(
-                                    "Purged " + str(prkicked) + " " + prrole.name + "s", "", 0x13e823, message))
+                                    "Days cannot be greater than 80!", "Usage: *" + cmdprefix(message) + "purgerole <role> <days of inactivity>*",0xfbc200, message))
+                            else:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Starting search for inactive " + prrole.name + "s... this may take awhile.", "", 0xc7f8fc, message))
+                                # The main search process
+                                print("PURGEROLE DEBUGGING")
+                                print("Role= " + prrole.name + " Days= " + str(prdays))
+                                usermessage = message
+                                prinactive = []
+                                pruc = 0
+                                print("Search Type 1 - Date Comparison")
+                                for channel in message.server.channels:
+                                    bb = discord.utils.get(channel.server.members, id="419231095238950912")
+                                    if not channel.permissions_for(bb).read_message_history and not channel.permissions_for(bb).read_messages:
+                                        pruc += 1
+                                    else:
+                                        ftlist = []
+                                        prsafe = []
+                                        async for message in client.logs_from(channel):
+                                            ftlist.append(message)
+                                            smfound = False
+                                            for savedmessage in prsafe:
+                                                if savedmessage.author == message.author:
+                                                    smfound = True
+                                            if not smfound:
+                                                prsafe.append(message)
+                                        if len(ftlist) > 0:
+                                            print(str(ftlist[len(ftlist) - 1].timestamp) + " is the farthest message date")
+                                        inactivedate = datetime.datetime.now() - datetime.timedelta(days=prdays)
+                                        for savedmessage in prsafe:
+                                            if savedmessage.timestamp <= inactivedate:
+                                                print(str(inactivedate) + " is closer than " + savedmessage.author.name + " " + str(savedmessage.timestamp))
+                                                prinactive.append(savedmessage.author)
+                                """print("Search Type 2 - Message Count")
+                                for member in message.server.members:
+                                    mmcount = 0
+                                    for channel in message.server.channels:
+                                        if channel.permissions_for(bb).read_message_history and channel.permissions_for(bb).read_messages:
+                                            async for message in client.logs_from(channel):
+                                                if message.author == member:
+                                                    mmcount += 1
+                                    if mmcount == 0:
+                                        print(member.name + " has no messages")
+                                        prinactive.append(member)
+                                    else:
+                                        print(member.name + " has " + str(mmcount) + " messages")"""
+                                prph = []
+                                for im in prinactive:
+                                    try:
+                                        if im not in prph and im.top_role == prrole:
+                                            prph.append(im)
+                                    except AttributeError:
+                                        pass
+                                prinactive = prph
+                                for m in prinactive:
+                                    print(m.name)
+                                if pruc != 0:
+                                    await client.send_message(destination=usermessage.channel, embed=embedder(
+                                        str(pruc) + " channels were not accessible, this may effect purge results.", "", 0xfbc200, usermessage))
+                                if len(prinactive) == 0:
+                                    await client.send_message(destination=usermessage.channel, embed=embedder(
+                                        "Found 0 members within these parameters, aborting purge.", "", 0x13e823, usermessage))
+                                else:
+                                    await client.send_message(destination=usermessage.channel, embed=embedder(
+                                        "Found " + str(len(prinactive)) + " inactive " + prrole.name + "s. Kick these members?",
+                                        "Type yes or no", 0xc7f8fc, usermessage))
+                                    prchoice = await client.wait_for_message(author=usermessage.author)
+                                    prchoice = prchoice.content
+                                    if prchoice.lower() != "yes":
+                                        await client.send_message(destination=usermessage.channel, embed=embedder(
+                                            "Purge averted!", "", 0x13e823, usermessage))
+                                    else:
+                                        prkicked = 0
+                                        prkicksuccess = False
+                                        for m in prinactive:
+                                            try:
+                                                await client.kick(m)
+                                                prkicksuccess = True
+                                                prkicked += 1
+                                            except:
+                                                await client.send_message(destination=usermessage.channel, embed=embedder(
+                                                "Boom Bot does not have permissions to do this!", "", 0xfb0006, usermessage))
+                                                prkicksuccess = False
+                                                break
+                                        if prkicksuccess:
+                                            await client.send_message(destination=usermessage.channel, embed=embedder(
+                                                "Purged " + str(prkicked) + " " + prrole.name + "s", "", 0x13e823, usermessage))
     if cmdprefix(message) + "persistrole" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -2034,6 +2098,39 @@ async def on_message(message):
             f = open(servname,"w")
             f.truncate()
             f.close()
+            ### REQUEST COMMANDS
+        ### REQUEST COMMANDS
+        ### REQUEST COMMANDS
+        # https://unbelievable.pizza/api/guilds/serverid/users/userid
+        if cmdprefix(message) + "ubuser" in message.content:
+            if message.content == cmdprefix(message) + "ubuser":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid user!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
+            else:
+                ubu = str(message.content).replace(cmdprefix(message) + "ubuser ", "")
+                if ubu.startswith("<@"):
+                    ubu = ubu.replace("<@", "")
+                    ubu = ubu.replace(">", "")
+                    ubu = discord.utils.get(message.server.members, id=ubu)
+                    if ubu == None:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Invalid user!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
+                    else:
+                        await client.send_message(destination=message.channel,
+                                                  embed=ubget(message.server.id, ubu, message))
+                else:
+                    ubfound = False
+                    for member in message.server.members:
+                        if ubu.lower() in str(member.name).lower():
+                            ubfound = True
+                            ubu = member
+                            break
+                    if not ubfound:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "User not found!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
+                    else:
+                        await client.send_message(destination=message.channel,
+                                                  embed=ubget(message.server.id, ubu, message))
                     
 
 
