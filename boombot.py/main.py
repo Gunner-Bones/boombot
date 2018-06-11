@@ -1491,6 +1491,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
+        cle1.add_field(name=cmdprefix(message) + "timedinfo",value="[BM] Shows all users with a timed role")
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeatold <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeathelp", value="Help documentation for Repeat command", inline=True)
@@ -1867,11 +1868,80 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+    if cmdprefix(message) + "timedinfo" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            rilist = []
+            f = open("settings/timedroles/" + message.server.id + ".txt","r")
+            fcount = 0
+            for i in f.readlines():
+                fcount += 1
+            ftext = ""
+            f.seek(0)
+            if fcount <= 1:
+                ftext = f.readline()
+            else:
+                f.seek(0)
+                for i in range(1,fcount):
+                    ftext = ftext + f.readline()
+            f.close()
+            ftext = ftext.replace("\n","")
+            if ftext == "":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "No Timed Roles found!", "Use " + cmdprefix(message) + "timedrole <user> <role> <days> to create timed roles", 0xfbc200, message))
+            else:
+                ftext = ftext.split(";")
+                for data in ftext:
+                    dph = data.replace("[","")
+                    dph = dph.replace("]","")
+                    dph = dph.replace("'","")
+                    dph = dph.split(",")
+                    dphu = discord.utils.get(message.server.members, id=dph[0])
+                    dphr = discord.utils.get(message.server.roles, id=dph[1])
+                    dph[2] = str(dph[2]).split(":")
+                    dph[2] = (dph[2])[0]
+                    dph[2] = str(dph[2]).split("-")
+                    dphd = datetime.datetime(day=int((dph[2])[2]),month=int((dph[2])[1]),year=int((dph[2])[0]))
+                    if dphu == None or dphr == None:
+                        print("Skipping User " + dph[0] + " Role " + dph[1] + " (Probably not in the server)")
+                    else:
+                        dph[0] = dphu
+                        dph[1] = dphr
+                        dph[2] = dphd
+                        rrlist.append(dph)
+                if len(rilist) == 0:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No Valid Timed Roles found!", "Use " + cmdprefix(message) + "timedrole <user> <role> <days> to create timed roles", 0xfbc200,message))
+                else:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Showing info for" + str(len(rilist)) + " Timed Role users:", "", 0x13e823, message))
+                    fecount = 0
+                    for n in range(0,len(rilist)):
+                        if n % 5 == 0:
+                            fecount += 1
+                    feextra = len(rilist) - (fecount * 5)
+                    for p in range(0,(fecount) - 1):
+                        ie = embedder("Page " + str((n + 1)),"",0xc7f8fc,message)
+                        p = p * 5
+                        ie.add_field(name=(rilist[p])[0].name + " [" + (rilist[p])[1].name + "]: Ends " + (rilist[p])[2].date.month + " " + (rilist[p])[2].date.day)
+                        ie.add_field(name=(rilist[p + 1])[0].name + " [" + (rilist[p + 1])[1].name + "]: Ends " + (rilist[p + 1])[2].date.month + " " + (rilist[p + 1])[2].date.day)
+                        ie.add_field(name=(rilist[p + 2])[0].name + " [" + (rilist[p + 2])[1].name + "]: Ends " + (rilist[p + 2])[2].date.month + " " + (rilist[p + 2])[2].date.day)
+                        ie.add_field(name=(rilist[p + 3])[0].name + " [" + (rilist[p + 3])[1].name + "]: Ends " + (rilist[p + 3])[2].date.month + " " + (rilist[p + 3])[2].date.day)
+                        ie.add_field(name=(rilist[p + 4])[0].name + " [" + (rilist[p + 4])[1].name + "]: Ends " + (rilist[p + 4])[2].date.month + " " + (rilist[p + 4])[2].date.day)
+                        await client.send_message(destination=message.server,embed=ie)
+                    if feextra > 0:
+                        fepage = fecount + 1
+                        iee = embedder("Page " + fepage,"",0xc7f8fc,message)
+                        for l in range(fecount - feextra,fecount):
+                            ie.add_field(name=(rilist[l])[0].name + " [" + (rilist[l])[1].name + "]: Ends " + (rilist[l])[2].date.month + " " + (rilist[l])[2].date.day)
+                        await client.send_message(destination=message.server,embed=iee)
     if cmdprefix(message) + "about" in message.content:
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.8", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v1.9", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
@@ -2098,39 +2168,39 @@ async def on_message(message):
             f = open(servname,"w")
             f.truncate()
             f.close()
-            ### REQUEST COMMANDS
-        ### REQUEST COMMANDS
-        ### REQUEST COMMANDS
-        # https://unbelievable.pizza/api/guilds/serverid/users/userid
-        if cmdprefix(message) + "ubuser" in message.content:
-            if message.content == cmdprefix(message) + "ubuser":
-                await client.send_message(destination=message.channel, embed=embedder(
-                    "Invalid user!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
-            else:
-                ubu = str(message.content).replace(cmdprefix(message) + "ubuser ", "")
-                if ubu.startswith("<@"):
-                    ubu = ubu.replace("<@", "")
-                    ubu = ubu.replace(">", "")
-                    ubu = discord.utils.get(message.server.members, id=ubu)
-                    if ubu == None:
-                        await client.send_message(destination=message.channel, embed=embedder(
-                            "Invalid user!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
-                    else:
-                        await client.send_message(destination=message.channel,
-                                                  embed=ubget(message.server.id, ubu, message))
+    ### REQUEST COMMANDS
+    ### REQUEST COMMANDS
+    ### REQUEST COMMANDS
+    # https://unbelievable.pizza/api/guilds/serverid/users/userid
+    if cmdprefix(message) + "ubuser" in message.content:
+        if message.content == cmdprefix(message) + "ubuser":
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Invalid user!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
+        else:
+            ubu = str(message.content).replace(cmdprefix(message) + "ubuser ", "")
+            if ubu.startswith("<@"):
+                ubu = ubu.replace("<@", "")
+                ubu = ubu.replace(">", "")
+                ubu = discord.utils.get(message.server.members, id=ubu)
+                if ubu == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Invalid user!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
                 else:
-                    ubfound = False
-                    for member in message.server.members:
-                        if ubu.lower() in str(member.name).lower():
-                            ubfound = True
-                            ubu = member
-                            break
-                    if not ubfound:
-                        await client.send_message(destination=message.channel, embed=embedder(
-                            "User not found!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
-                    else:
-                        await client.send_message(destination=message.channel,
-                                                  embed=ubget(message.server.id, ubu, message))
+                    await client.send_message(destination=message.channel,
+                                              embed=ubget(message.server.id, ubu, message))
+            else:
+                ubfound = False
+                for member in message.server.members:
+                    if ubu.lower() in str(member.name).lower():
+                        ubfound = True
+                        ubu = member
+                        break
+                if not ubfound:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "User not found!", "Usage: " + cmdprefix(message) + "ubuser <user>", 0xfbc200, message))
+                else:
+                    await client.send_message(destination=message.channel,
+                                              embed=ubget(message.server.id, ubu, message))
                     
 
 
