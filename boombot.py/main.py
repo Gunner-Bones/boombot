@@ -1695,6 +1695,7 @@ async def on_message(message):
                                             if savedmessage.timestamp <= inactivedate:
                                                 print(str(inactivedate) + " is closer than " + savedmessage.author.name + " " + str(savedmessage.timestamp))
                                                 prinactive.append(savedmessage.author)
+                                # Took out member count because it takes too long
                                 """print("Search Type 2 - Message Count")
                                 for member in message.server.members:
                                     mmcount = 0
@@ -1715,6 +1716,13 @@ async def on_message(message):
                                             prph.append(im)
                                     except AttributeError:
                                         pass
+
+                                PURGEROLE_EXCEPTIONS = ["407314699575754764"] # Use for role ignoring
+                                for im in prph:
+                                    for role in im.roles:
+                                        if role.id in PURGEROLE_EXCEPTIONS:
+                                            prph.remove(im)
+                                
                                 prinactive = prph
                                 for m in prinactive:
                                     print(m.name)
