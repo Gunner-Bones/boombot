@@ -179,7 +179,7 @@ def idreplace(a):
     return a
 
 def stngupdater(server):
-    # Set to remove whitespace currently but can be added on to
+    # su methods are specific functions used to fix certain problems in settings files
     fname = "botmods"
     su_removeblanks(fname,server,1)
 
@@ -188,6 +188,7 @@ def stngupdater(server):
 
     fname = "timedroles"
     su_removeblanks(fname,server,3)
+    su_fixdates(fname,server,3)
 
     fname = "vc/cauthor"
     su_removeblanks(fname,server,4)
@@ -197,6 +198,10 @@ def stngupdater(server):
 
     fname = "timedemoji"
     su_removeblanks(fname,server,6)
+    su_fixdates(fname,server,6)
+
+    fname = "tempbans"
+    su_removeblanks(fname,server,7)
 
 def su_removeblanks(fname,server,filenum):
     rd = stngmultiplelines(server,filenum)
@@ -235,6 +240,49 @@ def su_removeblanks(fname,server,filenum):
     n.truncate()
     n.write(nw)
     n.close()
+
+def su_fixdates(fname,server,filenum):
+    rd = stngmultiplelines(server,filenum)
+    rd = rd.split(";")
+    rda = []
+    for o in rd:
+        if len(o) > 10:
+            o = o.replace("[","")
+            o = o.replace("]","")
+            o = o.replace("'","")
+            ph = o.split(",")
+            phd = ""
+            if filenum == 3:
+                phd = ph[2]
+            elif filenum == 6:
+                phd = ph[1]
+            else:
+                return
+            phc = True
+            try:
+                phdc = phd.index(":") - 2
+                phd = phd[:phdc]
+            except:
+                phc = False
+            if phc:
+                if filenum == 3:
+                    ph[2] = phd
+                elif filenum == 6:
+                    ph[1] = phd
+                else:
+                    return
+            rda.append(ph)
+    rdat = ""
+    for data in rda:
+        rdat += "['"
+        for o in data:
+            rdat += o + "', '"
+        rdat = rdat[:(len(rdat) - 3)]
+        rdat += "];"
+    f = open("settings/" + fname + "/" + server.id + ".txt","w")
+    f.truncate()
+    f.write(rdat)
+    f.close()
 
 def stngmultiplelines(server,filenum):
     if filenum == 1:

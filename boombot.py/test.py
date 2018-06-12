@@ -1,4 +1,4 @@
 import datetime
 
 string = "python"
-print(string[:2])
+print(string[:len(string) - 3])
