@@ -452,8 +452,10 @@ def trinit(trword,message,ttype):
         trfound = stngfilelistconvert(trfound)
         trfound = trfound.split(",")
         tridate = int(trfound[2])
-        trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
-        trfound[2] = trenddate
+        trenddate = datetime.datetime.now() + datetime.timedelta(days=tridate)
+        trenddate = str(trenddate)
+        tdpoc = trenddate.index(":") - 2
+        trfound[2] = trenddate[:tdpoc]
         trreplace = ""
         for i in range(0,len(truse) - 1):
             if trfoundo in truse[i]:
@@ -509,7 +511,6 @@ def trinit(trword,message,ttype):
         trfound = trfound.split(",")
         tridate = int(trfound[1])
         trenddate = str(datetime.datetime.now() + datetime.timedelta(days=tridate))
-        trfound[1] = trenddate
         trreplace = ""
         for i in range(0, len(truse) - 1):
             if trfoundo in truse[i]:
@@ -1902,49 +1903,57 @@ async def on_message(message):
             else:
                 ftext = ftext.split(";")
                 for data in ftext:
-                    dph = data.replace("[","")
-                    dph = dph.replace("]","")
-                    dph = dph.replace("'","")
-                    dph = dph.split(",")
-                    dphu = discord.utils.get(message.server.members, id=dph[0])
-                    dphr = discord.utils.get(message.server.roles, id=dph[1])
-                    dph[2] = str(dph[2]).split(":")
-                    dph[2] = (dph[2])[0]
-                    dph[2] = str(dph[2]).split("-")
-                    dphd = datetime.datetime(day=int((dph[2])[2]),month=int((dph[2])[1]),year=int((dph[2])[0]))
-                    if dphu == None or dphr == None:
-                        print("Skipping User " + dph[0] + " Role " + dph[1] + " (Probably not in the server)")
-                    else:
-                        dph[0] = dphu
-                        dph[1] = dphr
-                        dph[2] = dphd
-                        rrlist.append(dph)
+                    if len(data) >= 10:
+                        dph = data.replace("[","")
+                        dph = dph.replace("]","")
+                        dph = dph.replace("'","")
+                        dph = dph.replace(" ","")
+                        dph = dph.split(",")
+                        dphu = discord.utils.get(message.server.members, id=dph[0])
+                        dphr = discord.utils.get(message.server.roles, id=dph[1])
+                        dph[2] = str(dph[2]).split(":")
+                        dph[2] = (dph[2])[0]
+                        dph[2] = str(dph[2]).split("-")
+                        dphd = datetime.date(day=int((dph[2])[2]),month=int((dph[2])[1]),year=int((dph[2])[0]))
+                        if dphu == None or dphr == None:
+                            print("Skipping User " + dph[0] + " Role " + dph[1] + " (Probably not in the server)")
+                        else:
+                            dph[0] = dphu
+                            dph[1] = dphr
+                            dph[2] = dphd
+                            rilist.append(dph)
                 if len(rilist) == 0:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "No Valid Timed Roles found!", "Use " + cmdprefix(message) + "timedrole <user> <role> <days> to create timed roles", 0xfbc200,message))
                 else:
                     await client.send_message(destination=message.channel, embed=embedder(
-                        "Showing info for" + str(len(rilist)) + " Timed Role users:", "", 0x13e823, message))
+                        "Showing info for " + str(len(rilist)) + " Timed Role users:", "", 0x13e823, message))
                     fecount = 0
                     for n in range(0,len(rilist)):
                         if n % 5 == 0:
                             fecount += 1
                     feextra = len(rilist) - (fecount * 5)
-                    for p in range(0,(fecount) - 1):
-                        ie = embedder("Page " + str((n + 1)),"",0xc7f8fc,message)
-                        p = p * 5
-                        ie.add_field(name=(rilist[p])[0].name + " [" + (rilist[p])[1].name + "]: Ends " + (rilist[p])[2].date.month + " " + (rilist[p])[2].date.day)
-                        ie.add_field(name=(rilist[p + 1])[0].name + " [" + (rilist[p + 1])[1].name + "]: Ends " + (rilist[p + 1])[2].date.month + " " + (rilist[p + 1])[2].date.day)
-                        ie.add_field(name=(rilist[p + 2])[0].name + " [" + (rilist[p + 2])[1].name + "]: Ends " + (rilist[p + 2])[2].date.month + " " + (rilist[p + 2])[2].date.day)
-                        ie.add_field(name=(rilist[p + 3])[0].name + " [" + (rilist[p + 3])[1].name + "]: Ends " + (rilist[p + 3])[2].date.month + " " + (rilist[p + 3])[2].date.day)
-                        ie.add_field(name=(rilist[p + 4])[0].name + " [" + (rilist[p + 4])[1].name + "]: Ends " + (rilist[p + 4])[2].date.month + " " + (rilist[p + 4])[2].date.day)
-                        await client.send_message(destination=message.server,embed=ie)
-                    if feextra > 0:
-                        fepage = fecount + 1
-                        iee = embedder("Page " + fepage,"",0xc7f8fc,message)
-                        for l in range(fecount - feextra,fecount):
-                            ie.add_field(name=(rilist[l])[0].name + " [" + (rilist[l])[1].name + "]: Ends " + (rilist[l])[2].date.month + " " + (rilist[l])[2].date.day)
-                        await client.send_message(destination=message.server,embed=iee)
+                    if len(rilist) < 5:
+                        iel = embedder("Page 1", "", 0xc7f8fc, message)
+                        for l in range(0,len(rilist)):
+                            iel.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day))
+                        await client.send_message(destination=message.channel, embed=iel)
+                    else:
+                        for p in range(0,fecount - 1):
+                            ie = embedder("Page " + str((n + 1)),"",0xc7f8fc,message)
+                            p = p * 5
+                            ie.add_field(name=(rilist[p])[0].name,value=" [" + (rilist[p])[1].name + "]: Ends " + str((rilist[p])[2].month) + "-" + str((rilist[p])[2].day))
+                            ie.add_field(name=(rilist[p + 1])[0].name,value=" [" + (rilist[p + 1])[1].name + "]: Ends " + str((rilist[p + 1])[2].month) + "-" + str((rilist[p + 1])[2].day))
+                            ie.add_field(name=(rilist[p + 2])[0].name,value=" [" + (rilist[p + 2])[1].name + "]: Ends " + str((rilist[p + 2])[2].month) + "-" + str((rilist[p + 2])[2].day))
+                            ie.add_field(name=(rilist[p + 3])[0].name,value=" [" + (rilist[p + 3])[1].name + "]: Ends " + str((rilist[p + 3])[2].month) + "-" + str((rilist[p + 3])[2].day))
+                            ie.add_field(name=(rilist[p + 4])[0].name,value=" [" + (rilist[p + 4])[1].name + "]: Ends " + str((rilist[p + 4])[2].month) + "-" + str((rilist[p + 4])[2].day))
+                            await client.send_message(destination=message.channel,embed=ie)
+                        if feextra > 0:
+                            fepage = fecount + 1
+                            iee = embedder("Page " + fepage,"",0xc7f8fc,message)
+                            for l in range(fecount - feextra,fecount + 1):
+                                ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day))
+                            await client.send_message(destination=message.channel,embed=iee)
     if cmdprefix(message) + "about" in message.content:
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
