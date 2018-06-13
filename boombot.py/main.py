@@ -543,6 +543,64 @@ def fixsamerole(message,cuser,crole,ctype):
         fp.close()
         ft.close()
 
+def findduplicateroles(message):
+    # list return:
+    # 1: persistedroles
+    # 2: timedroles
+    # 3: timedemoji
+    clist = []
+    cfound = 0
+
+    # Persisted Roles
+    p = stngmultiplelines(message.server,2)
+    p = p.split(";")
+    outer = 0
+    for po in p:
+        inner = 0
+        outer += 1
+        for pi in p:
+            inner += 1
+            if po == pi and outer != inner:
+                csub = [po,pi,1]
+                clist.append(csub)
+                cfound += 1
+    # Timed Roles
+    r = stngmultiplelines(message.server,3)
+    r = r.split(";")
+    outer = 0
+    for ro in r:
+        inner = 0
+        outer += 1
+        for ri in r:
+            inner += 1
+            roph = ro.split(",")
+            riph = ri.split(",")
+            if roph[0] == riph[0] and roph[1] == riph[1] and inner != outer:
+                csub = [ro,ri,2]
+                clist.append(csub)
+                cfound += 1
+    # Timed Emoji
+    e = stngmultiplelines(message.server,6)
+    e = e.split(";")
+    outer = 0
+    for eo in e:
+        inner = 0
+        outer += 1
+        for ei in e:
+            inner += 1
+            eoph = eo.split(",")
+            eiph = ei.split(",")
+            if eoph[0] == eiph[0] and inner != outer:
+                csub = [eo,ei,3]
+                clist.append(csub)
+                cfound += 1
+    # Final Check
+    if cfound == 0:
+        clist.append([])
+    clist.append(cfound)
+    return clist
+
+
 def trinit(trword,message,ttype):
     if ttype == 1:  # Timed Roles
         servname = "settings/timedroles/" + message.server.id + ".txt"
@@ -1599,6 +1657,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedinfo",value="[BM] Shows all users with a timed role")
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "removeduplicates",value="[BM] Removes duplicate timed/persisted roles found in settings")
         cle1.add_field(name=cmdprefix(message) + "repeatold <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeathelp", value="Help documentation for Repeat command", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeat", value="[BM] Opens a GUI for sending messages through BoomBot", inline=True)
@@ -1914,6 +1973,7 @@ async def on_message(message):
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Replaced Timed role " + rprole.name + " with the Persisted role", "", 0x13e823,
                                         message))
+                                    stngupdater(message.server)
                                 elif csrm == "2":
                                     fixsamerole(message, rpmember.id, rprole.id, 3)
                                     await client.send_message(destination=message.channel, embed=embedder(
@@ -1921,6 +1981,7 @@ async def on_message(message):
                                         0x13e823,
                                         message))
                                     await client.remove_roles(rpmember, rprole)
+                                    stngupdater(message.server)
                                 else:
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Cancelled role adding", "", 0x13e823,
@@ -1998,12 +2059,14 @@ async def on_message(message):
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Replaced Persisted role " + trrole.name + " with the Timed role", "", 0x13e823,
                                         message))
+                                    stngupdater(message.server)
                                 elif csrm == "2":
                                     fixsamerole(message, trmember.id, trrole.id, 3)
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Deleted the role " + trrole.name + " from being Persisted and Timed", "",
                                         0x13e823, message))
                                     await client.remove_roles(trmember, trrole)
+                                    stngupdater(message.server)
                                 else:
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Cancelled role adding", "", 0x13e823,
@@ -2030,6 +2093,146 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+    if cmdprefix(message) + "removeduplicates" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            dlist = findduplicateroles(message)
+            if dlist[len(dlist) - 1] == 0:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "No duplicate roles found!", "", 0x13e823, message))
+            else:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Found " + str(dlist[len(dlist) - 1]) + " duplicate roles", "For all duplicates that appear, type the number to choose what to do or say STOP to abort.", 0x13e823, message))
+                pstopped = False
+                premoved = []
+                ptotal = 0
+                # Persisted Roles
+                for p in dlist:
+                    if len(p) > 1:
+                        if p[2] == 1:
+                            prfound = False
+                            if len(premoved) > 0:
+                                for pr in premoved:
+                                    if pr[2] == 1:
+                                        if p[0] in pr and p[1] in pr:
+                                            prfound = True
+                            if prfound:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Found duplicate finding, skipping", "", 0x13e823, message))
+                            else:
+                                p1 = p[0]
+                                p1 = p1.replace("[","")
+                                p1 = p1.replace("]","")
+                                p1 = p1.replace("'","")
+                                puser = discord.utils.get(message.server.members, id=p1[0])
+                                prole = discord.utils.get(message.server.roles, id=p1[1])
+                                if puser != None and prole != None:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        puser.name + " has duplicate Persisted Roles for " + prole.name, "1) Delete the duplicate\n2)Skip", 0xc7f8fc, message))
+                                    pmes = await client.wait_for_message(author=message.author)
+                                    pmes = pmes.content
+                                    if pmes == "STOP":
+                                        await client.send_message(destination=message.channel, embed=embedder(
+                                            "Aborted Duplicate search.", "", 0x13e823, message))
+                                        pstopped = True
+                                        break
+                                    elif pmes == "1":
+                                        stnglistremove(2,p[0],message)
+                                        premoved.append(p)
+                                        await client.send_message(destination=message.channel, embed=embedder(
+                                            "Removed duplicate Persisted Role " + prole.name + " from " + puser.name, "", 0x13e823, message))
+                                        ptotal += 1
+                                    else:
+                                        await client.send_message(destination=message.channel, embed=embedder(
+                                            "Skipped!", "", 0x13e823, message))
+                # Timed Roles
+                if not pstopped:
+                    for t in dlist:
+                        if len(t) > 1:
+                            if t[2] == 2:
+                                prfound = False
+                                if len(premoved) > 0:
+                                    for pr in premoved:
+                                        if pr[2] == 2:
+                                            if t[0] in pr and t[1] in pr:
+                                                prfound = True
+                                if prfound:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Found duplicate finding, skipping", "", 0x13e823, message))
+                                else:
+                                    t1 = t[0]
+                                    t1 = t1.replace("[", "")
+                                    t1 = t1.replace("]", "")
+                                    t1 = t1.replace("'", "")
+                                    tuser = discord.utils.get(message.server.members, id=t1[0])
+                                    trole = discord.utils.get(message.server.roles, id=t1[1])
+                                    if tuser != None and trole != None:
+                                        await client.send_message(destination=message.channel, embed=embedder(
+                                            tuser.name + " has duplicate Timed Roles for " + trole.name,
+                                            "1) Delete the duplicate\n2)Skip", 0xc7f8fc, message))
+                                        tmes = await client.wait_for_message(author=message.author)
+                                        tmes = tmes.content
+                                        if tmes == "STOP":
+                                            await client.send_message(destination=message.channel, embed=embedder(
+                                                "Aborted Duplicate search.", "", 0x13e823, message))
+                                            pstopped = True
+                                            break
+                                        elif tmes == "1":
+                                            stnglistremove(3, t[0], message)
+                                            premoved.append(t)
+                                            await client.send_message(destination=message.channel, embed=embedder(
+                                                "Removed duplicate Timed Role " + trole.name + " from " + tuser.name,
+                                                "", 0x13e823, message))
+                                            ptotal += 1
+                                        else:
+                                            await client.send_message(destination=message.channel, embed=embedder(
+                                                "Skipped!", "", 0x13e823, message))
+                # Timed Emoji
+                if not pstopped:
+                    for e in dlist:
+                        if len(e) > 1:
+                            if e[2] == 3:
+                                prfound = False
+                                if len(premoved) > 0:
+                                    for pr in premoved:
+                                        if pr[2] == 3:
+                                            if e[0] in pr and e[1] in pr:
+                                                prfound = True
+                                if prfound:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Found duplicate finding, skipping", "", 0x13e823, message))
+                                else:
+                                    e1 = e[0]
+                                    e1 = e1.replace("[", "")
+                                    e1 = e1.replace("]", "")
+                                    e1 = e1.replace("'", "")
+                                    eemoji = discord.utils.get(message.server.emojis, id=e1[0])
+                                    if tuser != None and trole != None:
+                                        await client.send_message(destination=message.channel, embed=embedder(
+                                            eemoji.name + " has duplicate Timed Emoji entries",
+                                            "1) Delete the duplicate\n2)Skip", 0xc7f8fc, message))
+                                        emes = await client.wait_for_message(author=message.author)
+                                        emes = emes.content
+                                        if emes == "STOP":
+                                            await client.send_message(destination=message.channel, embed=embedder(
+                                                "Aborted Duplicate search.", "", 0x13e823, message))
+                                            pstopped = True
+                                            break
+                                        elif emes == "1":
+                                            stnglistremove(6, e[0], message)
+                                            premoved.append(e)
+                                            await client.send_message(destination=message.channel, embed=embedder(
+                                                "Removed duplicate Timed Emoji " + eemoji.name,
+                                                "", 0x13e823, message))
+                                            ptotal += 1
+                                        else:
+                                            await client.send_message(destination=message.channel, embed=embedder(
+                                                "Skipped!", "", 0x13e823, message))
+                if not pstopped:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Finished removing Duplicates, " + str(ptotal) + " removed.", "", 0x13e823, message))
     if cmdprefix(message) + "timedinfo" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
