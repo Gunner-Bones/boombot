@@ -486,6 +486,63 @@ def findemoji(message,uemojiname):
     uemojiname = discord.utils.get(message.server.emojis,id=uemojiname)
     return uemojiname
 
+def checksamerole(message,cuser,crole):
+    if not is_int(cuser):
+        cuser = cuser.id
+    if not is_int(crole):
+        crole = crole.id
+    p = stngmultiplelines(message.server,2)
+    t = stngmultiplelines(message.server,3)
+    if not cuser in p or not crole in p or not cuser in t or not crole in t:
+        return False
+    else:
+        plist = p.split(";")
+        tlist = t.split(";")
+        for po in plist:
+            for to in tlist:
+                if crole in po and crole in to and cuser in po and cuser in to:
+                    return True
+        return False
+
+def fixsamerole(message,cuser,crole,ctype):
+    # ctype:
+    # 1: Persisted Role replaces Timed Role
+    # 2: Timed Role replaces Persisted Role
+    # 3: Remove both
+    if not checksamerole(message,cuser,crole):
+        return
+    else:
+        p = stngmultiplelines(message.server, 2)
+        t = stngmultiplelines(message.server, 3)
+        p = p.split(";")
+        t = t.split(";")
+        for po in p:
+            for to in t:
+                if crole in po and crole in to and cuser in po and cuser in to:
+                    if ctype == 1:
+                        t.remove(to)
+                    elif ctype == 2:
+                        p.remove(po)
+                    elif ctype == 3:
+                        t.remove(to)
+                        p.remove(po)
+        pn = ""
+        tn = ""
+        for po in p:
+            if not len(po) < 10:
+                pn += po + ";"
+        for to in t:
+            if not len(to) < 10:
+                tn += to + ";"
+        fp = open("settings/persistedroles/" + message.server.id + '.txt',"w")
+        ft = open("settings/timedroles/" + message.server.id + '.txt', "w")
+        fp.truncate()
+        fp.write(pn)
+        ft.truncate()
+        ft.write(tn)
+        fp.close()
+        ft.close()
+
 def trinit(trword,message,ttype):
     if ttype == 1:  # Timed Roles
         servname = "settings/timedroles/" + message.server.id + ".txt"
@@ -1422,7 +1479,7 @@ async def on_message(message):
             rpef = embedder("Repeater finished!","",0x13e823,message)
             await client.edit_message(message=rpgui,embed=rpef)
     if "BK$$test" in message.content:
-        ccc = embedder("Test","",0xc7f8fc,message)
+        ccc = embedder("Test","line1\nline2\nline3",0xc7f8fc,message)
         ccc.add_field(name="Great>>",value="Job>>",inline=True)
         await client.send_message(destination=message.channel,embed=ccc)
 
@@ -1844,8 +1901,33 @@ async def on_message(message):
                             await client.add_roles(rpmember,rprole)
                             stnglistadd(2,rpword,message)
                             stngupdater(message.server)
-                            await client.send_message(destination=message.channel, embed=embedder(
-                                "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
+                            if checksamerole(message, rpmember.id, rprole.id):
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    rpmember.name + " already has " + rprole.name + " as a Timed Role. Choose a number to Proceed:",
+                                    "1) Replace the Timed Role with this Persisted Role\n2) Delete both\n3) Cancel",
+                                    0xfbc200,
+                                    message))
+                                csrm = await client.wait_for_message(author=message.author)
+                                csrm = csrm.content
+                                if csrm == "1":
+                                    fixsamerole(message, rpmember.id, rprole.id, 1)
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Replaced Timed role " + rprole.name + " with the Persisted role", "", 0x13e823,
+                                        message))
+                                elif csrm == "2":
+                                    fixsamerole(message, rpmember.id, rprole.id, 3)
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Deleted the role " + rprole.name + " from being Persisted and Timed", "",
+                                        0x13e823,
+                                        message))
+                                    await client.remove_roles(rpmember, rprole)
+                                else:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Cancelled role adding", "", 0x13e823,
+                                        message))
+                            else:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
@@ -1904,11 +1986,34 @@ async def on_message(message):
                     if stnglistfind(3,trword,message) == False:
                         try:
                             stnglistadd(3,trword,message)
-                            await client.add_roles(trmember,trrole)
-                            await client.send_message(destination=message.channel, embed=embedder(
-                                "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
-                            trinit(trword,message,1)
-                            stngupdater(message.server)
+                            if checksamerole(message, trmember.id, trrole.id):
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    trmember.name + " already has " + trrole.name + " as a Persisted Role. Choose a number to Proceed:",
+                                    "1) Replace the Persisted Role with this Timed Role\n2) Delete both\n3) Cancel",
+                                    0xfbc200, message))
+                                csrm = await client.wait_for_message(author=message.author)
+                                csrm = csrm.content
+                                if csrm == "1":
+                                    fixsamerole(message, trmember.id, trrole.id, 2)
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Replaced Persisted role " + trrole.name + " with the Timed role", "", 0x13e823,
+                                        message))
+                                elif csrm == "2":
+                                    fixsamerole(message, trmember.id, trrole.id, 3)
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Deleted the role " + trrole.name + " from being Persisted and Timed", "",
+                                        0x13e823, message))
+                                    await client.remove_roles(trmember, trrole)
+                                else:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        "Cancelled role adding", "", 0x13e823,
+                                        message))
+                            else:
+                                await client.add_roles(trmember,trrole)
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
+                                trinit(trword,message,1)
+                                stngupdater(message.server)
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the the role", 0xfbc200, message))
@@ -1984,23 +2089,23 @@ async def on_message(message):
                     if len(rilist) < 5:
                         iel = embedder("Page 1", "", 0xc7f8fc, message)
                         for l in range(0,len(rilist)):
-                            iel.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day))
+                            iel.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day),inline=False)
                         await client.send_message(destination=message.channel, embed=iel)
                     else:
                         for p in range(0,fecount - 1):
-                            ie = embedder("Page " + str((n + 1)),"",0xc7f8fc,message)
+                            ie = embedder("Page " + str((p + 1)),"",0xc7f8fc,message)
                             p = p * 5
-                            ie.add_field(name=(rilist[p])[0].name,value=" [" + (rilist[p])[1].name + "]: Ends " + str((rilist[p])[2].month) + "-" + str((rilist[p])[2].day))
-                            ie.add_field(name=(rilist[p + 1])[0].name,value=" [" + (rilist[p + 1])[1].name + "]: Ends " + str((rilist[p + 1])[2].month) + "-" + str((rilist[p + 1])[2].day))
-                            ie.add_field(name=(rilist[p + 2])[0].name,value=" [" + (rilist[p + 2])[1].name + "]: Ends " + str((rilist[p + 2])[2].month) + "-" + str((rilist[p + 2])[2].day))
-                            ie.add_field(name=(rilist[p + 3])[0].name,value=" [" + (rilist[p + 3])[1].name + "]: Ends " + str((rilist[p + 3])[2].month) + "-" + str((rilist[p + 3])[2].day))
-                            ie.add_field(name=(rilist[p + 4])[0].name,value=" [" + (rilist[p + 4])[1].name + "]: Ends " + str((rilist[p + 4])[2].month) + "-" + str((rilist[p + 4])[2].day))
+                            ie.add_field(name=(rilist[p])[0].name,value=" [" + (rilist[p])[1].name + "]: Ends " + str((rilist[p])[2].month) + "-" + str((rilist[p])[2].day),inline=False)
+                            ie.add_field(name=(rilist[p + 1])[0].name,value=" [" + (rilist[p + 1])[1].name + "]: Ends " + str((rilist[p + 1])[2].month) + "-" + str((rilist[p + 1])[2].day),inline=False)
+                            ie.add_field(name=(rilist[p + 2])[0].name,value=" [" + (rilist[p + 2])[1].name + "]: Ends " + str((rilist[p + 2])[2].month) + "-" + str((rilist[p + 2])[2].day),inline=False)
+                            ie.add_field(name=(rilist[p + 3])[0].name,value=" [" + (rilist[p + 3])[1].name + "]: Ends " + str((rilist[p + 3])[2].month) + "-" + str((rilist[p + 3])[2].day),inline=False)
+                            ie.add_field(name=(rilist[p + 4])[0].name,value=" [" + (rilist[p + 4])[1].name + "]: Ends " + str((rilist[p + 4])[2].month) + "-" + str((rilist[p + 4])[2].day),inline=False)
                             await client.send_message(destination=message.channel,embed=ie)
                         if feextra > 0:
                             fepage = fecount + 1
                             iee = embedder("Page " + fepage,"",0xc7f8fc,message)
                             for l in range(fecount - feextra,fecount + 1):
-                                ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day))
+                                ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day),inline=False)
                             await client.send_message(destination=message.channel,embed=iee)
     if cmdprefix(message) + "about" in message.content:
         cas = discord.utils.get(client.servers,id='419227324232499200')
