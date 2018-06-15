@@ -13,6 +13,7 @@ import inspect
 import subprocess
 import unicodedata
 import urllib.request as urlr
+from botconsole import BotConsole
 
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
@@ -49,6 +50,43 @@ runpass = runpass.translate(trtlrunpass)
 if sys.platform != "win32":
     runpass = runpass[:(len(runpass) - 2)]
 
+class ActiveBotConsoles(object):
+    def __init__(self):
+        self.consoles = []
+        self.logs = []
+    def addconsole(self,console):
+        self.consoles.append(console)
+    def getconsole(self,server):
+        for c in self.consoles:
+            if c.getserver() == server:
+                return c
+    def getconsolechannel(self,server):
+        for c in self.consoles:
+            if c.getserver() == server:
+                cc = discord.utils.get(server.channels, id=botconsolechannel(server))
+                if cc != None:
+                    return cc
+    def addlog(self,server,mes):
+        m = [server,mes]
+        self.logs.append(m)
+    def getnextlog(self,server):
+        if len(self.logs) > 0:
+            for l in self.logs:
+                if l[0] == server:
+                    rl = l[1]
+                    self.logs.remove(l)
+                    return rl
+        return None
+
+MAINABC = ActiveBotConsoles()
+
+def newbotconsole(server):
+    if botconsolechannel(server).lower() != "none":
+        bci = discord.utils.get(server.channels, id=botconsolechannel(server))
+        if bci != None:
+            MAINABC.addconsole(BotConsole(server))
+            MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="SERVER_CONNECTED")))
+
 bbgame = discord.Game(name="Tokyo Takedown")
 embedtest = None
 
@@ -70,12 +108,14 @@ class ObjStore(object):
 vpcl = ObjStore()
 
 class FAILSAFE(object):
-    def __init__(self,maxallowed):
+    def __init__(self,maxallowed,method):
         self.time = 0.0
         self.start = False
         self.tNow = datetime.datetime.now()
         self.tTotal = 0.0
         self.mA = maxallowed
+        for server in client.servers:
+            MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="FAILSAFE_ARM",fsm=method)))
     def inctime(self):
         self.time = self.time + 1.0
         tD = datetime.datetime.now() - self.tNow
@@ -104,11 +144,6 @@ class SpecializedNameStoring(object):
         self.name = name
 
 clientname = SpecializedNameStoring()
-
-#Types of suspicious behavior for bot to detect
-FAILSAFE_CDS = FAILSAFE(3.0) #Channel Delete Spam
-FAILSAFE_MKS = FAILSAFE(3.0) #Member Kick Spam
-FAILSAFE_MBS = FAILSAFE(3.0) #Member Ban Spam
 
 def ubget(serverid,user,message):
     ubg = "https://unbelievable.pizza/api/guilds/" + serverid + "/users/" + user.id
@@ -142,6 +177,8 @@ def hasbotmod(message):
     else:
         return True
 def is_int(a):
+    if isinstance(a,list):
+        return False
     try:
         a = int(a)
     except ValueError:
@@ -179,6 +216,10 @@ def idreplace(a):
     return a
 
 def stngupdater(server):
+    try:
+        MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="SETTINGS_UPDATE")))
+    except:
+        pass
     # su methods are specific functions used to fix certain problems in settings files
     fname = "botmods"
     su_removeblanks(fname,server,1)
@@ -371,6 +412,7 @@ def stnglistremove(filenum,repword,message):
         if filenum != 1:
             if replist[i] == repword:
                 replist.remove(replist[i])
+                break
         else:
             if repword in replist[i]:
                 replist.remove(replist[i])
@@ -443,12 +485,32 @@ def updateschannel(message,sv):
     f.close()
     return cpreturn
 
+def updatebotconsole(message,newchannel):
+    if not is_int(str(newchannel)):
+        try:
+            newchannel = newchannel.id
+        except:
+            pass
+    servname = "settings/botconsole/" + message.server.id + ".txt"
+    f = open(servname,"w")
+    f.truncate()
+    f.write(newchannel)
+    f.close()
+
+def botconsolechannel(server):
+    servname = "settings/botconsole/" + server.id + ".txt"
+    f = open(servname,"r")
+    cpreturn = f.readline()
+    f.close()
+    return cpreturn
+
 def updateprefix(message,newprefix):
     servname = "settings/prefix/" + message.server.id + ".txt"
     f = open(servname,"w")
     f.truncate()
     f.write(newprefix)
     f.close()
+    MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="UPDATE_PREFIX",mod=message.author,pre=newprefix)))
 
 def updateupdates(message,newchannel):
     if not is_int(str(newchannel)):
@@ -461,6 +523,12 @@ def updateupdates(message,newchannel):
     f.truncate()
     f.write(newchannel)
     f.close()
+    nc = discord.utils.get(message.server.channels,id=newchannel)
+    if nc != None:
+        MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="UPDATE_UPDATES_CHANNEL",mod=message.author,chn=nc.name)))
+    else:
+        MAINABC.addlog(server, MAINABC.getconsole(server).printlog(
+            MAINABC.getconsole(server).formatlog(type="UPDATE_UPDATES_CHANNEL",mod=message.author,chn="None")))
 
 def finduser(message,uname):
     if "<@" in uname:
@@ -555,46 +623,50 @@ def findduplicateroles(message):
     p = stngmultiplelines(message.server,2)
     p = p.split(";")
     outer = 0
-    for po in p:
-        inner = 0
-        outer += 1
-        for pi in p:
-            inner += 1
-            if po == pi and outer != inner:
-                csub = [po,pi,1]
-                clist.append(csub)
-                cfound += 1
+    if len(p) > 2:
+        for po in p:
+            inner = 0
+            outer += 1
+            for pi in p:
+                inner += 1
+                if po == pi and outer != inner:
+                    csub = [po,pi,1]
+                    clist.append(csub)
+                    cfound += 1
     # Timed Roles
     r = stngmultiplelines(message.server,3)
     r = r.split(";")
     outer = 0
-    for ro in r:
-        inner = 0
-        outer += 1
-        for ri in r:
-            inner += 1
-            roph = ro.split(",")
-            riph = ri.split(",")
-            if roph[0] == riph[0] and roph[1] == riph[1] and inner != outer:
-                csub = [ro,ri,2]
-                clist.append(csub)
-                cfound += 1
+    if len(r) > 2:
+        for ro in r:
+            inner = 0
+            outer += 1
+            for ri in r:
+                inner += 1
+                roph = ro.split(",")
+                riph = ri.split(",")
+                if len(roph) > 1 and len(riph) > 1:
+                    if roph[0] == riph[0] and roph[1] == riph[1] and inner != outer:
+                        csub = [ro,ri,2]
+                        clist.append(csub)
+                        cfound += 1
     # Timed Emoji
     e = stngmultiplelines(message.server,6)
     e = e.split(";")
     outer = 0
-    for eo in e:
-        inner = 0
-        outer += 1
-        for ei in e:
-            inner += 1
-            eoph = eo.split(",")
-            eiph = ei.split(",")
-            if eoph[0] == eiph[0] and inner != outer:
-                csub = [eo,ei,3]
-                clist.append(csub)
-                cfound += 1
-    # Final Check
+    if len(e) > 2:
+        for eo in e:
+            inner = 0
+            outer += 1
+            for ei in e:
+                inner += 1
+                eoph = eo.split(",")
+                eiph = ei.split(",")
+                if len(eoph) > 1 and len(eiph) > 1:
+                    if eoph[0] == eiph[0] and inner != outer:
+                        csub = [eo,ei,3]
+                        clist.append(csub)
+                        cfound += 1
     if cfound == 0:
         clist.append([])
     clist.append(cfound)
@@ -840,6 +912,31 @@ def serversettings():
             os.rename(servname,sortsn)
         except:
             os.remove(servname)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("None")
+            f.close()
+        else:
+            f.close()
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
+            sortsn = 'settings/botconsole/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("None")
+            f.close()
+        else:
+            f.close()
     for server in client.servers:
         try:
             servname = server.id + '.txt'
@@ -969,7 +1066,7 @@ def serversettingslinux():
             f.close()
             os.rename(servname, sortsn)
     for server in client.servers:
-        sortsn = "settings/prefix/" + server.id + ".txt"
+        sortsn = "settings/updates/" + server.id + ".txt"
         try:
             f = open('settings/updates/' + server.id + ".txt","r")
             f.close()
@@ -977,6 +1074,25 @@ def serversettingslinux():
             servname = server.id + '.txt'
             f = open(servname, 'a')
             sortsn = 'settings/updates/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+        f = open(sortsn,"r")
+        if len(f.readline()) < 1:
+            f.close()
+            f = open(sortsn,"w")
+            f.write("None")
+            f.close()
+        else:
+            f.close()
+    for server in client.servers:
+        sortsn = "settings/botconsole/" + server.id + ".txt"
+        try:
+            f = open('settings/botconsole/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/botconsole/' + servname
             f.close()
             os.rename(servname, sortsn)
         f = open(sortsn,"r")
@@ -1086,6 +1202,7 @@ def serversettingslinux():
             sortsn = 'settings/vc/csong/' + servname
             f.close()
             os.rename(servname, sortsn)
+
 @client.event
 async def on_ready():
     print("Bot Online!")
@@ -1102,9 +1219,23 @@ async def on_ready():
         print("ID " + server.id + " " + server.name)
     print("")
     for server in client.servers:
+        if botconsolechannel(server).lower() != "none":
+            bci = discord.utils.get(server.channels, id=botconsolechannel(server))
+            if bci != None:
+                MAINABC.addconsole(BotConsole(server))
+                MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="SERVER_CONNECTED")))
+    for server in client.servers:
         stngupdater(server)
         for member in server.members:
             tchecknd(member)
+
+for server in client.servers:
+    MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="UPDATE_GAME_STATUS",game=bbgame.name)))
+
+#Types of suspicious behavior for bot to detect
+FAILSAFE_CDS = FAILSAFE(3.0,"Rapid Channel Deletion") #Channel Delete Spam
+FAILSAFE_MKS = FAILSAFE(3.0,"Rapid Member Kick") #Member Kick Spam
+FAILSAFE_MBS = FAILSAFE(3.0,"Rapid Member Ban") #Member Ban Spam
 
 @client.event
 async def on_member_join(member):
@@ -1122,6 +1253,7 @@ async def on_member_join(member):
         rpfound[1] = (rpfound[1])[1:]
         rprole = discord.utils.get(member.server.roles, id=rpfound[1])
         await client.add_roles(member,rprole)
+        MAINABC.addlog(server, MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="PERSIST_ROLE_RETURN",user=member,role=rprole)))
     if stnglistfind(3,member.id,member) == True:
         time.sleep(1)
         servname = 'settings/timedroles/' + member.server.id + ".txt"
@@ -1136,6 +1268,7 @@ async def on_member_join(member):
         tufound[1] = (tufound[1])[1:]
         turole = discord.utils.get(member.server.roles, id=tufound[1])
         await client.add_roles(member,turole)
+        MAINABC.addlog(server, MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="TIMED_ROLE_RETURN",user=member,role=turole)))
 
 @client.event
 async def on_typing(channel,user,when):
@@ -1160,7 +1293,7 @@ async def on_typing(channel,user,when):
                 else:
                     try:
                         await client.remove_roles(tumember,turole)
-                        print("Removed timed role " + turole.name + " from " + tumember.name)
+                        MAINABC.addlog(channel.server, MAINABC.getconsole(channel.server).printlog(MAINABC.getconsole(channel.server).formatlog(type="TIMED_ROLE_REMOVE",user=tumember,role=turole)))
                     except Exception as e:
                         print(e)
                         print("Couldn't remove member " + str(tumember) + " (" + str(tun[0]) + ") role " + str(turole) + " (" + str(tun[1]) + ")")
@@ -1182,7 +1315,7 @@ async def on_typing(channel,user,when):
                     tun = "4" + tun
                 tuemoji = discord.utils.get(channel.server.emojis, id=tun)
                 await client.delete_custom_emoji(tuemoji)
-                print("Removed emoji " + tuemoji.name)
+                MAINABC.addlog(channel.server, MAINABC.getconsole(channel.server).printlog(MAINABC.getconsole(channel.server).formatlog(type="TIMED_EMOJI_REMOVE",emoji=tuemoji)))
         t.close()
         t = open(snt, "w")
         t.truncate()
@@ -1206,6 +1339,14 @@ async def on_typing(channel,user,when):
         t = open(snt, "w")
         t.truncate()
         t.close()
+
+        for server in client.servers:
+            if server != None:
+                log = ""
+                while log != None:
+                    log = MAINABC.getnextlog(server)
+                    if log != None:
+                        await client.send_message(destination=MAINABC.getconsolechannel(server),content="`" + log + "`")
         ##if client._is_ready:
             ##if client.user.name != clientname.saymyname():
                 ##for server in client.servers:
@@ -1229,6 +1370,7 @@ async def on_server_join(server):
         serversettingslinux()
     else:
         serversettings()
+    MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="NEW_SERVER_CONNECT",serv=server)))
 
 @client.event
 async def on_voice_state_update(before,after):
@@ -1240,6 +1382,8 @@ async def on_voice_state_update(before,after):
 
 def EMERGENCY_SHUTDOWN(reason):
     print( "Boom Bot has initiated emergency shutdown due to being compromised (" + reason + ") at " + str(datetime.datetime.now()))
+    for server in client.servers:
+        MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="FAILSAFE_SHUTDOWN",fsm=reason)))
     sys.exit("Emergency Shutdown")
 
 @client.event
@@ -1663,6 +1807,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "repeat", value="[BM] Opens a GUI for sending messages through BoomBot", inline=True)
         cle1.add_field(name=cmdprefix(message) + "tempban <user> <days>",value="[BM] Bans a User for a specified amount of Days", inline=True)
         cle1.add_field(name=cmdprefix(message) + "updates <channel>",value="[BM] Optional, sets a channel for BoomBot to send updates to", inline = True)
+        cle1.add_field(name=cmdprefix(message) + "botconsole <channel>",value="[BM] Optional, sets a channel for BoomBot to send Bot Logs to", inline=True)
         cle1.add_field(name=cmdprefix(message) + "purgerole <role> <days of inactivity>",value="[BM] Purges those with that highest ranking role who haven't spoken in X days",inline=True)
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
@@ -1720,6 +1865,38 @@ async def on_message(message):
                     ucn = uc
                 await client.send_message(destination=message.channel, embed=embedder(
                     "Changed updates channel to " + ucn + "!", "", 0x13e823, message))
+    if cmdprefix(message) + "botconsole" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            um = str(message.content).replace(cmdprefix(message) + "botconsole ","")
+            uc = None
+            if um.startswith("<#"):
+                um = um.replace("<","")
+                um = um.replace("#","")
+                um = um.replace(">","")
+                for channel in message.server.channels:
+                    if channel.id == um:
+                        uc = channel
+            elif um.lower() == "none":
+                uc = "None"
+            else:
+                for channel in message.server.channels:
+                    if channel.name == um:
+                        uc = channel
+            if uc == None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Channel not found!", "Usage: *" + cmdprefix(message) + "botconsole <channel>*", 0xfbc200, message))
+            else:
+                updatebotconsole(message,uc)
+                newbotconsole(message.server)
+                if str(uc).lower() != "none":
+                    ucn = uc.name
+                else:
+                    ucn = uc
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Changed botconsole channel to " + ucn + "!", "", 0x13e823, message))
     if cmdprefix(message) + "tempban" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -2110,7 +2287,7 @@ async def on_message(message):
                 ptotal = 0
                 # Persisted Roles
                 for p in dlist:
-                    if len(p) > 1:
+                    if len(str(p)) > 2:
                         if p[2] == 1:
                             prfound = False
                             if len(premoved) > 0:
@@ -2122,10 +2299,13 @@ async def on_message(message):
                                 await client.send_message(destination=message.channel, embed=embedder(
                                     "Found duplicate finding, skipping", "", 0x13e823, message))
                             else:
-                                p1 = p[0]
+                                p1 = str(p[0])
+                                p1h = p1
                                 p1 = p1.replace("[","")
                                 p1 = p1.replace("]","")
                                 p1 = p1.replace("'","")
+                                p1 = p1.replace(" ","")
+                                p1 = p1.split(",")
                                 puser = discord.utils.get(message.server.members, id=p1[0])
                                 prole = discord.utils.get(message.server.roles, id=p1[1])
                                 if puser != None and prole != None:
@@ -2139,7 +2319,7 @@ async def on_message(message):
                                         pstopped = True
                                         break
                                     elif pmes == "1":
-                                        stnglistremove(2,p[0],message)
+                                        stnglistremove(2,p1h,message)
                                         premoved.append(p)
                                         await client.send_message(destination=message.channel, embed=embedder(
                                             "Removed duplicate Persisted Role " + prole.name + " from " + puser.name, "", 0x13e823, message))
@@ -2150,7 +2330,7 @@ async def on_message(message):
                 # Timed Roles
                 if not pstopped:
                     for t in dlist:
-                        if len(t) > 1:
+                        if len(str(t)) > 2:
                             if t[2] == 2:
                                 prfound = False
                                 if len(premoved) > 0:
@@ -2162,10 +2342,13 @@ async def on_message(message):
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Found duplicate finding, skipping", "", 0x13e823, message))
                                 else:
-                                    t1 = t[0]
+                                    t1 = str(t[0])
+                                    t1h = t1
                                     t1 = t1.replace("[", "")
                                     t1 = t1.replace("]", "")
                                     t1 = t1.replace("'", "")
+                                    t1 = t1.replace(" ","")
+                                    t1 = t1.split(",")
                                     tuser = discord.utils.get(message.server.members, id=t1[0])
                                     trole = discord.utils.get(message.server.roles, id=t1[1])
                                     if tuser != None and trole != None:
@@ -2180,7 +2363,7 @@ async def on_message(message):
                                             pstopped = True
                                             break
                                         elif tmes == "1":
-                                            stnglistremove(3, t[0], message)
+                                            stnglistremove(3, t1h, message)
                                             premoved.append(t)
                                             await client.send_message(destination=message.channel, embed=embedder(
                                                 "Removed duplicate Timed Role " + trole.name + " from " + tuser.name,
@@ -2192,7 +2375,7 @@ async def on_message(message):
                 # Timed Emoji
                 if not pstopped:
                     for e in dlist:
-                        if len(e) > 1:
+                        if len(str(e)) > 2:
                             if e[2] == 3:
                                 prfound = False
                                 if len(premoved) > 0:
@@ -2204,10 +2387,13 @@ async def on_message(message):
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Found duplicate finding, skipping", "", 0x13e823, message))
                                 else:
-                                    e1 = e[0]
+                                    e1 = str(e[0])
+                                    e1h = e1
                                     e1 = e1.replace("[", "")
                                     e1 = e1.replace("]", "")
                                     e1 = e1.replace("'", "")
+                                    e1 = e1.replace(" ","")
+                                    e1 = e1.split(",")
                                     eemoji = discord.utils.get(message.server.emojis, id=e1[0])
                                     if tuser != None and trole != None:
                                         await client.send_message(destination=message.channel, embed=embedder(
@@ -2221,7 +2407,7 @@ async def on_message(message):
                                             pstopped = True
                                             break
                                         elif emes == "1":
-                                            stnglistremove(6, e[0], message)
+                                            stnglistremove(6, e1h, message)
                                             premoved.append(e)
                                             await client.send_message(destination=message.channel, embed=embedder(
                                                 "Removed duplicate Timed Emoji " + eemoji.name,
@@ -2314,7 +2500,7 @@ async def on_message(message):
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v1.9", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v2.0", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)
