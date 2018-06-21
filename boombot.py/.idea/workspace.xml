@@ -14,8 +14,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="2565" column="61" lean-forward="true" selection-start-line="2565" selection-start-column="61" selection-end-line="2565" selection-end-column="61" />
+            <state relative-caret-position="816">
+              <caret line="2272" column="37" lean-forward="false" selection-start-line="2272" selection-start-column="37" selection-end-line="2272" selection-end-column="37" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -26,8 +26,8 @@
       <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state relative-caret-position="104">
+              <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -36,9 +36,13 @@
       <file leaf-file-name="botconsole.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/botconsole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="883">
-              <caret line="248" column="113" lean-forward="true" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
-              <folding />
+            <state relative-caret-position="4114">
+              <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
+              <folding>
+                <marker date="1529550581077" expanded="true" signature="264:12068" ph="..." />
+                <marker date="1529550581077" expanded="true" signature="2453:12068" ph="..." />
+                <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,6 +80,7 @@
       <find>duplicate</find>
       <find>cmdlist</find>
       <find>failsafe</find>
+      <find>rolemem</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -90,8 +95,8 @@
         <option value="$PROJECT_DIR$/qef.py" />
         <option value="$PROJECT_DIR$/../../raybot/rmain.py" />
         <option value="$PROJECT_DIR$/../../mz/zmain.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/botconsole.py" />
+        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -116,6 +121,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -127,7 +133,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -267,7 +272,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="737" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1078125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -498,26 +503,30 @@
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/http.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/1978389888/builtins.py" />
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/botconsole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="4114">
+          <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
+          <folding>
+            <marker date="1529550581077" expanded="true" signature="264:12068" ph="..." />
+            <marker date="1529550581077" expanded="true" signature="2453:12068" ph="..." />
+            <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/botconsole.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="883">
-          <caret line="248" column="113" lean-forward="true" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
+        <state relative-caret-position="104">
+          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="2565" column="61" lean-forward="true" selection-start-line="2565" selection-start-column="61" selection-end-line="2565" selection-end-column="61" />
+        <state relative-caret-position="816">
+          <caret line="2272" column="37" lean-forward="false" selection-start-line="2272" selection-start-column="37" selection-end-line="2272" selection-end-column="37" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

@@ -31,3 +31,6 @@ BotConsole 2018-06-14 19:22:07.807592 Boom Bot Dev Zone: Settings files reupdate
 BOTCONSOLE 2018-06-14 19:22:32.663511
 BotConsole 2018-06-14 19:22:32.670511 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
 BotConsole 2018-06-14 19:22:32.868562 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-06-20 20:24:04.143690
+BotConsole 2018-06-20 20:24:04.150691 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-20 20:24:04.460687 Boom Bot Dev Zone: Settings files reupdated

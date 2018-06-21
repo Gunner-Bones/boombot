@@ -1816,6 +1816,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedinfo",value="[BM] Shows all users with a timed role")
+        cle1.add_field(name=cmdprefix(message) + "rolemembers <role>",value="[BM] Lists all users with a role")
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle1.add_field(name=cmdprefix(message) + "removeduplicates",value="[BM] Removes duplicate timed/persisted roles found in settings")
         cle1.add_field(name=cmdprefix(message) + "repeatold <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
@@ -2236,6 +2237,40 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+    if cmdprefix(message) + "rolemembers" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author,
+                                                             cmd="Role Members")))
+        else:
+            if message.content == cmdprefix(message) + "rolemembers":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *"+ cmdprefix(message) +"rolemembers <role>*", 0xfbc200, message))
+            else:
+                rmword = str(message.content).replace(cmdprefix(message) + "rolemembers ","")
+                rmrole = findrole(message,rmword)
+                if rmrole == None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Role not found!", "Usage: *" + cmdprefix(message) + "rolemembers <role>*", 0xfbc200,
+                        message))
+                else:
+                    rmm = ""
+                    rmcount = 0
+                    for member in message.server.members:
+                        if member.top_role == rmrole:
+                            rmm = rmm + member.name + ", "
+                            rmcount += 1
+                    if rmcount == 0:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "No members found with highest role " + rmrole.name, "", 0x13e823,
+                            message))
+                    else:
+                        rmm = rmm[:len(rmm) - 2]
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Found " + str(rmcount) + " members with highest role " + rmrole.name + ":", rmm, 0x13e823,
+                            message))
     if cmdprefix(message) + "timedrole" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
