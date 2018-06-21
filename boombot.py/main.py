@@ -1468,6 +1468,8 @@ async def on_message(message):
         if hasbotmod(message) or message.author.id != "172861416364179456":
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Repeat")))
         else:
             RP_SERVER = message.server
             if message.server == None and message.author.id == "172861416364179456":
@@ -1482,6 +1484,8 @@ async def on_message(message):
             RP_MESSAGETYPE = 0
             rpgui = await client.send_message(destination=message.channel,embed=rpe)
             await client.send_message(destination=message.channel, embed=rpe2)
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="REPEAT_START", mod=message.author)))
             rpmes = ""
             while rpmes != "DONE" or rpmes != cmdprefix(message) + "repeat":
                 rpmes = await client.wait_for_message(author=message.author)
@@ -1680,6 +1684,8 @@ async def on_message(message):
                                     break
             rpef = embedder("Repeater finished!","",0x13e823,message)
             await client.edit_message(message=rpgui,embed=rpef)
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="REPEAT_END", mod=message.author)))
     if "BK$$test" in message.content:
         ccc = embedder("Test","line1\nline2\nline3",0xc7f8fc,message)
         ccc.add_field(name="Great>>",value="Job>>",inline=True)
@@ -1699,6 +1705,8 @@ async def on_message(message):
                 if sc != None:
                     await client.send_message(destination=sc,embed=upe)
                     upc += 1
+                MAINABC.addlog(server, MAINABC.getconsole(server).printlog(
+                    MAINABC.getconsole(server).formatlog(type="UPDATES")))
             await client.send_message(destination=message.channel, embed=embedder("Updates sent to " + str(upc) + " servers", "", 0x13e823, message))
 
     if cmdprefix(message) + "repeathelp" in message.content:
@@ -1721,6 +1729,8 @@ async def on_message(message):
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Role Add")))
         else:
             if message.content == cmdprefix(message) + "roleadd":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -1746,6 +1756,8 @@ async def on_message(message):
                         await client.add_roles(ramember,rarole)
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Role " + rarole.name + " added to " + ramember.name, "", 0x13e823, message))
+                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                            MAINABC.getconsole(message.server).formatlog(type="ROLE_ADD", mod=message.author, user=ramember, role=rarole)))
                     except AttributeError:
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Invalid role!", "Remember to type in the name of the role", 0xfbc200, message))
@@ -1756,6 +1768,8 @@ async def on_message(message):
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Role Remove")))
         else:
             if message.content == cmdprefix(message) + "roleremove":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -1783,6 +1797,8 @@ async def on_message(message):
                         await client.remove_roles(rrmember, rrrole)
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Role " + rrrole.name + " removed from " + rrmember.name, "", 0x13e823, message))
+                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                            MAINABC.getconsole(message.server).formatlog(type="ROLE_REMOVE", mod=message.author, user=rrmember, role=rrrole)))
                     except AttributeError:
                         await client.send_message(destination=message.channel, embed=embedder(
                             "Invalid role!", "Remember to type in the name of the role", 0xfbc200, message))
@@ -1834,10 +1850,14 @@ async def on_message(message):
                         gb = discord.utils.find(lambda m: m.id == "172861416364179456", server.members)
                 await client.send_message(destination=gb,content=rpreport)
                 await client.send_message(destination=message.channel, embed=embedder("Sent report!", "", 0x13e823, message))
+                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                    MAINABC.getconsole(message.server).formatlog(type="REPORT", mod=message.author)))
     if cmdprefix(message) + "updates" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Change Updates Channel")))
         else:
             um = str(message.content).replace(cmdprefix(message) + "updates ","")
             uc = None
@@ -1865,10 +1885,14 @@ async def on_message(message):
                     ucn = uc
                 await client.send_message(destination=message.channel, embed=embedder(
                     "Changed updates channel to " + ucn + "!", "", 0x13e823, message))
+                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                    MAINABC.getconsole(message.server).formatlog(type="UPDATE_UPDATES_CHANNEL", mod=message.author, chn=ucn)))
     if cmdprefix(message) + "botconsole" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Change BotConsole Channel")))
         else:
             um = str(message.content).replace(cmdprefix(message) + "botconsole ","")
             uc = None
@@ -1901,6 +1925,8 @@ async def on_message(message):
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
             "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Temporary Ban")))
         else:
             if message.content == cmdprefix(message) + "tempban":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -1934,11 +1960,15 @@ async def on_message(message):
                             await client.send_message(destination=message.channel, embed=embedder(
                                 tbu.name + " has been Temporarily Banned for " + str(tbd) + " days", "", 0x13e823, message))
                             stngupdater(message.server)
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                MAINABC.getconsole(message.server).formatlog(type="TEMP_BAN", mod=message.author,days=tbd,user=tbu.name)))
 
     if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Botmod")))
         else:
             if message.content == cmdprefix(message) + "botmod":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -1956,6 +1986,8 @@ async def on_message(message):
                     await client.send_message(destination=message.channel, embed=embedder(
                         bmmember.name + " is now a Bot Mod!", "", 0x13e823, message))
                     stngupdater(message.server)
+                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                        MAINABC.getconsole(message.server).formatlog(type="BOTMOD", mod=message.author, user=bmmember)))
                 else:
                     stnglistremove(1,bmword,message)
                     await client.send_message(destination=message.channel, embed=embedder(
@@ -1965,6 +1997,8 @@ async def on_message(message):
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Change Prefix")))
         else:
             if message.content == cmdprefix(message) + "changeprefix":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -1974,10 +2008,14 @@ async def on_message(message):
                 updateprefix(message,cpword)
                 await client.send_message(destination=message.channel, embed=embedder(
                     "Changed prefix to " + cpword + "!", "", 0x13e823, message))
+                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                    MAINABC.getconsole(message.server).formatlog(type="UPDATE_PREFIX", mod=message.author, pre=cpword)))
     if cmdprefix(message) + "purgerole" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Purge Roles")))
         else:
             if message.content == cmdprefix(message) + "purgerole":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -2008,6 +2046,8 @@ async def on_message(message):
                             else:
                                 await client.send_message(destination=message.channel, embed=embedder(
                                     "Starting search for inactive " + prrole.name + "s... this may take awhile.", "", 0xc7f8fc, message))
+                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                    MAINABC.getconsole(message.server).formatlog(type="PURGE_ROLE_START", mod=message.author, role=prrole, days=prdays)))
                                 # The main search process
                                 print("PURGEROLE DEBUGGING")
                                 print("Role= " + prrole.name + " Days= " + str(prdays))
@@ -2074,6 +2114,8 @@ async def on_message(message):
                                 if len(prinactive) == 0:
                                     await client.send_message(destination=usermessage.channel, embed=embedder(
                                         "Found 0 members within these parameters, aborting purge.", "", 0x13e823, usermessage))
+                                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                        MAINABC.getconsole(message.server).formatlog(type="PURGE_ROLE_END", mod=message.author, role=prrole)))
                                 else:
                                     await client.send_message(destination=usermessage.channel, embed=embedder(
                                         "Found " + str(len(prinactive)) + " inactive " + prrole.name + "s. Kick these members?",
@@ -2083,6 +2125,9 @@ async def on_message(message):
                                     if prchoice.lower() != "yes":
                                         await client.send_message(destination=usermessage.channel, embed=embedder(
                                             "Purge averted!", "", 0x13e823, usermessage))
+                                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                            MAINABC.getconsole(message.server).formatlog(type="PURGE_ROLE_END",
+                                                                                 mod=message.author, role=prrole)))
                                     else:
                                         prkicked = 0
                                         prkicksuccess = False
@@ -2099,10 +2144,15 @@ async def on_message(message):
                                         if prkicksuccess:
                                             await client.send_message(destination=usermessage.channel, embed=embedder(
                                                 "Purged " + str(prkicked) + " " + prrole.name + "s", "", 0x13e823, usermessage))
+                                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                                MAINABC.getconsole(message.server).formatlog(type="PURGE_ROLE_SUCCESS",
+                                                                                     mod=message.author, purgecount=prkicked, role=prrole)))
     if cmdprefix(message) + "persistrole" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Persist Role")))
         else:
             if message.content == cmdprefix(message) + "persistrole":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -2150,6 +2200,8 @@ async def on_message(message):
                                     await client.send_message(destination=message.channel, embed=embedder(
                                         "Replaced Timed role " + rprole.name + " with the Persisted role", "", 0x13e823,
                                         message))
+                                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                        MAINABC.getconsole(message.server).formatlog(type="ROLE_REPLACE_PERSIST", mod=message.author, user=rpmember, role=rprole)))
                                     stngupdater(message.server)
                                 elif csrm == "2":
                                     fixsamerole(message, rpmember.id, rprole.id, 3)
@@ -2166,6 +2218,8 @@ async def on_message(message):
                             else:
                                 await client.send_message(destination=message.channel, embed=embedder(
                                     "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
+                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                    MAINABC.getconsole(message.server).formatlog(type="PERSIST_ROLE_ADD", mod=message.author, role=rprole, user=rpmember)))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
@@ -2186,6 +2240,9 @@ async def on_message(message):
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
                 "You do not have permissions to do this!","",0xfb0006,message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author,
+                                                             cmd="Timed Role")))
         else:
             if message.content == cmdprefix(message) + "timedrole":
                 await client.send_message(destination=message.channel, embed=embedder(
@@ -2237,6 +2294,10 @@ async def on_message(message):
                                         "Replaced Persisted role " + trrole.name + " with the Timed role", "", 0x13e823,
                                         message))
                                     stngupdater(message.server)
+                                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                        MAINABC.getconsole(message.server).formatlog(type="ROLE_REPLACE_TIMED",
+                                                                                     mod=message.author,
+                                                                                     user=trmember, role=trrole)))
                                 elif csrm == "2":
                                     fixsamerole(message, trmember.id, trrole.id, 3)
                                     await client.send_message(destination=message.channel, embed=embedder(
@@ -2254,6 +2315,10 @@ async def on_message(message):
                                     "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
                                 trinit(trword,message,1)
                                 stngupdater(message.server)
+                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                    MAINABC.getconsole(message.server).formatlog(type="TIMED_ROLE_ADD",
+                                                                                 mod=message.author,
+                                                                                 user=trmember, role=trrole, days=trtime)))
                         except AttributeError:
                             await client.send_message(destination=message.channel, embed=embedder(
                                 "Invalid role!", "Remember to type the name of the the role", 0xfbc200, message))
@@ -2274,6 +2339,9 @@ async def on_message(message):
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author,
+                                                             cmd="Remove Duplicates")))
         else:
             dlist = findduplicateroles(message)
             if dlist[len(dlist) - 1] == 0:
@@ -2419,10 +2487,16 @@ async def on_message(message):
                 if not pstopped:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Finished removing Duplicates, " + str(ptotal) + " removed.", "", 0x13e823, message))
+                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                        MAINABC.getconsole(message.server).formatlog(type="DUPLICATES", mod=message.author,
+                                                                     dupcount=ptotal)))
     if cmdprefix(message) + "timedinfo" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
                 "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author,
+                                                             cmd="Timed Info")))
         else:
             rilist = []
             f = open("settings/timedroles/" + message.server.id + ".txt","r")
@@ -2496,6 +2570,9 @@ async def on_message(message):
                             for l in range(fecount - feextra,fecount + 1):
                                 ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day),inline=False)
                             await client.send_message(destination=message.channel,embed=iee)
+                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                        MAINABC.getconsole(message.server).formatlog(type="COMMAND", mod=message.author,
+                                                                     cmd="Timed Info")))
     if cmdprefix(message) + "about" in message.content:
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')

@@ -144,7 +144,7 @@ class BotConsole(object):
         26: TIMED_ROLE_ADD
         '[mod] added Timed Role [role] to [user] for [days] days'
         27: ROLE_REPLACE_TIMED
-        '[mod] replaced [user]'s Persisted Role [role] with Timed Role for [days] days'
+        '[mod] replaced [user]'s Persisted Role [role] with Timed Role'
         28: ROLE_REPLACE_PERSIST
         '[mod] replaced [user]'s Timed Role [role] with Persisted Role'
         29: DUPLICATES
@@ -202,57 +202,57 @@ class BotConsole(object):
         if type == "FAILSAFE_SHUTDOWN":
             message = "EMERGENCY ALERT: Bot shutdown on Emergency Failsafe protocol, reason: " + fsm
         if type == "COMMAND_DENIED":
-            message = mod + "tried to execute " + cmd + ", but failed due to Lack of Permissions"
+            message = mod.name + "tried to execute " + cmd + ", but failed due to Lack of Permissions"
         if type == "COMMAND":
-            message = mod + " executed " + cmd
+            message = mod.name + " executed " + cmd
         if type == "SETTINGS_UPDATE":
             message = "Settings files reupdated"
         if type == "UPDATE_PREFIX":
-            message = mod + " changed the Server Prefix to " + pre
+            message = mod.name + " changed the Server Prefix to " + pre
         if type == "UPDATE_UPDATES_CHANNEL":
-            message = mod + " changed the Server Updates Channel to " + chn
+            message = mod.name + " changed the Server Updates Channel to " + chn
         if type == "TIMED_ROLE_REMOVE":
-            message = user + "'s Timed Role " + role + " has expired"
+            message = user.name + "'s Timed Role " + role.name + " has expired"
         if type == "TIMED_EMOJI_REMOVE":
-            message = "The Timed Emoji " + emoji + " has expired"
+            message = "The Timed Emoji " + emoji.name + " has expired"
         if type == "TIMED_BAN_REMOVE":
-            message = "The Temporary Ban on " + user + " has been lifted"
+            message = "The Temporary Ban on " + user.name + " has been lifted"
         if type == "PERSIST_ROLE_RETURN":
-            message = user + " has joined, and their Persisted Role " + role + " has been returned to them"
+            message = user.name + " has joined, and their Persisted Role " + role.name + " has been returned to them"
         if type == "REPEAT_START":
-            message = mod + " has started a Repeat session"
+            message = mod.name + " has started a Repeat session"
         if type == "REPEAT_END":
-            message = mod + " has closed the Repeat session"
+            message = mod.name + " has closed the Repeat session"
         if type == "UPDATES":
             message = self.server.name + " recieved BoomBot Updates"
         if type == "ROLE_ADD":
-            message = mod + " added Role " + role + " to " + user
+            message = mod.name + " added Role " + role.name + " to " + user.name
         if type == "ROLE_REMOVE":
-            message = mod + " removed Role " + role + " from " + user
+            message = mod.name + " removed Role " + role.name + " from " + user.name
         if type == "REPORT":
-            message = mod + " sent a report"
+            message = mod.name + " sent a report"
         if type == "TEMP_BAN":
-            message = mod + " Temporarily Banned " + user + " for " + days + " days"
+            message = mod.name + " Temporarily Banned " + user.name + " for " + days + " days"
         if type == "BOTMOD":
-            message = mod + " gave " + user + " Botmod"
+            message = mod.name + " gave " + user.name + " Botmod"
         if type == "PURGE_ROLE_START":
-            message = mod + " started a Purge Role for all inactive " + role + "s over " + days + " days"
+            message = mod.name + " started a Purge Role for all inactive " + role + "s over " + days + " days"
         if type == "PURGE_ROLE_END":
-            message = mod + " did not purge all inactive " + role + "s"
+            message = mod.name + " did not purge all inactive " + role.name + "s"
         if type == "PURGE_ROLE_SUCCESS":
-            message = mod + " purged " + purgecount + " inactive " + role + "s"
+            message = mod.name + " purged " + purgecount + " inactive " + role.name + "s"
         if type == "PERSIST_ROLE_ADD":
-            message = mod + " added Persisted Role " + role + " to " + user
+            message = mod.name + " added Persisted Role " + role.name + " to " + user.name
         if type == "TIMED_ROLE_ADD":
-            message = mod + " added Timed Role " + role + " to " + user + " for " + days + " days"
+            message = mod.name + " added Timed Role " + role.name + " to " + user.name + " for " + days + " days"
         if type == "ROLE_REPLACE_TIMED":
-            message = mod + " replaced " + user + "'s Persisted Role " + role + " with Timed Role for " + days + " days"
+            message = mod.name + " replaced " + user.name + "'s Persisted Role " + role.name + " with Timed Role"
         if type == "ROLE_REPLACE_PERSIST":
-            message = mod + " replaced " + user + "'s Timed Role " + role + " with Persisted Role"
+            message = mod.name + " replaced " + user.name + "'s Timed Role " + role.name + " with Persisted Role"
         if type == "DUPLICATES":
-            message = mod + " removed " + dupcount  + " duplicate roles"
+            message = mod.name + " removed " + dupcount  + " duplicate roles"
         if type == "TIMED_EMOJI_ADD":
-            message = mod + " added Timed Emoji " + emoji + " for " + days + " days"
+            message = mod.name + " added Timed Emoji " + emoji.name + " for " + days + " days"
         if type == "TIMED_ROLE_RETURN":
-            message = user + " has joined, and their Timed Role " + role + " has been returned to them"
+            message = user.name + " has joined, and their Timed Role " + role.name + " has been returned to them"
         return message
