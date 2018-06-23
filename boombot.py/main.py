@@ -2184,46 +2184,42 @@ async def on_message(message):
                     rpword.append(rplist[1])
                     rpword = str(rpword)
                     if stnglistfind(2,rpword,message) == False:
-                        try:
-                            await client.add_roles(rpmember,rprole)
-                            stnglistadd(2,rpword,message)
-                            stngupdater(message.server)
-                            if checksamerole(message, rpmember.id, rprole.id):
+                        await client.add_roles(rpmember,rprole)
+                        stnglistadd(2,rpword,message)
+                        stngupdater(message.server)
+                        if checksamerole(message, rpmember.id, rprole.id):
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                rpmember.name + " already has " + rprole.name + " as a Timed Role. Choose a number to Proceed:",
+                                "1) Replace the Timed Role with this Persisted Role\n2) Delete both\n3) Cancel",
+                                0xfbc200,
+                                message))
+                            csrm = await client.wait_for_message(author=message.author)
+                            csrm = csrm.content
+                            if csrm == "1":
+                                fixsamerole(message, rpmember.id, rprole.id, 1)
                                 await client.send_message(destination=message.channel, embed=embedder(
-                                    rpmember.name + " already has " + rprole.name + " as a Timed Role. Choose a number to Proceed:",
-                                    "1) Replace the Timed Role with this Persisted Role\n2) Delete both\n3) Cancel",
-                                    0xfbc200,
+                                    "Replaced Timed role " + rprole.name + " with the Persisted role", "", 0x13e823,
                                     message))
-                                csrm = await client.wait_for_message(author=message.author)
-                                csrm = csrm.content
-                                if csrm == "1":
-                                    fixsamerole(message, rpmember.id, rprole.id, 1)
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                        "Replaced Timed role " + rprole.name + " with the Persisted role", "", 0x13e823,
-                                        message))
-                                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
-                                        MAINABC.getconsole(message.server).formatlog(type="ROLE_REPLACE_PERSIST", mod=message.author, user=rpmember, role=rprole)))
-                                    stngupdater(message.server)
-                                elif csrm == "2":
-                                    fixsamerole(message, rpmember.id, rprole.id, 3)
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                        "Deleted the role " + rprole.name + " from being Persisted and Timed", "",
-                                        0x13e823,
-                                        message))
-                                    await client.remove_roles(rpmember, rprole)
-                                    stngupdater(message.server)
-                                else:
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                        "Cancelled role adding", "", 0x13e823,
-                                        message))
+                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                    MAINABC.getconsole(message.server).formatlog(type="ROLE_REPLACE_PERSIST", mod=message.author, user=rpmember, role=rprole)))
+                                stngupdater(message.server)
+                            elif csrm == "2":
+                                fixsamerole(message, rpmember.id, rprole.id, 3)
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Deleted the role " + rprole.name + " from being Persisted and Timed", "",
+                                    0x13e823,
+                                    message))
+                                await client.remove_roles(rpmember, rprole)
+                                stngupdater(message.server)
                             else:
                                 await client.send_message(destination=message.channel, embed=embedder(
-                                    "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
-                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
-                                    MAINABC.getconsole(message.server).formatlog(type="PERSIST_ROLE_ADD", mod=message.author, role=rprole, user=rpmember)))
-                        except AttributeError:
+                                    "Cancelled role adding", "", 0x13e823,
+                                    message))
+                        else:
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to type the name of the role", 0xfbc200, message))
+                                "Added persisted role " + rprole.name + " to " + rpmember.name + "!", "", 0x13e823, message))
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                MAINABC.getconsole(message.server).formatlog(type="PERSIST_ROLE_ADD", mod=message.author, role=rprole, user=rpmember)))
                     elif stnglistfind(2,rpword,message) == True:
                         try:
                             await client.remove_roles(rpmember,rprole)

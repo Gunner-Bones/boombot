@@ -14,8 +14,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="2272" column="37" lean-forward="false" selection-start-line="2272" selection-start-column="37" selection-end-line="2272" selection-end-column="37" />
+            <state relative-caret-position="665">
+              <caret line="2870" column="20" lean-forward="true" selection-start-line="2870" selection-start-column="20" selection-end-line="2870" selection-end-column="20" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -26,7 +26,7 @@
       <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
+            <state relative-caret-position="68">
               <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
               <folding />
             </state>
@@ -39,8 +39,6 @@
             <state relative-caret-position="4114">
               <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
               <folding>
-                <marker date="1529550581077" expanded="true" signature="264:12068" ph="..." />
-                <marker date="1529550581077" expanded="true" signature="2453:12068" ph="..." />
                 <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
               </folding>
             </state>
@@ -121,7 +119,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -133,7 +131,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -508,8 +506,6 @@
         <state relative-caret-position="4114">
           <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
           <folding>
-            <marker date="1529550581077" expanded="true" signature="264:12068" ph="..." />
-            <marker date="1529550581077" expanded="true" signature="2453:12068" ph="..." />
             <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
@@ -517,7 +513,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
+        <state relative-caret-position="68">
           <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
           <folding />
         </state>
@@ -525,8 +521,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="2272" column="37" lean-forward="false" selection-start-line="2272" selection-start-column="37" selection-end-line="2272" selection-end-column="37" />
+        <state relative-caret-position="665">
+          <caret line="2870" column="20" lean-forward="true" selection-start-line="2870" selection-start-column="20" selection-end-line="2870" selection-end-column="20" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
