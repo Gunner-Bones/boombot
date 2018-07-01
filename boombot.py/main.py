@@ -510,7 +510,7 @@ def updateprefix(message,newprefix):
     f.truncate()
     f.write(newprefix)
     f.close()
-    MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="UPDATE_PREFIX",mod=message.author,pre=newprefix)))
+    MAINABC.addlog(message.server,MAINABC.getconsole(message.server).printlog(MAINABC.getconsole(message.server).formatlog(type="UPDATE_PREFIX",mod=message.author,pre=newprefix)))
 
 def updateupdates(message,newchannel):
     if not is_int(str(newchannel)):
@@ -1815,7 +1815,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "changeprefix <new prefix>",value="[BM] Changes the prefix used in commands *(Default is BK$)*",inline=True)
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
-        cle1.add_field(name=cmdprefix(message) + "timedinfo",value="[BM] Shows all users with a timed role")
+        cle1.add_field(name=cmdprefix(message) + "timedinfo <optional user>",value="[BM] Shows all users with a timed role, or check a specific user")
         cle1.add_field(name=cmdprefix(message) + "rolemembers <role>",value="[BM] Lists all users with a role")
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle1.add_field(name=cmdprefix(message) + "removeduplicates",value="[BM] Removes duplicate timed/persisted roles found in settings")
@@ -2310,49 +2310,45 @@ async def on_message(message):
                 trword = str(trword)
                 try:
                     if stnglistfind(3,trword,message) == False:
-                        try:
-                            stnglistadd(3,trword,message)
-                            if checksamerole(message, trmember.id, trrole.id):
+                        stnglistadd(3,trword,message)
+                        if checksamerole(message, trmember.id, trrole.id):
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                trmember.name + " already has " + trrole.name + " as a Persisted Role. Choose a number to Proceed:",
+                                "1) Replace the Persisted Role with this Timed Role\n2) Delete both\n3) Cancel",
+                                0xfbc200, message))
+                            csrm = await client.wait_for_message(author=message.author)
+                            csrm = csrm.content
+                            if csrm == "1":
+                                fixsamerole(message, trmember.id, trrole.id, 2)
                                 await client.send_message(destination=message.channel, embed=embedder(
-                                    trmember.name + " already has " + trrole.name + " as a Persisted Role. Choose a number to Proceed:",
-                                    "1) Replace the Persisted Role with this Timed Role\n2) Delete both\n3) Cancel",
-                                    0xfbc200, message))
-                                csrm = await client.wait_for_message(author=message.author)
-                                csrm = csrm.content
-                                if csrm == "1":
-                                    fixsamerole(message, trmember.id, trrole.id, 2)
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                        "Replaced Persisted role " + trrole.name + " with the Timed role", "", 0x13e823,
-                                        message))
-                                    stngupdater(message.server)
-                                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
-                                        MAINABC.getconsole(message.server).formatlog(type="ROLE_REPLACE_TIMED",
-                                                                                     mod=message.author,
-                                                                                     user=trmember, role=trrole)))
-                                elif csrm == "2":
-                                    fixsamerole(message, trmember.id, trrole.id, 3)
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                        "Deleted the role " + trrole.name + " from being Persisted and Timed", "",
-                                        0x13e823, message))
-                                    await client.remove_roles(trmember, trrole)
-                                    stngupdater(message.server)
-                                else:
-                                    await client.send_message(destination=message.channel, embed=embedder(
-                                        "Cancelled role adding", "", 0x13e823,
-                                        message))
-                            else:
-                                await client.add_roles(trmember,trrole)
-                                await client.send_message(destination=message.channel, embed=embedder(
-                                    "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
-                                trinit(trword,message,1)
+                                    "Replaced Persisted role " + trrole.name + " with the Timed role", "", 0x13e823,
+                                    message))
                                 stngupdater(message.server)
                                 MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
-                                    MAINABC.getconsole(message.server).formatlog(type="TIMED_ROLE_ADD",
+                                    MAINABC.getconsole(message.server).formatlog(type="ROLE_REPLACE_TIMED",
                                                                                  mod=message.author,
-                                                                                 user=trmember, role=trrole, days=trtime)))
-                        except AttributeError:
+                                                                                 user=trmember, role=trrole)))
+                            elif csrm == "2":
+                                fixsamerole(message, trmember.id, trrole.id, 3)
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Deleted the role " + trrole.name + " from being Persisted and Timed", "",
+                                    0x13e823, message))
+                                await client.remove_roles(trmember, trrole)
+                                stngupdater(message.server)
+                            else:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Cancelled role adding", "", 0x13e823,
+                                    message))
+                        else:
+                            await client.add_roles(trmember,trrole)
                             await client.send_message(destination=message.channel, embed=embedder(
-                                "Invalid role!", "Remember to type the name of the the role", 0xfbc200, message))
+                                "Role added for " + str(trtime) + pdays, "", 0x13e823, message))
+                            trinit(trword,message,1)
+                            stngupdater(message.server)
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                MAINABC.getconsole(message.server).formatlog(type="TIMED_ROLE_ADD",
+                                                                             mod=message.author,
+                                                                             user=trmember, role=trrole, days=trtime)))
                     elif stnglistfind(3,trword,message) == True:
                         try:
                             stnglistremove(3,trword,message)
@@ -2562,6 +2558,9 @@ async def on_message(message):
                         dph[2] = (dph[2])[0]
                         dph[2] = str(dph[2]).split("-")
                         dphd = datetime.date(day=int((dph[2])[2]),month=int((dph[2])[1]),year=int((dph[2])[0]))
+                        dphdn = datetime.datetime.now()
+                        dphd = dphd - datetime.date(day=dphdn.day,month=dphdn.month,year=dphdn.year)
+                        dphd = str(dphd.days)
                         if dphu == None or dphr == None:
                             print("Skipping User " + dph[0] + " Role " + dph[1] + " (Probably not in the server)")
                         else:
@@ -2573,42 +2572,66 @@ async def on_message(message):
                     await client.send_message(destination=message.channel, embed=embedder(
                         "No Valid Timed Roles found!", "Use " + cmdprefix(message) + "timedrole <user> <role> <days> to create timed roles", 0xfbc200,message))
                 else:
-                    await client.send_message(destination=message.channel, embed=embedder(
-                        "Showing info for " + str(len(rilist)) + " Timed Role users:", "", 0x13e823, message))
-                    fecount = 0
-                    for n in range(0,len(rilist)):
-                        if n % 5 == 0:
-                            fecount += 1
-                    feextra = len(rilist) - (fecount * 5)
-                    if len(rilist) < 5:
-                        iel = embedder("Page 1", "", 0xc7f8fc, message)
-                        for l in range(0,len(rilist)):
-                            iel.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day),inline=False)
-                        await client.send_message(destination=message.channel, embed=iel)
-                    else:
-                        for p in range(0,fecount - 1):
-                            ie = embedder("Page " + str((p + 1)),"",0xc7f8fc,message)
-                            p = p * 5
-                            ie.add_field(name=(rilist[p])[0].name,value=" [" + (rilist[p])[1].name + "]: Ends " + str((rilist[p])[2].month) + "-" + str((rilist[p])[2].day),inline=False)
-                            ie.add_field(name=(rilist[p + 1])[0].name,value=" [" + (rilist[p + 1])[1].name + "]: Ends " + str((rilist[p + 1])[2].month) + "-" + str((rilist[p + 1])[2].day),inline=False)
-                            ie.add_field(name=(rilist[p + 2])[0].name,value=" [" + (rilist[p + 2])[1].name + "]: Ends " + str((rilist[p + 2])[2].month) + "-" + str((rilist[p + 2])[2].day),inline=False)
-                            ie.add_field(name=(rilist[p + 3])[0].name,value=" [" + (rilist[p + 3])[1].name + "]: Ends " + str((rilist[p + 3])[2].month) + "-" + str((rilist[p + 3])[2].day),inline=False)
-                            ie.add_field(name=(rilist[p + 4])[0].name,value=" [" + (rilist[p + 4])[1].name + "]: Ends " + str((rilist[p + 4])[2].month) + "-" + str((rilist[p + 4])[2].day),inline=False)
-                            await client.send_message(destination=message.channel,embed=ie)
-                        if feextra > 0:
-                            fepage = fecount + 1
-                            iee = embedder("Page " + fepage,"",0xc7f8fc,message)
-                            for l in range(fecount - feextra,fecount + 1):
-                                ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends " + str((rilist[l])[2].month) + "-" + str((rilist[l])[2].day),inline=False)
-                            await client.send_message(destination=message.channel,embed=iee)
-                    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
-                        MAINABC.getconsole(message.server).formatlog(type="COMMAND", mod=message.author,
-                                                                     cmd="Timed Info")))
+                    tistop = False
+                    if message.content != cmdprefix(message) + "timedinfo":
+                        tii = str(message.content).replace(cmdprefix(message) + "timedinfo ","")
+                        if len(tii) < 2:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid user!",
+                                "Use " + cmdprefix(message) + "timedinfo <optional user> if specifing a user",
+                                0xfbc200, message))
+                            tistop = True
+                        else:
+                            tiu = finduser(message,tii)
+                            if tiu == None:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Invalid user!",
+                                    "Use " + cmdprefix(message) + "timedinfo <optional user> if specifing a user",
+                                    0xfbc200, message))
+                                tistop = True
+                            else:
+                                riph = []
+                                for data in rilist:
+                                    if data[0] == tiu:
+                                        riph.append(data)
+                                rilist = riph
+                    if not tistop:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Showing info for " + str(len(rilist)) + " Timed Role users:", "", 0x13e823, message))
+                        fecount = 0
+                        for n in range(0,len(rilist)):
+                            if n % 5 == 0:
+                                fecount += 1
+                        feextra = len(rilist) - (fecount * 5)
+                        if len(rilist) < 5:
+                            iel = embedder("Page 1", "", 0xc7f8fc, message)
+                            for l in range(0,len(rilist)):
+                                iel.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends in " + (rilist[l])[2] + " days",inline=False)
+                            await client.send_message(destination=message.channel, embed=iel)
+                        else:
+                            for p in range(0,fecount - 1):
+                                ie = embedder("Page " + str((p + 1)),"",0xc7f8fc,message)
+                                p = p * 5
+                                ie.add_field(name=(rilist[p])[0].name,value=" [" + (rilist[p])[1].name + "]: Ends in " + (rilist[p])[2] + " days",inline=False)
+                                ie.add_field(name=(rilist[p + 1])[0].name,value=" [" + (rilist[p + 1])[1].name + "]: Ends in " + (rilist[p + 1])[2] + " days",inline=False)
+                                ie.add_field(name=(rilist[p + 2])[0].name,value=" [" + (rilist[p + 2])[1].name + "]: Ends in " + (rilist[p + 2])[2] + " days",inline=False)
+                                ie.add_field(name=(rilist[p + 3])[0].name,value=" [" + (rilist[p + 3])[1].name + "]: Ends in " + (rilist[p + 3])[2] + " days",inline=False)
+                                ie.add_field(name=(rilist[p + 4])[0].name,value=" [" + (rilist[p + 4])[1].name + "]: Ends in " + (rilist[p + 4])[2] + " days",inline=False)
+                                await client.send_message(destination=message.channel,embed=ie)
+                            if feextra > 0:
+                                fepage = fecount + 1
+                                iee = embedder("Page " + fepage,"",0xc7f8fc,message)
+                                for l in range(fecount - feextra,fecount + 1):
+                                    ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends in " + (rilist[l])[2] + " days",inline=False)
+                                await client.send_message(destination=message.channel,embed=iee)
+                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                            MAINABC.getconsole(message.server).formatlog(type="COMMAND", mod=message.author,
+                                                                         cmd="Timed Info")))
     if cmdprefix(message) + "about" in message.content:
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')
         cagb = discord.utils.get(cas.members,id='172861416364179456')
-        cae = embedder("Boom Bot v2.0", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
+        cae = embedder("Boom Bot v2.1", "*A bot for those with an acquired taste*\nhttps://github.com/Gunner-Bones/boombot", 0xc7f8fc, message)
         cae.add_field(name="Owner", value="Boom Kitty \n(" + str(cabk) + ")\nhttps://discord.gg/hCTykNU\nhttps://www.boomkittymusic.com",inline=True)
         cae.add_field(name="Created by", value="GunnerBones \n(" + str(cagb) + ")\nhttps://discord.gg/w9k7mup", inline=False)
         await client.send_message(destination=message.channel, embed=cae)

@@ -34,3 +34,32 @@ BotConsole 2018-06-14 19:22:32.868562 Boom Bot Dev Zone: Settings files reupdate
 BOTCONSOLE 2018-06-20 20:24:04.143690
 BotConsole 2018-06-20 20:24:04.150691 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
 BotConsole 2018-06-20 20:24:04.460687 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-06-30 21:19:52.065259
+BotConsole 2018-06-30 21:19:52.071258 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-30 21:19:52.428256 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-06-30 21:21:41.075797
+BotConsole 2018-06-30 21:21:41.083796 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-30 21:21:41.373800 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-06-30 21:22:17.018341
+BotConsole 2018-06-30 21:22:17.024342 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-30 21:22:17.256340 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-06-30 21:22:40.998222 Boom Bot Dev Zone: GunnerBones executed Timed Info
+BotConsole 2018-06-30 21:23:06.764457 Boom Bot Dev Zone: GunnerBones executed Timed Info
+BOTCONSOLE 2018-06-30 21:25:43.524261
+BotConsole 2018-06-30 21:25:43.531260 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-30 21:25:43.778260 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-06-30 21:25:52.788840 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-06-30 21:25:52.834837 Boom Bot Dev Zone: GunnerBones added Timed Role supporter to Super Tactical Droid for 30 days
+BotConsole 2018-06-30 21:25:54.734876 Boom Bot Dev Zone: gunners alt haha's Timed Role VIP has expired
+BotConsole 2018-06-30 21:25:56.176624 Boom Bot Dev Zone: GunnerBones executed Timed Info
+BotConsole 2018-06-30 21:26:14.629427 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-06-30 21:26:14.678426 Boom Bot Dev Zone: GunnerBones added Timed Role VIP to gunners alt haha for 30 days
+BotConsole 2018-06-30 21:26:17.543446 Boom Bot Dev Zone: GunnerBones executed Timed Info
+BotConsole 2018-06-30 21:26:26.102902 Boom Bot Dev Zone: GunnerBones executed Timed Info
+BOTCONSOLE 2018-06-30 21:35:44.851381
+BotConsole 2018-06-30 21:35:44.859383 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-30 21:35:45.092380 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-06-30 21:40:23.067668 Boom Bot Dev Zone: GunnerBones executed Timed Info
+BOTCONSOLE 2018-06-30 22:07:32.637341
+BotConsole 2018-06-30 22:07:32.651341 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-30 22:07:32.996338 Boom Bot Dev Zone: Settings files reupdated

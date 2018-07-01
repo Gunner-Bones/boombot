@@ -14,8 +14,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="2870" column="20" lean-forward="true" selection-start-line="2870" selection-start-column="20" selection-end-line="2870" selection-end-column="20" />
+            <state relative-caret-position="308">
+              <caret line="2633" column="37" lean-forward="false" selection-start-line="2633" selection-start-column="37" selection-end-line="2633" selection-end-column="37" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -36,7 +36,7 @@
       <file leaf-file-name="botconsole.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/botconsole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4114">
+            <state relative-caret-position="861">
               <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
               <folding>
                 <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
@@ -70,8 +70,6 @@
       <find>purgerole</find>
       <find>tu</find>
       <find>purgerol</find>
-      <find>timedrole</find>
-      <find>timedinfo</find>
       <find>cmdprefix(message) + &quot;timedr</find>
       <find>test</find>
       <find>persist</find>
@@ -79,6 +77,8 @@
       <find>cmdlist</find>
       <find>failsafe</find>
       <find>rolemem</find>
+      <find>timedrole</find>
+      <find>timedinfo</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -119,7 +119,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -132,6 +131,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -276,6 +276,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1078125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23117709" sideWeight="0.50182384" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2682927" sideWeight="0.49817613" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -289,7 +290,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -500,17 +500,6 @@
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/discord/embeds.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/http.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py" />
-    <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/1978389888/builtins.py" />
-    <entry file="file://$PROJECT_DIR$/botconsole.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4114">
-          <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
-          <folding>
-            <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -519,10 +508,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/botconsole.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="861">
+          <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
+          <folding>
+            <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/1978389888/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="5164" column="54" lean-forward="true" selection-start-line="5164" selection-start-column="54" selection-end-line="5164" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="2870" column="20" lean-forward="true" selection-start-line="2870" selection-start-column="20" selection-end-line="2870" selection-end-column="20" />
+        <state relative-caret-position="308">
+          <caret line="2633" column="37" lean-forward="false" selection-start-line="2633" selection-start-column="37" selection-end-line="2633" selection-end-column="37" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
