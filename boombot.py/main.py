@@ -342,6 +342,8 @@ def stngmultiplelines(server,filenum):
         servname = "settings/tempbans/" + server.id + ".txt"
     elif filenum == 8:
         servname = "settings/updates/" + server.id + ".txt"
+    elif filenum == 9:
+        servname = "settings/warnings/" + server.id + ".txt"
     d = open(servname,"r")
     fcount = 0
     for i in d.readlines():
@@ -376,6 +378,8 @@ def stnglistadd(filenum,repword,message):
         servname = "settings/tempbans/" + message.server.id + ".txt"
     elif filenum == 8:
         servname = "settings/updates/" + message.server.id + ".txt"
+    elif filenum == 9:
+        servname = "settings/warnings/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server, filenum)
@@ -404,6 +408,8 @@ def stnglistremove(filenum,repword,message):
         servname = "settings/tempbans/" + message.server.id + ".txt"
     elif filenum == 8:
         servname = "settings/updates/" + message.server.id + ".txt"
+    elif filenum == 9:
+        servname = "settings/warnings/" + message.server.id + ".txt"
     f = open(servname,"r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server, filenum)
@@ -442,6 +448,8 @@ def stnglistfind(filenum, findword, message):
         servname = "settings/tempbans/" + message.server.id + ".txt"
     elif filenum == 8:
         servname = "settings/updates/" + message.server.id + ".txt"
+    elif filenum == 9:
+        servname = "settings/warnings/" + message.server.id + ".txt"
     f = open(servname, "r")
     repcl = f.readline()
     repcl = stngmultiplelines(message.server,filenum)
@@ -898,6 +906,15 @@ def serversettings():
         try:
             servname = server.id + '.txt'
             f = open(servname,'a')
+            sortsn = 'settings/warnings/' + servname
+            f.close()
+            os.rename(servname,sortsn)
+        except:
+            os.remove(servname)
+    for server in client.servers:
+        try:
+            servname = server.id + '.txt'
+            f = open(servname,'a')
             sortsn = 'settings/persistedroles/' + servname
             f.close()
             os.rename(servname,sortsn)
@@ -1053,6 +1070,16 @@ def serversettingslinux():
             servname = server.id + '.txt'
             f = open(servname, 'a')
             sortsn = 'settings/botmods/' + servname
+            f.close()
+            os.rename(servname, sortsn)
+    for server in client.servers:
+        try:
+            f = open('settings/warnings/' + server.id + ".txt","r")
+            f.close()
+        except:
+            servname = server.id + '.txt'
+            f = open(servname, 'a')
+            sortsn = 'settings/warnings/' + servname
             f.close()
             os.rename(servname, sortsn)
     for server in client.servers:
@@ -1822,6 +1849,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "repeatold <message>",value="[BM] Sends a message to #lounge (BK's Server Only)", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeathelp", value="Help documentation for Repeat command", inline=True)
         cle1.add_field(name=cmdprefix(message) + "repeat", value="[BM] Opens a GUI for sending messages through BoomBot", inline=True)
+        cle1.add_field(name=cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>",value="[BM] Warns a user, removes a user's warning, or views warnings",inline=True)
         cle1.add_field(name=cmdprefix(message) + "tempban <user> <days>",value="[BM] Bans a User for a specified amount of Days", inline=True)
         cle1.add_field(name=cmdprefix(message) + "updates <channel>",value="[BM] Optional, sets a channel for BoomBot to send updates to", inline = True)
         cle1.add_field(name=cmdprefix(message) + "botconsole <channel>",value="[BM] Optional, sets a channel for BoomBot to send Bot Logs to", inline=True)
@@ -1853,6 +1881,9 @@ async def on_message(message):
                 await client.send_message(destination=message.channel, embed=embedder("Sent report!", "", 0x13e823, message))
                 MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
                     MAINABC.getconsole(message.server).formatlog(type="REPORT", mod=message.author)))
+
+
+
     if cmdprefix(message) + "updates" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
@@ -1963,6 +1994,143 @@ async def on_message(message):
                             stngupdater(message.server)
                             MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
                                 MAINABC.getconsole(message.server).formatlog(type="TEMP_BAN", mod=message.author,days=tbd,user=tbu.name)))
+    if cmdprefix(message) + "warning" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author, cmd="Warning")))
+        else:
+            if message.content == cmdprefix(message) + "warning":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Invalid parameters!", "Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*", 0xfbc200, message))
+            else:
+                wword = str(message.content).replace(cmdprefix(message) + "warning ","")
+                wword = wword.split(" ")
+                if len(wword) > 3:
+                    for i in range(3,len(wword)):
+                        wword[2] += " " + wword[i]
+                WARNING_TYPE = 0
+                if wword[0].lower() == "add":
+                    WARNING_TYPE = 1
+                elif wword[0].lower() == "remove":
+                    WARNING_TYPE = 2
+                elif wword[0].lower() == "view":
+                    WARNING_TYPE = 3
+                else:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "Invalid parameters!", "Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*", 0xfbc200, message))
+                if WARNING_TYPE == 3:
+                    wlist = []
+                    wfound = stngmultiplelines(message.server,9)
+                    wfound = wfound.split(";")
+                    for warning in wfound:
+                        wph = warning.replace("'","")
+                        wph = wph.replace("[","")
+                        wph = wph.replace("]","")
+                        wph = wph.replace("\n","")
+                        wph = wph.split(",")
+                        wphuser = discord.utils.get(message.server.members,id=wph[0])
+                        if wphuser != None:
+                            wlist.append([wphuser,wph[1]])
+                    if len(wlist) == 0:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Found 0 warnings!", "", 0x13e823, message))
+                    else:
+                        if wword[1] == "all":
+                            wall = ""
+                            wcount = []
+                            for w in wlist:
+                                wf = False
+                                for wc in wcount:
+                                    if w[0] == wc[0]:
+                                        wf = True
+                                if wf:
+                                    for wc in wcount:
+                                        if wc[0] == w[0]:
+                                            wc[1] += 1
+                                else:
+                                    wcount.append([w[0],1])
+                            for w in wcount:
+                                wall += w[0].name + ": " + str(w[1]) + " Warnings, "
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Found " + str(len(wcount)) + " Warnings", wall, 0x13e823, message))
+                        else:
+                            wuser = finduser(message,wword[1])
+                            if wuser == None:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Invalid User!", "Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*",0xfbc200, message))
+                            else:
+                                wf = False
+                                for w in wlist:
+                                    if w[0] == wuser:
+                                        wf = True
+                                if not wf:
+                                    await client.send_message(destination=message.channel, embed=embedder(
+                                        wuser.name + " does not have any Warnings!", "Find someone who was warnings", 0xfbc200, message))
+                                else:
+                                    wulist = []
+                                    for w in wlist:
+                                        if w[0] == wuser:
+                                            wulist.append(w)
+                                    we = embedder("Showing " + str(len(wulist)) + " Warnings for " + wuser.name,"",0x13e823,message)
+                                    wcounter = 1
+                                    for wu in wulist:
+                                        we.add_field(name="Warning " + str(wcounter),value=wu[1],inline=True)
+                                        wcounter += 1
+                                    await client.send_message(destination=message.channel,embed=we)
+                elif WARNING_TYPE == 1:
+                    if len(wword[2]) < 1:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Invalid Reason!", "Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*",0xfbc200, message))
+                    else:
+                        if wword[1] == "all":
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "You can't give everyone a warning!", "Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*", 0xfbc200, message))
+                        else:
+                            wuser = finduser(message,wword[1])
+                            if wuser == None:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Invalid User!",
+                                    "Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*",
+                                    0xfbc200, message))
+                            else:
+                                wadd = "['" + wuser.id + "','" + wword[2] + "']"
+                                stnglistadd(9,wadd,message)
+                                stngupdater(message.server)
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Gave " + wuser.name + " a Warning!","Reason: " + wword[2],0x13e823, message))
+                elif WARNING_TYPE == 2:
+                    if wword[1] == "all":
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "You can't remove everyone's warnings!","Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*",0xfbc200, message))
+                    else:
+                        wuser = finduser(message,wword[1])
+                        if wuser == None:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                    "Invalid User!","Usage: *" + cmdprefix(message) + "warning <add|remove|view> <user|all> <reason>*",0xfbc200, message))
+                        else:
+                            wremove = []
+                            wrcount = 0
+                            wfound = stngmultiplelines(message.server,9)
+                            wfound = wfound.split(";")
+                            for w in wfound:
+                                wph = w.replace("[","")
+                                wph = wph.replace("]","")
+                                wph = wph.replace("'","")
+                                wph = wph.replace("\n","")
+                                wph = wph.split(",")
+                                if wph[0] == wuser.id:
+                                    wremove.append(w)
+                                    wrcount += 1
+                            if wrcount == 0:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    wuser.name + " has no Warnings!", "", 0xfbc200, message))
+                            else:
+                                for wr in wremove:
+                                    stnglistremove(9,wr,message)
+                                stngupdater(message.server)
+                                await client.send_message(destination=message.channel, embed=embedder("Removed " + str(wrcount) + " Warnings from " + wuser.name, "", 0x13e823,message))
 
     if cmdprefix(message) + "botmod" in message.content:
         if hasadmin(message) == False:
