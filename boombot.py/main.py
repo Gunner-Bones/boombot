@@ -220,6 +220,12 @@ def stngupdater(server):
         MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="SETTINGS_UPDATE")))
     except:
         pass
+    # Please ignore my weird way of fixing type errors in my other methods k thanks
+    mr = None
+    for role in server.roles:
+        mr = role
+        break
+    autoremoveduplicates(mr)
     # su methods are specific functions used to fix certain problems in settings files
     fname = "botmods"
     su_removeblanks(fname,server,1)
@@ -680,6 +686,106 @@ def findduplicateroles(message):
     clist.append(cfound)
     return clist
 
+def autoremoveduplicates(message):
+    if message == None:
+        return
+    MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+        "[AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE"))
+    dlist = findduplicateroles(message)
+    if dlist[len(dlist) - 1] == 0:
+        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] No duplicates found, aborting"))
+        return
+    else:
+        pstopped = False
+        premoved = []
+        ptotal = 0
+        # Persisted Roles
+        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Starting: Duplicate Persisted Roles"))
+        for p in dlist:
+            if len(str(p)) > 2:
+                if p[2] == 1:
+                    prfound = False
+                    if len(premoved) > 0:
+                        for pr in premoved:
+                            if pr[2] == 1:
+                                if p[0] in pr and p[1] in pr:
+                                    prfound = True
+                    if prfound:
+                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Skipping duplicate finding of a duplicate"))
+                    else:
+                        p1 = str(p[0])
+                        p1h = p1
+                        p1 = p1.replace("[", "")
+                        p1 = p1.replace("]", "")
+                        p1 = p1.replace("'", "")
+                        p1 = p1.replace(" ", "")
+                        p1 = p1.split(",")
+                        puser = discord.utils.get(message.server.members, id=p1[0])
+                        prole = discord.utils.get(message.server.roles, id=p1[1])
+                        if puser != None and prole != None:
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Found and Removed Duplicate | User: " + puser.name + ", Role: " + prole.name))
+                            stnglistremove(2, p1h, message)
+                            premoved.append(p)
+                            ptotal += 1
+        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Starting: Duplicate Timed Roles"))
+        # Timed Roles
+        if not pstopped:
+            for t in dlist:
+                if len(str(t)) > 2:
+                    if t[2] == 2:
+                        prfound = False
+                        if len(premoved) > 0:
+                            for pr in premoved:
+                                if pr[2] == 2:
+                                    if t[0] in pr and t[1] in pr:
+                                        prfound = True
+                        if prfound:
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Skipping duplicate finding of a duplicate"))
+                        else:
+                            t1 = str(t[0])
+                            t1h = t1
+                            t1 = t1.replace("[", "")
+                            t1 = t1.replace("]", "")
+                            t1 = t1.replace("'", "")
+                            t1 = t1.replace(" ", "")
+                            t1 = t1.split(",")
+                            tuser = discord.utils.get(message.server.members, id=t1[0])
+                            trole = discord.utils.get(message.server.roles, id=t1[1])
+                            if tuser != None and trole != None:
+                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Found and Removed Duplicate | User: " + tuser.name + ", Role: " + trole.name))
+                                stnglistremove(3, t1h, message)
+                                premoved.append(t)
+                                ptotal += 1
+        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Starting: Duplicate Timed Emoji"))
+        # Timed Emoji
+        if not pstopped:
+            for e in dlist:
+                if len(str(e)) > 2:
+                    if e[2] == 3:
+                        prfound = False
+                        if len(premoved) > 0:
+                            for pr in premoved:
+                                if pr[2] == 3:
+                                    if e[0] in pr and e[1] in pr:
+                                        prfound = True
+                        if prfound:
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Skipping duplicate finding of a duplicate"))
+                        else:
+                            e1 = str(e[0])
+                            e1h = e1
+                            e1 = e1.replace("[", "")
+                            e1 = e1.replace("]", "")
+                            e1 = e1.replace("'", "")
+                            e1 = e1.replace(" ", "")
+                            e1 = e1.split(",")
+                            eemoji = discord.utils.get(message.server.emojis, id=e1[0])
+                            if eemoji != None:
+                                stnglistremove(6, e1h, message)
+                                premoved.append(e)
+                                MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Found and Removed Duplicate | Emoji: " + eemoji.name))
+                                ptotal += 1
+        if not pstopped:
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog("[AutoDuplicates] Finished removing duplicates, " + str(ptotal) + " removed!"))
 
 def trinit(trword,message,ttype):
     if ttype == 1:  # Timed Roles
@@ -1881,9 +1987,6 @@ async def on_message(message):
                 await client.send_message(destination=message.channel, embed=embedder("Sent report!", "", 0x13e823, message))
                 MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
                     MAINABC.getconsole(message.server).formatlog(type="REPORT", mod=message.author)))
-
-
-
     if cmdprefix(message) + "updates" in message.content:
         if not hasbotmod(message):
             await client.send_message(destination=message.channel, embed=embedder(
@@ -2792,9 +2895,8 @@ async def on_message(message):
                                 for l in range(fecount - feextra,fecount + 1):
                                     ie.add_field(name=(rilist[l])[0].name,value=" [" + (rilist[l])[1].name + "]: Ends in " + (rilist[l])[2] + " days",inline=False)
                                 await client.send_message(destination=message.channel,embed=iee)
-                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
-                            MAINABC.getconsole(message.server).formatlog(type="COMMAND", mod=message.author,
-                                                                         cmd="Timed Info")))
+                        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(MAINABC.getconsole(message.server).formatlog(type="COMMAND", mod=message.author, cmd="Timed Info")))
+                        stngupdater(message.server)
     if cmdprefix(message) + "about" in message.content:
         cas = discord.utils.get(client.servers,id='419227324232499200')
         cabk = discord.utils.get(cas.members,id='236330023190134785')

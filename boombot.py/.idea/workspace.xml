@@ -14,8 +14,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="2015" column="50" lean-forward="true" selection-start-line="2015" selection-start-column="50" selection-end-line="2015" selection-end-column="50" />
+            <state relative-caret-position="264">
+              <caret line="690" column="14" lean-forward="true" selection-start-line="690" selection-start-column="14" selection-end-line="690" selection-end-column="14" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -23,43 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bmain_twitch.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../burnoutsambot/bmain_twitch.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="71" column="2" lean-forward="false" selection-start-line="71" selection-start-column="2" selection-end-line="71" selection-end-column="2" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bcrossover.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../burnoutsambot/bcrossover.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="botconsole.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/botconsole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4114">
-              <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
+            <state relative-caret-position="280">
+              <caret line="68" column="8" lean-forward="false" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
               <folding>
                 <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
               </folding>
@@ -100,8 +68,10 @@
       <find>failsafe</find>
       <find>rolemem</find>
       <find>timedrole</find>
-      <find>timedinfo</find>
       <find>warnings</find>
+      <find>stngupdat</find>
+      <find>timedinfo</find>
+      <find>autod</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -116,9 +86,9 @@
         <option value="$PROJECT_DIR$/qef.py" />
         <option value="$PROJECT_DIR$/../../raybot/rmain.py" />
         <option value="$PROJECT_DIR$/../../mz/zmain.py" />
-        <option value="$PROJECT_DIR$/botconsole.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/../../burnoutsambot/bmain_twitch.py" />
+        <option value="$PROJECT_DIR$/botconsole.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -143,6 +113,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -155,7 +126,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -503,22 +473,11 @@
     <entry file="file://$PROJECT_DIR$/../../../main.py" />
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/discord/embeds.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/http.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py" />
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/botconsole.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4114">
-          <caret line="248" column="113" lean-forward="false" selection-start-line="248" selection-start-column="113" selection-end-line="248" selection-end-column="113" />
-          <folding>
-            <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -531,7 +490,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../burnoutsambot/bcrossover.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="323">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
@@ -539,18 +498,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../burnoutsambot/bmain_twitch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
+        <state relative-caret-position="1173">
           <caret line="71" column="2" lean-forward="false" selection-start-line="71" selection-start-column="2" selection-end-line="71" selection-end-column="2" />
           <folding>
-            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="306" column="0" lean-forward="false" selection-start-line="306" selection-start-column="0" selection-end-line="306" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/botconsole.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="68" column="8" lean-forward="false" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
+          <folding>
+            <marker date="1529550581077" expanded="true" signature="3853:6076" ph="&quot;&quot;&quot;...&quot;&quot;&quot;" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="2015" column="50" lean-forward="true" selection-start-line="2015" selection-start-column="50" selection-end-line="2015" selection-end-column="50" />
+        <state relative-caret-position="264">
+          <caret line="690" column="14" lean-forward="true" selection-start-line="690" selection-start-column="14" selection-end-line="690" selection-end-column="14" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
