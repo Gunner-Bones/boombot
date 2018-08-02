@@ -87,7 +87,7 @@ def newbotconsole(server):
             MAINABC.addconsole(BotConsole(server))
             MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="SERVER_CONNECTED")))
 
-bbgame = discord.Game(name="Tokyo Takedown")
+bbgame = discord.Game(name="Shredageddon")
 embedtest = None
 
 class ObjStore(object):
@@ -888,6 +888,17 @@ def trloop(message,ttype):
             trflist[0] = (trflist[0])[3:(len(trflist[0]) - 1)]
             cdate = datetime.datetime.now()
             dta = trflist[2]
+            if len(dta) < 8:
+                ph = "5"
+                for i in dta:
+                    try:
+                        ph = int(i)
+                        break
+                    except:
+                        pass
+                dta = ph
+                dta = datetime.datetime.now() + datetime.timedelta(days=dta)
+                dta = (str(dta).split(" "))[0]
             dta = dta.split("-")
             dta[0] = int(((dta[0])[2:]).replace("'",""))
             dta[1] = int(dta[1])
@@ -1386,7 +1397,7 @@ async def on_member_join(member):
         rpfound[1] = (rpfound[1])[1:]
         rprole = discord.utils.get(member.server.roles, id=rpfound[1])
         await client.add_roles(member,rprole)
-        MAINABC.addlog(server, MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="PERSIST_ROLE_RETURN",user=member,role=rprole)))
+        MAINABC.addlog(member.server, MAINABC.getconsole(member.server).printlog(MAINABC.getconsole(member.server).formatlog(type="PERSIST_ROLE_RETURN",user=member,role=rprole)))
     if stnglistfind(3,member.id,member) == True:
         time.sleep(1)
         servname = 'settings/timedroles/' + member.server.id + ".txt"
@@ -1398,10 +1409,10 @@ async def on_member_join(member):
                 tufound = tuline[i]
         tufound = stngfilelistconvert(tufound)
         tufound = tufound.split(",")
-        tufound[1] = (tufound[1])[1:]
+        tufound[1] = str(tufound[1]).replace(" ","")
         turole = discord.utils.get(member.server.roles, id=tufound[1])
         await client.add_roles(member,turole)
-        MAINABC.addlog(server, MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="TIMED_ROLE_RETURN",user=member,role=turole)))
+        MAINABC.addlog(member.server, MAINABC.getconsole(member.server).printlog(MAINABC.getconsole(member.server).formatlog(type="TIMED_ROLE_RETURN",user=member,role=turole)))
 
 @client.event
 async def on_typing(channel,user,when):

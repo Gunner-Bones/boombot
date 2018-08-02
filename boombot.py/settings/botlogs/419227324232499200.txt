@@ -34,116 +34,58 @@ BotConsole 2018-06-14 19:22:32.868562 Boom Bot Dev Zone: Settings files reupdate
 BOTCONSOLE 2018-06-20 20:24:04.143690
 BotConsole 2018-06-20 20:24:04.150691 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
 BotConsole 2018-06-20 20:24:04.460687 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-06-30 21:19:52.065259
-BotConsole 2018-06-30 21:19:52.071258 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-06-30 21:19:52.428256 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-06-30 21:21:41.075797
-BotConsole 2018-06-30 21:21:41.083796 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-06-30 21:21:41.373800 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-06-30 21:22:17.018341
-BotConsole 2018-06-30 21:22:17.024342 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-06-30 21:22:17.256340 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-06-30 21:22:40.998222 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-06-30 21:23:06.764457 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BOTCONSOLE 2018-06-30 21:25:43.524261
-BotConsole 2018-06-30 21:25:43.531260 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-06-30 21:25:43.778260 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-06-30 21:25:52.788840 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-06-30 21:25:52.834837 Boom Bot Dev Zone: GunnerBones added Timed Role supporter to Super Tactical Droid for 30 days
-BotConsole 2018-06-30 21:25:54.734876 Boom Bot Dev Zone: gunners alt haha's Timed Role VIP has expired
-BotConsole 2018-06-30 21:25:56.176624 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-06-30 21:26:14.629427 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-06-30 21:26:14.678426 Boom Bot Dev Zone: GunnerBones added Timed Role VIP to gunners alt haha for 30 days
-BotConsole 2018-06-30 21:26:17.543446 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-06-30 21:26:26.102902 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BOTCONSOLE 2018-06-30 21:35:44.851381
-BotConsole 2018-06-30 21:35:44.859383 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-06-30 21:35:45.092380 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-06-30 21:40:23.067668 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BOTCONSOLE 2018-06-30 22:07:32.637341
-BotConsole 2018-06-30 22:07:32.651341 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-06-30 22:07:32.996338 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 20:59:35.287217
-BotConsole 2018-07-01 20:59:35.295217 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 20:59:35.604215 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 21:37:52.654679
-BotConsole 2018-07-01 21:37:52.668679 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 21:37:52.993677 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 21:39:27.965702
-BotConsole 2018-07-01 21:39:27.974707 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 21:39:28.221700 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:03:47.322453
-BotConsole 2018-07-01 22:03:47.333452 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:03:47.591450 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:08:38.042509
-BotConsole 2018-07-01 22:08:38.051510 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:08:38.296502 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:09:40.390212
-BotConsole 2018-07-01 22:09:40.401212 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:09:40.659210 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:11:35.347752
-BotConsole 2018-07-01 22:11:35.367750 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:11:35.784753 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:13:05.356662
-BotConsole 2018-07-01 22:13:05.375663 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:13:05.854658 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:15:05.853934
-BotConsole 2018-07-01 22:15:05.862936 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:15:06.095934 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-01 22:17:04.107724
-BotConsole 2018-07-01 22:17:04.121723 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-01 22:17:04.600720 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 18:21:50.089689
-BotConsole 2018-07-08 18:21:50.097690 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 18:21:50.542686 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 18:21:56.020021 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BOTCONSOLE 2018-07-08 18:23:01.439720
-BotConsole 2018-07-08 18:23:01.448721 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 18:23:01.684718 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 18:25:01.920791
-BotConsole 2018-07-08 18:25:01.929791 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 18:25:02.197789 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 18:26:34.985680 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BOTCONSOLE 2018-07-08 18:28:40.830088
-BotConsole 2018-07-08 18:28:40.838087 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 18:28:41.116085 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 18:30:25.798014
-BotConsole 2018-07-08 18:30:25.806014 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 18:30:26.052013 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 19:06:11.570043
-BotConsole 2018-07-08 19:06:11.578042 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:06:11.835147 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 19:07:25.864574
-BotConsole 2018-07-08 19:07:25.872574 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:07:26.085574 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 19:09:18.344890
-BotConsole 2018-07-08 19:09:18.351889 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:09:18.584888 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:09:37.340982 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-07-08 19:09:37.349982 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:09:53.613257 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:09:53.672256 Boom Bot Dev Zone: GunnerBones replaced gunners alt haha's Persisted Role supporter with Timed Role
-BotConsole 2018-07-08 19:11:55.499585 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-07-08 19:11:55.519583 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:12:36.199933 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:12:36.247933 Boom Bot Dev Zone: GunnerBones added Timed Role supporter to gunners alt haha for 10 days
-BotConsole 2018-07-08 19:13:25.409153 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-07-08 19:13:25.418152 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 19:14:12.424090
-BotConsole 2018-07-08 19:14:12.433090 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:14:12.685089 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:14:20.277042 Boom Bot Dev Zone: GunnerBones executed Timed Info
-BotConsole 2018-07-08 19:14:20.294041 Boom Bot Dev Zone: Settings files reupdated
-BOTCONSOLE 2018-07-08 19:19:12.392961
-BotConsole 2018-07-08 19:19:12.400962 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:19:12.632959 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:19:12.640959 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BOTCONSOLE 2018-07-08 19:20:40.656316
-BotConsole 2018-07-08 19:20:40.664315 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:20:40.919314 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:20:40.928314 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-07-08 19:21:02.353229
-BotConsole 2018-07-08 19:21:02.361229 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-07-08 19:21:02.594227 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-07-08 19:21:02.603229 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-07-08 19:21:02.612228 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-06-21 03:27:33.515820
+BotConsole 2018-06-21 03:27:33.515901 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-21 03:27:33.573529 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-06-23 02:03:00.376039
+BotConsole 2018-06-23 02:03:00.376132 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-06-23 02:03:00.433204 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-07-01 05:15:33.479576
+BotConsole 2018-07-01 05:15:33.479659 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-07-01 05:15:33.539025 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-07-02 05:21:00.531250
+BotConsole 2018-07-02 05:21:00.531330 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-07-02 05:21:00.590631 Boom Bot Dev Zone: Settings files reupdated
+BOTCONSOLE 2018-07-09 02:24:28.903380
+BotConsole 2018-07-09 02:24:28.903473 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-07-09 02:31:30.340100 Boom Bot Dev Zone: Boom Bot Dev Zone recieved BoomBot Updates
+BOTCONSOLE 2018-07-11 01:05:52.398907
+BotConsole 2018-07-11 01:05:52.398949 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-07-17 20:36:45.359167
+BotConsole 2018-07-17 20:36:45.359206 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-08-01 21:56:49.381385
+BotConsole 2018-08-01 21:56:49.384377 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-08-01 21:58:38.557566
+BotConsole 2018-08-01 21:58:38.561556 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-08-01 21:59:59.871321
+BotConsole 2018-08-01 21:59:59.876308 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-08-01 22:01:44.727815
+BotConsole 2018-08-01 22:01:44.730806 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-01 22:01:44.883128 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-01 22:01:44.887093 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-01 22:01:44.891082 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-01 22:19:06.799237
+BotConsole 2018-08-01 22:19:06.802256 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-01 22:19:06.947878 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-01 22:19:06.951828 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-01 22:19:06.955845 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-01 22:20:23.795435
+BotConsole 2018-08-01 22:20:23.801418 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-01 22:20:23.961988 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-01 22:20:23.967973 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-01 22:20:23.972987 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-01 22:21:08.732797
+BotConsole 2018-08-01 22:21:08.736785 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-01 22:21:08.879405 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-01 22:21:08.883393 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-01 22:21:08.888380 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-01 22:22:56.391393
+BotConsole 2018-08-01 22:22:56.394389 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-01 22:22:56.544012 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-01 22:22:56.547974 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-01 22:22:56.551963 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-01 22:33:19.974776
+BotConsole 2018-08-01 22:33:19.977766 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-01 22:33:20.145385 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-01 22:33:20.150397 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-01 22:33:20.154404 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
