@@ -172,85 +172,439 @@ BotConsole 2018-07-30 21:00:25.144242 The Boom Box 2.0: Settings files reupdated
 BotConsole 2018-07-30 21:00:25.144314 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
 BotConsole 2018-07-30 21:00:25.147198 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
 BotConsole 2018-08-02 03:56:43.899150 The Boom Box 2.0: Spireable sent a report
-BOTCONSOLE 2018-08-01 21:56:49.371412
-BotConsole 2018-08-01 21:56:49.375403 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 21:56:49.387370 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 21:56:49.391359 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 21:56:49.397342 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-01 21:58:38.547593
-BotConsole 2018-08-01 21:58:38.551583 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 21:58:38.564548 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 21:58:38.567540 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 21:58:38.574520 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-01 21:59:59.861348
-BotConsole 2018-08-01 21:59:59.865337 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 21:59:59.879300 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 21:59:59.883290 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 21:59:59.889273 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-01 22:01:44.717842
-BotConsole 2018-08-01 22:01:44.721831 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 22:01:44.733799 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:01:44.736791 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:01:44.741778 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:01:56.518273 The Boom Box 2.0: TW's Timed Role Kitty+ has expired
-BotConsole 2018-08-01 22:01:56.650914 The Boom Box 2.0: Sliferboii's Timed Role Kitty+ has expired
-BotConsole 2018-08-01 22:01:56.936150 The Boom Box 2.0: Flarefin's Timed Role Kitty+ has expired
-BotConsole 2018-08-01 22:02:30.283884 The Boom Box 2.0: GunnerBones executed Timed Info
-BotConsole 2018-08-01 22:02:30.287873 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:02:30.291888 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:02:30.297846 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:04:03.935999 The Boom Box 2.0: GunnerBones executed Timed Info
-BotConsole 2018-08-01 22:04:03.939988 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:04:03.943978 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:04:03.949962 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:06:30.129649 The Boom Box 2.0: GunnerBones executed Timed Info
-BotConsole 2018-08-01 22:06:30.134635 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:06:30.137654 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:06:30.143613 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:07:05.911852 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:07:05.919831 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:07:05.925814 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:07:19.938034 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:07:19.941025 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:07:19.947010 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:13:41.941460 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:13:41.946445 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:13:41.958413 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:13:43.268014 The Boom Box 2.0: GunnerBones added Persisted Role Cuck to Volt
-BotConsole 2018-08-01 22:16:27.861317 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:16:27.864309 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:16:27.870292 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:16:39.319973 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:16:39.323990 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:16:39.330946 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:16:39.357872 The Boom Box 2.0: GunnerBones added Timed Role Cuck to Volt for 10 days
-BOTCONSOLE 2018-08-01 22:19:06.788266
-BotConsole 2018-08-01 22:19:06.792255 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 22:19:06.805221 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:19:06.808213 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:19:06.814225 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-01 22:20:23.781471
-BotConsole 2018-08-01 22:20:23.788454 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 22:20:23.806404 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:20:23.810394 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:20:23.818373 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-01 22:21:08.722823
-BotConsole 2018-08-01 22:21:08.726813 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 22:21:08.739803 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:21:08.742796 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:21:08.748753 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-01 22:22:56.381419
-BotConsole 2018-08-01 22:22:56.384412 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 22:22:56.399371 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:22:56.403387 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:22:56.409372 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:23:15.269378 The Boom Box 2.0: Volt has joined, and their Timed Role Cuck has been returned to them
-BOTCONSOLE 2018-08-01 22:33:19.963780
-BotConsole 2018-08-01 22:33:19.967768 The Boom Box 2.0: The Boom Box 2.0 connected and ready
-BotConsole 2018-08-01 22:33:19.982728 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:33:19.986718 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:33:19.991734 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
-BotConsole 2018-08-01 22:33:27.186700 The Boom Box 2.0: GunnerBones executed Timed Info
-BotConsole 2018-08-01 22:33:27.190684 The Boom Box 2.0: Settings files reupdated
-BotConsole 2018-08-01 22:33:27.194674 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-01 22:33:27.200685 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-02 05:42:31.722519
+BotConsole 2018-08-02 05:42:31.722635 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-02 05:42:31.723021 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-02 05:42:31.723108 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-02 05:42:31.726136 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-02 05:48:53.541824
+BotConsole 2018-08-02 05:48:53.541960 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-02 05:48:53.542389 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-02 05:48:53.542501 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-02 05:48:53.545180 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-02 05:48:54.415777 The Boom Box 2.0: Zyph's Timed Role Cuck has expired
+BotConsole 2018-08-02 05:48:54.500581 The Boom Box 2.0: Pyoxy's Timed Role Cuck has expired
+BotConsole 2018-08-02 05:48:54.598135 The Boom Box 2.0: GunnerBones's Timed Role Cuck has expired
+BotConsole 2018-08-02 05:49:46.597106 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-02 05:49:46.597385 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-02 05:49:46.597515 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-02 05:49:46.600152 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-02 05:49:59.763316
+BotConsole 2018-08-02 05:49:59.763407 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-02 05:49:59.763700 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-02 05:49:59.763746 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-02 05:49:59.766371 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-02 05:54:09.826156 The Boom Box 2.0: The Boom Box 2.0 recieved BoomBot Updates
+BotConsole 2018-08-02 12:17:01.292863 The Boom Box 2.0: magneto has joined, and their Timed Role Kitty+ has been returned to them
+BotConsole 2018-08-02 14:00:48.861269 The Boom Box 2.0: Predator345 has joined, and their Persisted Role Cuck has been returned to them
+BotConsole 2018-08-02 18:13:21.503019 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-02 18:13:21.503155 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-02 18:13:21.503211 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-02 18:13:21.505934 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-02 18:13:39.737373 The Boom Box 2.0: GunnerBones added Role Kitty+ to Spireable
+BotConsole 2018-08-02 18:13:48.021754 The Boom Box 2.0: GunnerBones added Role VIP to Spireable
+BotConsole 2018-08-03 02:44:18.642027 The Boom Box 2.0: Boom Kitty added Role Cuck to Sliferboii
+BotConsole 2018-08-03 03:05:04.219125 The Boom Box 2.0: Boom Kitty removed Role Cuck from Sliferboii
+BotConsole 2018-08-03 03:39:29.260497 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 03:39:29.260588 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 03:39:29.263187 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 03:39:29.389107 The Boom Box 2.0: TW added Persisted Role Cuck to elijahthetechnodragon
+BOTCONSOLE 2018-08-03 20:27:34.827742
+BotConsole 2018-08-03 20:27:34.827830 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-03 20:27:34.828103 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 20:27:34.828144 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 20:27:34.830698 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 20:28:02.250786 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 20:28:02.250873 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 20:28:02.253450 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 20:28:02.365070 The Boom Box 2.0: GunnerBones added Persisted Role Cuck to magneto
+BotConsole 2018-08-03 20:28:06.623450 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 20:28:06.623532 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 20:28:06.626226 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 20:28:06.752525 The Boom Box 2.0: GunnerBones added Persisted Role Cuck to Sliferboii
+BotConsole 2018-08-03 20:30:56.046929 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 20:30:56.047007 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 20:30:56.049734 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 20:31:37.101814 The Boom Box 2.0: Sliferboii has joined, and their Persisted Role Cuck has been returned to them
+BotConsole 2018-08-03 20:32:32.389589 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-03 20:32:32.389779 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 20:32:32.390575 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 20:32:32.393095 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 20:48:09.203335 The Boom Box 2.0: Sliferboii has joined, and their Persisted Role Cuck has been returned to them
+BotConsole 2018-08-03 20:54:33.008078 The Boom Box 2.0: Sliferboii sent a report
+BotConsole 2018-08-03 21:14:07.368935 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 21:14:07.369021 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 21:14:07.371771 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 21:14:07.498176 The Boom Box 2.0: HeliXiX ツ added Persisted Role Advanced Producer to BVSSIC | ブブシック
+BotConsole 2018-08-03 21:15:23.158538 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 21:15:23.158612 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 21:15:23.161294 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 21:15:33.551302 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-03 21:15:33.551379 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-03 21:15:33.553964 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-03 21:15:33.656494 The Boom Box 2.0: HeliXiX ツ added Persisted Role Producer to TestUser472
+BotConsole 2018-08-03 22:43:54.936346 The Boom Box 2.0: xperiority removed Role Cuck from elijahthetechnodragon
+BOTCONSOLE 2018-08-04 02:14:13.721742
+BotConsole 2018-08-04 02:14:13.721839 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-04 02:14:13.722117 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 02:14:13.722162 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 02:14:13.724898 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 02:15:52.504637 The Boom Box 2.0: The Boom Box 2.0 recieved BoomBot Updates
+BotConsole 2018-08-04 02:16:06.144518 The Boom Box 2.0: Ap3xis's Timed Role Kitty+ has expired
+BotConsole 2018-08-04 16:08:31.869157 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 16:08:31.869244 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 16:08:31.871931 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 16:08:31.875579 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to Ap3xis for 30 days
+BotConsole 2018-08-04 17:25:37.467734 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 17:25:37.467812 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 17:25:37.470700 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 17:26:09.521835 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 17:26:09.521924 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 17:26:09.524761 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 17:26:09.527932 The Boom Box 2.0: Boom Kitty added Timed Role Cuck to Bl1tZ for 3 days
+BotConsole 2018-08-04 17:28:11.237510 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 17:28:11.237637 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 17:28:11.240424 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 17:43:33.610316 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 17:43:33.610394 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 17:43:33.613141 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 17:43:33.616445 The Boom Box 2.0: TW added Timed Role Kitty+ to TW for 30 days
+BotConsole 2018-08-04 18:19:08.473084 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:19:08.473164 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:19:08.476088 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:19:08.479276 The Boom Box 2.0: Ap3xis added Timed Role Cuck to UAEFOX671 for 5 days
+BotConsole 2018-08-04 18:19:20.725020 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:19:20.725088 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:19:20.727868 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:19:20.731123 The Boom Box 2.0: Ap3xis added Timed Role Cuck to Cubuzz for 5 days
+BotConsole 2018-08-04 18:19:26.217640 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:19:26.217749 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:19:26.220719 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:27:59.685216 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:27:59.685374 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:27:59.688351 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:37:18.148351 The Boom Box 2.0: UAEFOX671 has joined, and their Timed Role Cuck has been returned to them
+BotConsole 2018-08-04 18:39:26.640823 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:39:26.640902 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:39:26.643908 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:39:26.647659 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to Flarefin for 30 days
+BotConsole 2018-08-04 18:42:05.800601 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:42:05.800756 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:42:05.803649 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:42:35.891226 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:42:35.891345 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:42:35.894324 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:48:44.357373 The Boom Box 2.0: UAEFOX671 has joined, and their Timed Role Cuck has been returned to them
+BotConsole 2018-08-04 18:51:33.081453 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:51:33.081540 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:51:33.084593 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-04 18:51:50.509495 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-04 18:51:50.509645 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-04 18:51:50.512589 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 00:57:37.862507 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 00:57:37.862582 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 00:57:37.865612 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 00:57:37.868858 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to OllAxe for 30 days
+BotConsole 2018-08-05 03:09:21.025286 The Boom Box 2.0: Ap3xis added Role Advertise to Ruby
+BotConsole 2018-08-05 03:26:07.855438 The Boom Box 2.0: Ap3xis removed Role Advertise from Ruby
+BotConsole 2018-08-05 04:10:12.852679 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:10:12.852766 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:10:12.855765 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:10:12.859004 The Boom Box 2.0: Ap3xis added Timed Role VIP to magneto for 30 days
+BotConsole 2018-08-05 04:39:44.254624 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:39:44.254710 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:39:44.257936 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:39:44.340875 The Boom Box 2.0: HeliXiX ツ added Persisted Role Cuck to spectrum sprint
+BotConsole 2018-08-05 04:43:10.243664 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:43:10.243740 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:43:10.246840 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:43:33.691103 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:43:33.691176 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:43:33.694708 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:43:33.935758 The Boom Box 2.0: xperiority added Persisted Role Cuck to Sliferboii
+BotConsole 2018-08-05 04:46:08.846206 The Boom Box 2.0: Sliferboiitried to execute Persist Role, but failed due to Lack of Permissions
+BotConsole 2018-08-05 04:51:15.762781 The Boom Box 2.0: spectrum sprint has joined, and their Persisted Role Cuck has been returned to them
+BotConsole 2018-08-05 04:55:23.272636 The Boom Box 2.0: Sliferboiitried to execute Persist Role, but failed due to Lack of Permissions
+BotConsole 2018-08-05 04:56:00.051146 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:56:00.051222 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:56:00.054267 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:56:16.851761 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:56:16.851839 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:56:16.854855 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:59:13.190654 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:59:13.190731 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:59:13.193837 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:59:19.368494 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 04:59:19.368592 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 04:59:19.371687 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 04:59:19.461821 The Boom Box 2.0: HeliXiX ツ added Persisted Role Cuck to Ximer
+BotConsole 2018-08-05 06:31:31.699472 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-05 06:31:31.699549 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-05 06:31:31.702577 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-05 06:31:31.705857 The Boom Box 2.0: Boom Kitty added Timed Role Kitty+ to S w e r m y ღ for 30 days
+BotConsole 2018-08-06 00:37:13.265920 The Boom Box 2.0: Boofhead117 has joined, and their Timed Role VIP has been returned to them
+BotConsole 2018-08-06 01:51:18.962601 The Boom Box 2.0: xperiority executed Persist Info
+BotConsole 2018-08-06 01:51:18.962743 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-06 01:51:18.962798 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-06 01:51:18.965910 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-06 01:51:32.445274 The Boom Box 2.0: Ap3xis executed Timed Info
+BotConsole 2018-08-06 01:51:32.445434 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-06 01:51:32.445490 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-06 01:51:32.448619 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-06 01:53:29.581587 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-06 01:53:29.581659 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-06 01:53:29.584769 The Boom Box 2.0: [AutoDuplicates] Starting: Duplicate Persisted Roles
+BotConsole 2018-08-06 01:53:29.584827 The Boom Box 2.0: [AutoDuplicates] Starting: Duplicate Timed Roles
+BotConsole 2018-08-06 01:53:29.585557 The Boom Box 2.0: [AutoDuplicates] Found and Removed Duplicate | User: Boofhead117, Role: VIP
+BotConsole 2018-08-06 01:53:29.585815 The Boom Box 2.0: [AutoDuplicates] Skipping duplicate finding of a duplicate
+BotConsole 2018-08-06 01:53:29.585868 The Boom Box 2.0: [AutoDuplicates] Starting: Duplicate Timed Emoji
+BotConsole 2018-08-06 01:53:29.585915 The Boom Box 2.0: [AutoDuplicates] Finished removing duplicates, 1 removed!
+BotConsole 2018-08-06 01:53:29.592709 The Boom Box 2.0: Ap3xis added Timed Role VIP to Boofhead117 for 31 days
+BotConsole 2018-08-06 01:53:29.987824 The Boom Box 2.0: Clorell's Timed Role Kitty+ has expired
+BotConsole 2018-08-06 01:53:36.917910 The Boom Box 2.0: Ap3xis executed Timed Info
+BotConsole 2018-08-06 01:53:36.918032 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-06 01:53:36.918108 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-06 01:53:36.921277 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-06 01:53:51.747754 The Boom Box 2.0: Ap3xis executed Timed Info
+BotConsole 2018-08-06 01:53:51.747877 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-06 01:53:51.747927 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-06 01:53:51.750978 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-06 02:58:43.026950 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-06 02:58:43.027153 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-06 02:58:43.030893 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-10 19:02:04.021822
+BotConsole 2018-08-10 19:02:04.021939 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-10 19:02:04.022224 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:02:04.022266 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:02:04.025206 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:02:08.478844 The Boom Box 2.0: Cubuzz's Timed Role Cuck has expired
+BotConsole 2018-08-10 19:02:08.946983 The Boom Box 2.0: Bl1tZ's Timed Role Cuck has expired
+BotConsole 2018-08-10 19:02:09.235874 The Boom Box 2.0: Spireable's Timed Role VIP has expired
+BotConsole 2018-08-10 19:02:09.443546 The Boom Box 2.0: Adenax's Timed Role VIP has expired
+BotConsole 2018-08-10 19:02:09.812031 The Boom Box 2.0: Boofhead117's Timed Role Kitty+ has expired
+BotConsole 2018-08-10 19:02:10.271027 The Boom Box 2.0: Boofhead117's Timed Role VIP has expired
+BotConsole 2018-08-10 19:02:10.535049 The Boom Box 2.0: Geefogo-Gofo's Timed Role Kitty+ has expired
+BotConsole 2018-08-10 19:02:10.689096 The Boom Box 2.0: Geefogo-Gofo's Timed Role VIP has expired
+BotConsole 2018-08-10 19:03:23.661245 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:03:23.661335 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:03:23.663919 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:03:23.799479 The Boom Box 2.0: R3V added Persisted Role Producer to Kassie
+BotConsole 2018-08-10 19:04:13.960004 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:04:13.960080 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:04:13.962695 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:05:00.446184 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:05:00.446262 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:05:00.448815 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:05:00.596913 The Boom Box 2.0: Ap3xis added Persisted Role Producer to Sliferboii
+BotConsole 2018-08-10 19:05:44.887453 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:05:44.887543 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:05:44.890239 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:05:45.025271 The Boom Box 2.0: TW added Persisted Role Advanced Producer to Sliferboii
+BotConsole 2018-08-10 19:05:55.693639 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:05:55.693722 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:05:55.696354 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:05:55.699548 The Boom Box 2.0: Ap3xis added Timed Role VIP to Boofhead117 for 19 days
+BotConsole 2018-08-10 19:06:04.157805 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:06:04.157885 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:06:04.160681 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:06:04.164155 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to Boofhead117 for 30 days
+BotConsole 2018-08-10 19:06:04.813555 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:06:04.813637 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:06:04.816399 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:06:04.921032 The Boom Box 2.0: TW added Persisted Role Baller Boi to Sliferboii
+BotConsole 2018-08-10 19:06:19.420830 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:06:19.420909 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:06:19.423697 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:06:19.426967 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to Clorell for 30 days
+BotConsole 2018-08-10 19:06:29.270431 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:06:29.270518 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:06:29.273445 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:06:29.276617 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to SummerSolsta7 for 30 days
+BotConsole 2018-08-10 19:06:39.645979 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:06:39.646056 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:06:39.648937 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:06:39.915576 The Boom Box 2.0: Ap3xis added Persisted Role Producer to DPZ
+BotConsole 2018-08-10 19:07:48.649125 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:07:48.649217 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:07:48.652217 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:07:48.655411 The Boom Box 2.0: Ap3xis added Timed Role Kitty+ to Blasteroid for 30 days
+BotConsole 2018-08-10 19:10:17.490160 The Boom Box 2.0: Ap3xis added Role Advertise to Supa slick hot nick
+BotConsole 2018-08-10 19:11:15.199305 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:11:15.199380 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:11:15.202282 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:11:15.205585 The Boom Box 2.0: GunnerBones added Timed Role Cuck to Monumin2003 for 3 days
+BotConsole 2018-08-10 19:13:13.139255 The Boom Box 2.0: Ap3xis removed Role Advertise from Supa slick hot nick
+BotConsole 2018-08-10 19:16:05.538264 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-10 19:16:05.538392 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:16:05.538443 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:16:05.541422 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:25:01.478969 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:25:01.479069 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:25:01.482130 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 19:25:01.485385 The Boom Box 2.0: GunnerBones added Timed Role Cuck to Supa slick hot nick for 90 days
+BotConsole 2018-08-10 19:25:34.595346 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-10 19:25:34.595473 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 19:25:34.595529 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 19:25:34.598642 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 20:35:37.436123 The Boom Box 2.0: GunnerBonestried to execute Repeat, but failed due to Lack of Permissions
+BotConsole 2018-08-10 20:47:17.562222 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-10 20:47:17.562385 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 20:47:17.562441 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 20:47:17.565421 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 20:47:24.462840 The Boom Box 2.0: GunnerBones executed Persist Info
+BotConsole 2018-08-10 20:47:24.462959 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 20:47:24.463014 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 20:47:24.466079 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 20:49:53.734311 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 20:49:53.734388 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 20:49:53.737363 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:00:19.719525 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:00:19.719600 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:00:19.722588 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:00:19.912660 The Boom Box 2.0: R3V added Persisted Role Producer to ELI
+BotConsole 2018-08-10 21:18:34.097890 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:18:34.097971 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:18:34.101243 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:18:34.104804 The Boom Box 2.0: TW added Timed Role VIP to Adenax for 30 days
+BotConsole 2018-08-10 21:20:45.995177 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:20:45.995255 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:20:45.998406 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:21:05.723157 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:21:05.723231 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:21:05.726355 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:21:26.742969 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:21:26.743046 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:21:26.746267 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:24:12.997962 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:24:12.998151 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:24:13.001208 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:25:20.399633 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:25:20.399710 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:25:20.402892 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 21:25:20.406245 The Boom Box 2.0: GunnerBones added Timed Role Kitty+ to ELI for 30 days
+BotConsole 2018-08-10 21:54:44.723536 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 21:54:44.723609 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 21:54:44.726700 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:09:08.202430 The Boom Box 2.0: GunnerBones executed Persist Info
+BotConsole 2018-08-10 22:09:08.202589 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:09:08.202644 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:09:08.205947 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:09:14.604126 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-10 22:09:14.604285 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:09:14.604342 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:09:14.607491 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:09:30.801235 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:09:30.801312 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:09:30.804540 The Boom Box 2.0: [AutoDuplicates] Starting: Duplicate Persisted Roles
+BotConsole 2018-08-10 22:09:30.804592 The Boom Box 2.0: [AutoDuplicates] Starting: Duplicate Timed Roles
+BotConsole 2018-08-10 22:09:30.804884 The Boom Box 2.0: [AutoDuplicates] Found and Removed Duplicate | User: SummerSolsta7, Role: Kitty+
+BotConsole 2018-08-10 22:09:30.805142 The Boom Box 2.0: [AutoDuplicates] Skipping duplicate finding of a duplicate
+BotConsole 2018-08-10 22:09:30.805194 The Boom Box 2.0: [AutoDuplicates] Starting: Duplicate Timed Emoji
+BotConsole 2018-08-10 22:09:30.805239 The Boom Box 2.0: [AutoDuplicates] Finished removing duplicates, 1 removed!
+BotConsole 2018-08-10 22:09:30.808588 The Boom Box 2.0: GunnerBones added Timed Role Kitty+ to SummerSolsta7 for 30 days
+BotConsole 2018-08-10 22:09:39.138773 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-10 22:09:39.138902 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:09:39.138957 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:09:39.142228 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:09:57.663031 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:09:57.663107 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:09:57.666269 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:10:02.556543 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:10:02.556702 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:10:02.559802 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:10:17.543479 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-10 22:10:17.543639 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-10 22:10:17.543704 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-10 22:10:17.546707 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-10 22:10:47.980083 The Boom Box 2.0: GunnerBones added Role Advertise to SummerSolsta7
+BotConsole 2018-08-10 22:12:51.064744 The Boom Box 2.0: Ap3xis removed Role Advertise from SummerSolsta7
+BotConsole 2018-08-11 03:43:54.999558 The Boom Box 2.0: Ximer has joined, and their Persisted Role Cuck has been returned to them
+BotConsole 2018-08-11 03:43:56.066047 The Boom Box 2.0: Ximer has joined, and their Timed Role VIP has been returned to them
+BotConsole 2018-08-11 04:15:43.989948 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 04:15:43.990026 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 04:15:43.993188 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 04:15:44.086236 The Boom Box 2.0: HeliXiX ツ added Persisted Role U-NSFW to Bumblebee
+BotConsole 2018-08-11 04:16:17.086751 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 04:16:17.086832 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 04:16:17.090118 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 04:16:17.183649 The Boom Box 2.0: HeliXiX ツ added Persisted Role U-NSFW to Ximer
+BotConsole 2018-08-11 05:13:52.829778 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 05:13:52.829854 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 05:13:52.832990 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 05:13:52.933086 The Boom Box 2.0: Boom Kitty added Persisted Role Cuck to brrrrgang
+BotConsole 2018-08-11 05:14:09.076118 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 05:14:09.076190 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 05:14:09.079406 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 05:14:09.191882 The Boom Box 2.0: Boom Kitty added Persisted Role soyboy to brrrrgang
+BotConsole 2018-08-11 05:20:40.708996 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 05:20:40.709070 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 05:20:40.712252 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 05:20:40.800090 The Boom Box 2.0: HeliXiX ツ added Persisted Role Staff to Xaereus
+BotConsole 2018-08-11 05:38:12.215167 The Boom Box 2.0: Sliferboii has joined, and their Persisted Role Baller Boi has been returned to them
+BotConsole 2018-08-11 06:12:46.833415 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 06:12:46.833488 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 06:12:46.836634 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 06:12:46.932887 The Boom Box 2.0: HeliXiX ツ added Persisted Role U-NSFW to Spooks
+BotConsole 2018-08-11 08:19:18.579374 The Boom Box 2.0: GunnerBones executed Persist Info
+BotConsole 2018-08-11 08:19:18.579490 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 08:19:18.579555 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 08:19:18.582745 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 08:19:27.537353 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-11 08:19:27.537462 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 08:19:27.537512 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 08:19:27.540806 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 08:19:39.619024 The Boom Box 2.0: GunnerBones removed Role Cuck from GunnerBones
+BotConsole 2018-08-11 08:45:48.738717 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 08:45:48.738794 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 08:45:48.742072 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 09:12:49.370207 The Boom Box 2.0: GunnerBones executed Timed Info
+BotConsole 2018-08-11 09:12:49.370380 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 09:12:49.371234 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 09:12:49.374373 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 09:13:31.934803 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 09:13:31.934879 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 09:13:31.938128 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 16:49:40.263663 The Boom Box 2.0: ELI has joined, and their Persisted Role Producer has been returned to them
+BotConsole 2018-08-11 16:49:41.327927 The Boom Box 2.0: ELI has joined, and their Timed Role Kitty+ has been returned to them
+BotConsole 2018-08-11 17:03:59.333257 The Boom Box 2.0: R3V executed Timed Info
+BotConsole 2018-08-11 17:03:59.333407 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 17:03:59.333458 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 17:03:59.336669 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 17:05:29.961517 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 17:05:29.961586 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 17:05:29.964880 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 17:05:29.968320 The Boom Box 2.0: R3V added Timed Role Kitty+ to ELI for 29 days
+BotConsole 2018-08-11 17:05:30.655198 The Boom Box 2.0: Ximer's Timed Role VIP has expired
+BotConsole 2018-08-11 17:05:35.184771 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 17:05:35.184887 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 17:05:35.188131 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 17:05:35.334995 The Boom Box 2.0: R3V added Persisted Role Producer to ELI
+BotConsole 2018-08-11 17:10:51.313417 The Boom Box 2.0: GunnerBones executed Persist Info
+BotConsole 2018-08-11 17:10:51.313561 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 17:10:51.313616 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 17:10:51.316851 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 17:38:55.506097 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 17:38:55.506171 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 17:38:55.509451 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 17:50:40.973454 The Boom Box 2.0: ELI has joined, and their Persisted Role Producer has been returned to them
+BotConsole 2018-08-11 17:50:42.038140 The Boom Box 2.0: ELI has joined, and their Timed Role Kitty+ has been returned to them
+BotConsole 2018-08-11 18:39:08.836423 The Boom Box 2.0: kama added Role Cuck to kama
+BotConsole 2018-08-11 19:13:45.280461 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 19:13:45.280630 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 19:13:45.284715 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-08-11 19:25:37.119616 The Boom Box 2.0: Adenax has joined, and their Timed Role VIP has been returned to them
+BOTCONSOLE 2018-08-11 20:31:45.223864
+BotConsole 2018-08-11 20:31:45.223959 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-11 20:31:45.230992 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 20:31:45.231130 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 20:31:45.235872 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-11 20:33:20.061744
+BotConsole 2018-08-11 20:33:20.061884 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-11 20:33:20.063332 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 20:33:20.063423 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 20:33:20.068419 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-11 20:43:48.809217
+BotConsole 2018-08-11 20:43:48.809357 The Boom Box 2.0: The Boom Box 2.0 connected and ready
+BotConsole 2018-08-11 20:43:48.810868 The Boom Box 2.0: Settings files reupdated
+BotConsole 2018-08-11 20:43:48.811016 The Boom Box 2.0: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-11 20:43:48.815225 The Boom Box 2.0: [AutoDuplicates] No duplicates found, aborting

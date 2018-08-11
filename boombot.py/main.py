@@ -1381,6 +1381,16 @@ FAILSAFE_CDS = FAILSAFE(3.0,"Rapid Channel Deletion") #Channel Delete Spam
 FAILSAFE_MKS = FAILSAFE(3.0,"Rapid Member Kick") #Member Kick Spam
 FAILSAFE_MBS = FAILSAFE(3.0,"Rapid Member Ban") #Member Ban Spam
 
+UNBANMODE = False
+
+@client.event
+async def on_member_unban(server,user):
+    if UNBANMODE:
+        ubt = stngmultiplelines(server,7)
+        if user.id in ubt:
+            client.ban(user,0)
+
+
 @client.event
 async def on_member_join(member):
     if stnglistfind(2,member.id,member) == True:
@@ -1608,6 +1618,21 @@ async def on_message(message):
                 else:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "You do not have permissions to do this!", "", 0xfb0006, message))
+    if message.content == cmdprefix(message) + "lockbans":
+        if message.author.id != "172861416364179456":
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+        else:
+            global UNBANMODE
+            if not UNBANMODE:
+                UNBANMODE = True
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Temporary Bans cannot be Unbanned!", "", 0x13e823, message))
+            elif UNBANMODE:
+                UNBANMODE = False
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Temporary Bans can now be Unbanned!", "", 0x13e823, message))
+
     if message.content == cmdprefix(message) + "repeat":
         if hasbotmod(message) or message.author.id != "172861416364179456":
             await client.send_message(destination=message.channel,embed=embedder(
