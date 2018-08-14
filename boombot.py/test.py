@@ -1,3 +1,2 @@
-import datetime
-
-print(datetime.datetime.now())
+for n in range(1,14):
+    print(n)
