@@ -11,14 +11,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="840" column="40" lean-forward="true" selection-start-line="840" selection-start-column="40" selection-end-line="840" selection-end-column="40" />
+            <state relative-caret-position="11940">
+              <caret line="811" column="16" lean-forward="false" selection-start-line="811" selection-start-column="16" selection-end-line="811" selection-end-column="16" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="poker.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/poker.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="556">
+              <caret line="778" column="19" lean-forward="false" selection-start-line="778" selection-start-column="19" selection-end-line="778" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -102,6 +112,7 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/texasholdem.py" />
+        <option value="$PROJECT_DIR$/poker.py" />
       </list>
     </option>
   </component>
@@ -125,8 +136,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -369,16 +380,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../discordbot/BonesBot.py" />
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -466,13 +467,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ub.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="27" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/ub.py" />
     <entry file="file://$PROJECT_DIR$/botconsole.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="930">
@@ -489,21 +484,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/texasholdem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="756" column="30" lean-forward="false" selection-start-line="756" selection-start-column="30" selection-end-line="756" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/texasholdem.py" />
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="840" column="40" lean-forward="true" selection-start-line="840" selection-start-column="40" selection-end-line="840" selection-end-column="40" />
+        <state relative-caret-position="11940">
+          <caret line="811" column="16" lean-forward="false" selection-start-line="811" selection-start-column="16" selection-end-line="811" selection-end-column="16" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="556">
+          <caret line="778" column="19" lean-forward="false" selection-start-line="778" selection-start-column="19" selection-end-line="778" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

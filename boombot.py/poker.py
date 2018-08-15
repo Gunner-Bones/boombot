@@ -42,6 +42,13 @@ def cardsuit(name="",number=0):
 def cardtext(card):
     return str(card[0]) + " of " + str(card[1])
 
+def cardicon(card):
+    suitsymbol = {"Clubs":"♣","Diamonds":"♦","Hearts":"♥","Spades":"♠"}
+    valuesymbol = {"Ace":"A","Two":"2","Three":"3","Four":"4",
+                   "Five":"5","Six":"6","Seven":"7","Eight":"8",
+                   "Nine":"9","Ten":"10","Jack":"J","Queen":"Q","King":"K"}
+    return str(suitsymbol[card[1]] + valuesymbol[card[0]])
+
 def randomhand():
     hand = []
     while len(hand) != 7:
@@ -457,7 +464,7 @@ class UBI(object):
                     return 1
 
 
-class TexasHoldEmGame(object):
+class PokerGame(object):
     def __init__(self,server,playerdata,actionchannel,displaychannel,displaygame,displaytext,smallblind=50,bigblind=100,rounds=10,leavingpenalty=1000,joinlate=False):
         """
         :param server: (Discord Server OBJ) The server the event is located in
@@ -578,7 +585,9 @@ class TexasHoldEmGame(object):
         self.allin = []
         self.deck = self.getshuffleddeck()
         self.dealallplayers()
-        self.tablecards = self.drawcards(3)
+    def nextphaseflop(self):
+        if len(self.bets) == 0:
+            self.tablecards.append(self.drawcards(3))
     def nextphase(self):
         if len(self.bets) == 0:
             if len(self.tablecards) != 5: self.tablecards.append(self.drawcards(1))
@@ -635,6 +644,8 @@ class TexasHoldEmGame(object):
         for p in self.players:
             if p[1] <= 0:
                 self.removeplayer(player=player,leavingpenalty=False)
+    def checkfolded(self,player):
+        return player in self.folded
     """
     BETTING METHODS
     -bet: Bet an amount to the board
@@ -754,12 +765,19 @@ class TexasHoldEmGame(object):
         elif type == "Big": amount = self.bb
         pbb = self.UBI.changeuservalue(player,"dec",amount)
         if pbb == 0:
-            self.bets.append([])
+            self.bets.append([type + " Blind",amount,player])
+    def checkallfolded(self):
+        """
+        :return:
+        None - Game still active
+        Discord User OBJ - Last player who isn't folded
+        """
+        if len(self.folded) == len(self.players) - 1:
+            for p in self.players:
+                if p[0] not in self.folded:
+                    return p[0]
+        return None
 
-
-class TestDO(object):
-    def __init__(self,id):
-        self.id = id
 
 testhand1 = randomhand()
 print("testhand1: " + str(testhand1))
