@@ -746,11 +746,15 @@ class TexasHoldEmGame(object):
     def blind(self,player,type):
         """
         :return:
-        
+        0 - Success
+        1 - Failed (User cannot afford Blind)
         """
         amount = 0
-        if type == "small": amount = self.sb
-        elif type == "big": amount = self.bb
+        if type == "Small": amount = self.sb
+        elif type == "Big": amount = self.bb
+        pbb = self.UBI.changeuservalue(player,"dec",amount)
+        if pbb == 0:
+            self.bets.append([])
 
 
 class TestDO(object):
