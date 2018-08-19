@@ -1,2 +1,2 @@
-for n in range(1,14):
-    print(n)
+test = "False"
+test = bool(test)

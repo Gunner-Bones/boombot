@@ -20,6 +20,7 @@ try:
     ubo.close()
 except:
     NOUBAUTH = True
+UBAUTH.replace("\n","")
 
 
 def cardvalue(name="",number=0):
@@ -378,6 +379,35 @@ def highestcombo(combo):
         cranks.append(typerank[c[0]])
     cranks.sort(); cranks.reverse(); return cranks[0]
 
+def UBIvaluechange(user,type,val,server):
+    """
+    :return:
+    (int) User's new balance
+    None if failed
+    """
+    ubr = urllib.request.Request("https://unbelievable.pizza/api/v1/guilds/" + server.id + "/users/" + user.id,
+                                 headers={'User-Agent': 'Mozilla/5.0', 'Authorization': UBAUTH})
+    try:
+        ubr = str((urllib.request.urlopen(ubr)).read())
+    except Exception as e:
+        print(e)
+        return None
+    ubr = json.loads(ubr[2:len(ubr) - 1])
+    utotal =  int(ubr['total'])
+    ntotal = 0
+    if type == "inc": ntotal = utotal + val
+    elif type == "dec": ntotal = utotal - val
+    ubdata = urllib.parse.urlencode({'cash': 0, 'bank': ntotal})
+    ubr = urllib.request.Request(
+        "https://unbelievable.pizza/api/v1/guilds/" + server.id + "/users/" + user.id,
+        headers={'User-Agent': 'Mozilla/5.0', 'Authorization': UBAUTH}, data=ubdata)
+    try:
+        ubr = str((urllib.request.urlopen(ubr)).read())
+    except:
+        return None
+    ubr = json.loads(ubr[2:len(ubr) - 1])
+    return int(ubr['total'])
+
 class UBI(object):
     def __init__(self,server):
         self.uba = NOUBAUTH
@@ -463,9 +493,124 @@ class UBI(object):
                 except:
                     return 1
 
+def DTMessage(type,params=None):
+    """
+    Formatted Text for (Discord Message OBJ)displaytext
+    Placeholders in <> are filled from (dict)params
+    :param type:
+    -GAMESTART: 'A Poker Game has begun! (PID: <pid>)'
+        <pid> Poker Game ID
+    -GAMEEND: 'That's the Game! Thanks for Playing!'
+    -GAMESINGLEPAYOUT: '<player>: <winnings>'
+        <player> Player
+        <winnings> Balance after game
+        *Note: This DTMessage should occur for every player*
+    -ROUNDSTART: 'Round <currentround>/<rounds>. Players: <playercount>'
+        <currentround> Current Round number
+        <rounds> Total Rounds
+        <playercount> Player Count
+    -ROUNDEND: 'The Round is over!'
+    -ROUNDWINNER: '<winningplayer> wins with <winninghand>! They win <pot>'
+        <winningplayer> The Winning Player of that round
+        <winninghand> The Winning Hand of that round
+        <pot> How much the player wins
+    -PLAYERTURN: '<player>'s turn.'
+        <player> Player
+    -PLAYERBET: '<player> has bet <bet>!'
+        <player> Betting player
+        <bet> Bet amount
+    -PLAYERSEE: '<player> sees <betplayer>'s bet of <bet>'
+        <player> Seeing player
+        <betplayer> Original Betting player
+        <bet> See amount
+    -PLAYERRAISE: '<player> raises <betplayer>'s bet by <bet>!'
+        <player> Raising player
+        <betplayer> Original betting player
+        <bet> Raise amount
+    -PLAYERCALL: '<player> has called.'
+        <player> Calling player
+    -PLAYERFOLD: '<player> has folded!'
+        <player> Folding player
+    -PLAYERALLIN: '<player> has gone All-In!'
+        <player> All In player
+    -PLAYERPASS: '<player> has passed.'
+        <player> Passing player
+    -PLAYERLEAVE: '<player> has left the game early!'
+        <player> Leaving player
+    -PLAYERJOIN: '<player> has joined late!'
+        <player> Joining player
+    -NEXTPHASE: 'This Phase of Betting has ended. New Table Card(s): <cardicon>'
+        <cardicon> Card Icon of card drawn
+    -FINALPHASE: 'This Phase of Betting has ended. Final Table Card: <cardicon>'
+        <cardicon> Card Icon of card drawn
+    -PLAYERROUNDCARDS:
+        'Poker Game ID: <pid>'
+        'Round: <currentround>/<rounds>'
+        'Your Cards: <card1> & <card2>'
+        <pid> Poker Game ID
+        <currentround> Current Round number
+        <rounds> Total Rounds
+        <card1> Player's First Card
+        <card2> Player's Second Card
+    -PLAYERBALANCE: '<player>'s balance: <bal>'
+        <player> Player
+        <bal> Balance
+    -GAMECLOSECONFIRM: 'The Game will be set to end after this round.'
+    -GAMECLOSE: 'The Admin has ended the Game early!'
+    :return: str
+    """
+    if type is None: return None
+    elif type == "GAMESTART":
+        mes = "A Poker Game has begun! (PID: " + params['pid'] + ")"
+    elif type == "GAMEEND":
+        mes = "That's the Game! Thanks for Playing!"
+    elif type == "GAMESINGLEPAYOUT":
+        mes = params['player'] + ": " + params['winnings']
+    elif type == "ROUNDSTART":
+        mes = "Round " + params['currentround'] + "/" + params['rounds'] + ". Players: " + params['playercount']
+    elif type == "ROUNDEND":
+        mes = "The Round is over!"
+    elif type == "ROUNDWINNER":
+        mes = params['winningplayer'] + " wins with " + params['winninghand'] + "! They win " + params['pot']
+    elif type == "PLAYERTURN":
+        mes = params['player'] + "'s turn."
+    elif type == "PLAYERBET":
+        mes = params['player'] + " has bet " + params['bet'] + "!"
+    elif type == "PLAYERSEE":
+        mes = params['player'] + " sees " + params['betplayer'] + "'s bet of " + params['bet']
+    elif type == "PLAYERRAISE":
+        mes = params['player'] + " raises " + params['betplayer'] + "'s bet by " + params['bet'] + "!"
+    elif type == "PLAYERCALL":
+        mes = params['player'] + " has called."
+    elif type == "PLAYERFOLD":
+        mes = params['player'] + " has folded!"
+    elif type == "PLAYERALLIN":
+        mes = params['player'] + " has gone All-In!"
+    elif type == "PLAYERPASS":
+        mes = params['player'] + " has passed."
+    elif type == "PLAYERLEAVE":
+        mes = params['player'] + " has left the game early!"
+    elif type == "PLAYERJOIN":
+        mes = params['player'] + " has joined late!"
+    elif type == "NEXTPHASE":
+        mes = "This Phase of Betting has ended. New Table Card(s): " + params['cardicon']
+    elif type == "FINALPHASE":
+        mes = "This Phase of Betting has ended. Final Table Card: " + params['cardicon']
+    elif type == "PLAYERROUNDCARDS":
+        mes = "Poker Game ID: " + params['pid'] + "\nRound: " + params['currentround'] + "/" + params['rounds'] + \
+              "\nYour Cards: " + params['card1'] + " & " + params['card2']
+    elif type == "PLAYERBALANCE":
+        mes = params['player'] + "'s balance: " + params['balance']
+    elif type == "GAMECLOSECONFIRM":
+        mes = "The Game will be set to end after this round."
+    elif type == "GAMECLOSE":
+        mes = "The Admin has ended the Game early!"
+    else: return None
+    mes = "`" + mes + "`"
+    return mes
 
 class PokerGame(object):
-    def __init__(self,server,playerdata,actionchannel,displaychannel,displaygame,displaytext,smallblind=50,bigblind=100,rounds=10,leavingpenalty=1000,joinlate=False):
+    def __init__(self,server,playerdata,actionchannel,displaychannel,starting,displaygame,displaytext,smallblind=50,bigblind=100,rounds=10,leavingpenalty=1000,joinlate=False):
         """
         :param server: (Discord Server OBJ) The server the event is located in
         :param playerdata: [User (Discord User OBJ), Starting (int)] All players joined in
@@ -520,6 +665,8 @@ class PokerGame(object):
         if self.bb < 100: self.bb = 100
         self.r = rounds
         if self.r < 2: self.r = 2
+        self.s = starting
+        if self.s < 500: self.s = 500
         self.lp = leavingpenalty
         self.jl = joinlate
         self.deck = []
@@ -777,16 +924,3 @@ class PokerGame(object):
                 if p[0] not in self.folded:
                     return p[0]
         return None
-
-
-testhand1 = randomhand()
-print("testhand1: " + str(testhand1))
-testcombo1 = checkcombo(testhand1)
-print(testcombo1)
-testhand2 = randomhand()
-print("testhand2: " + str(testhand2))
-testcombo2 = checkcombo(testhand2)
-print(testcombo2)
-cctest = combocompare(testcombo1,testcombo2,testhand1,testhand2)
-if cctest == 0: print("testhand1 wins")
-else: print("testhand2 wins")

@@ -14,6 +14,7 @@ import subprocess
 import unicodedata
 import urllib.request as urlr
 from botconsole import BotConsole
+import poker
 
 
 ##join link: https://discordapp.com/oauth2/authorize?client_id=419231095238950912&scope=bot
@@ -144,6 +145,106 @@ class SpecializedNameStoring(object):
         self.name = name
 
 clientname = SpecializedNameStoring()
+
+class ActivePokerJoin(object):
+    def __init__(self,ownerplayer,ownerstarting,actionchannel,displaychannel,smallblind,bigblind,starting,rounds,leavingpenalty,joinlate,message):
+        self.owner = ownerplayer
+        self.actionchannel = actionchannel
+        self.displaychannel = displaychannel
+        self.smallblind = smallblind
+        self.bigblind = bigblind
+        self.starting = starting
+        self.rounds = rounds
+        self.leavingpenalty = leavingpenalty
+        self.joinlate = joinlate
+        self.players = [[self.owner,ownerstarting]]
+        self.message = message
+    def addplayer(self,player,starting):
+        self.players.append([player,starting])
+    def removeplayer(self,player):
+        for p in self.players:
+            if p[0] == player:
+                self.players.remove(p)
+    def ad(self):
+        mes = "Join " + self.owner.name + "'s Poker Game!"
+        mes += "[To Join, type '" + cmdprefix(self.message) + "pokerjoin " + self.owner.name + "']"
+        pl = []; pln = ""
+        for p in self.players: pl.append(p[0].name)
+        for p in pl: pln += p + ", "; pln = pln[:len(pln) - 2]
+        mes += "\nPlayers: " + pln
+        mes += "\nStarting Balance: " + str(self.starting)
+        mes += "\nRounds: " + str(self.rounds)
+        mes += "\nSmall Blind: " + str(self.smallblind) + ", Big Blind: " + str(self.bigblind)
+        if self.leavingpenalty != 0: mes += "\nHas a Leaving Penalty"
+        else: mes += "\nDoes not have Leaving Penalty"
+        if self.joinlate: mes += "\nJoining Late is allowed"
+        else: mes += "\nJoining Late is not allowed"
+        return mes
+
+class APJDatabase(object):
+    def __init__(self):
+        self.activepokerjoins = []
+    def addjoin(self,apj):
+        self.activepokerjoins.append(apj)
+    def removejoin(self,apj):
+        try: self.activepokerjoins.remove(apj)
+        except: pass
+    def getjoin(self,ownername):
+        for j in self.activepokerjoins:
+            if j.owner.name == ownername:
+                return j
+        return None
+    def listalljoins(self):
+        mes = "All Active Poker Invites:"
+        for j in self.activepokerjoins:
+            mes += "~" + j.owner.name + "'s Poker Game - " + str(len(j.players)) + " players"
+        return mes
+
+MAINAPJD = APJDatabase()
+
+
+class PokerSession(object):
+    def __init__(self,players,pokergame,server):
+        """
+        :param players: (list) List of players
+        :param pokergame: (PokerGame) The Poker Game for commands to use off
+        :param server: (Discord Server Object) The Discord Server
+        """
+        self.players = players
+        self.pokergame = pokergame
+        self.id = 0
+        self.server = server
+    def setid(self,id):
+        self.id = id
+
+class PSDatabase(object):
+    def __init__(self):
+        self.pokersessions = []
+    def addsession(self,ps):
+        self.pokersessions.append(ps)
+    def removesession(self,ps):
+        try:
+            self.pokersessions.remove(ps)
+        except:
+            pass
+    def getsession(self,id):
+        for s in self.pokersessions:
+            if s.id == id: return s
+    def generateid(self,session):
+        for s in self.pokersessions:
+            if s == session:
+                rid = 0
+                frid = False
+                while not frid:
+                    frid = True
+                    rid = random.randint(10000,100000)
+                    for rs in self.pokersessions:
+                        if rs != s:
+                            if rs.id == rid:
+                                frid = False
+                self.pokersessions[self.pokersessions.index(s)].setid(rid)
+
+MAINPSD = PSDatabase()
 
 def ubget(serverid,user,message):
     ubg = "https://unbelievable.pizza/api/guilds/" + serverid + "/users/" + user.id
@@ -539,10 +640,10 @@ def updateupdates(message,newchannel):
     f.close()
     nc = discord.utils.get(message.server.channels,id=newchannel)
     if nc != None:
-        MAINABC.addlog(server,MAINABC.getconsole(server).printlog(MAINABC.getconsole(server).formatlog(type="UPDATE_UPDATES_CHANNEL",mod=message.author,chn=nc.name)))
+        MAINABC.addlog(message.server,MAINABC.getconsole(message.server).printlog(MAINABC.getconsole(message.server).formatlog(type="UPDATE_UPDATES_CHANNEL",mod=message.author,chn=nc.name)))
     else:
-        MAINABC.addlog(server, MAINABC.getconsole(server).printlog(
-            MAINABC.getconsole(server).formatlog(type="UPDATE_UPDATES_CHANNEL",mod=message.author,chn="None")))
+        MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+            MAINABC.getconsole(message.server).formatlog(type="UPDATE_UPDATES_CHANNEL",mod=message.author,chn="None")))
 
 def finduser(message,uname):
     if "<@" in uname:
@@ -551,6 +652,14 @@ def finduser(message,uname):
     else:
         umember = discord.utils.find(lambda m: uname.lower() in m.name.lower(),message.server.members)
     return umember
+
+def findchannel(message,uchannel):
+    if uchannel.startswith("<#"):
+        uchannel = uchannel[2:len(uchannel) - 1]
+        uchannel = discord.utils.get(message.server.channels,id=uchannel)
+    else:
+        uchannel = discord.utils.find(lambda m: uchannel in m.name,message.server.channels)
+    return uchannel
 
 def findrole(message,urolename):
     urole = discord.utils.find(lambda r: urolename.lower() in r.name.lower(),message.server.roles)
@@ -1383,6 +1492,8 @@ FAILSAFE_MBS = FAILSAFE(3.0,"Rapid Member Ban") #Member Ban Spam
 
 UNBANMODE = False
 
+POKERENABLED = False
+
 @client.event
 async def on_member_unban(server,user):
     if UNBANMODE:
@@ -1892,8 +2003,6 @@ async def on_message(message):
         cae.add_field(name="rp>>wordreact <word>",value="Reacts with each induvidial letter from the specified word. For example, if"
                                                         " the word is \'NO\', then the bot reacts with the letters N and O.",inline=True)
         await client.send_message(destination=message.channel, embed=cae)
-    if message.server == None:
-        await client.send_message(message.author,"?")
     if cmdprefix(message) + "roleadd" in message.content:
         if hasbotmod(message) == False:
             await client.send_message(destination=message.channel,embed=embedder(
@@ -1996,6 +2105,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "updates <channel>",value="[BM] Optional, sets a channel for BoomBot to send updates to", inline = True)
         cle1.add_field(name=cmdprefix(message) + "botconsole <channel>",value="[BM] Optional, sets a channel for BoomBot to send Bot Logs to", inline=True)
         cle1.add_field(name=cmdprefix(message) + "purgerole <role> <days of inactivity>",value="[BM] Purges those with that highest ranking role who haven't spoken in X days",inline=True)
+        """
         cle2.add_field(name="*For VC-related commands:*",value="The bot will only respond to the user who calls them to a voice channel. It will reset if you tell the bot to leave.",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcjoinme",value="Joins the bot to the voice channel you\'re in",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcleaveme", value="Removes the bot from the voice channel you\'re in",inline=True)
@@ -2003,8 +2113,9 @@ async def on_message(message):
         cle2.add_field(name=cmdprefix(message) + "vcstop", value="Stops the song you\'re playing",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcpr", value="Toggles pause or resume on the current song",inline=True)
         cle2.add_field(name=cmdprefix(message) + "vcvol <volume>", value="Sets the volume of the song. Values are 0-100, 100 being 100%",inline=True)
+        """
         await client.send_message(destination=message.channel, embed=cle1)
-        await client.send_message(destination=message.channel, embed=cle2)
+        # await client.send_message(destination=message.channel, embed=cle2)
     if cmdprefix(message) + "report" in message.content:
         if message.content == cmdprefix(message) + "report":
             await client.send_message(destination=message.channel, embed=embedder(
@@ -2984,6 +3095,7 @@ async def on_message(message):
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
     ## MUSIC COMMANDS
+    """
     if cmdprefix(message) + "vcjoinme" in message.content:
         if stnglistfind(4,idreplace(message.author.id),message) == True:
             await client.send_message(destination=message.channel, embed=embedder(
@@ -3164,10 +3276,12 @@ async def on_message(message):
             f = open(servname,"w")
             f.truncate()
             f.close()
+    """
     ### REQUEST COMMANDS
     ### REQUEST COMMANDS
     ### REQUEST COMMANDS
     # https://unbelievable.pizza/api/guilds/serverid/users/userid
+    # NOTE this doesnt work lol
     if cmdprefix(message) + "ubuser" in message.content:
         if message.content == cmdprefix(message) + "ubuser":
             await client.send_message(destination=message.channel, embed=embedder(
@@ -3197,7 +3311,337 @@ async def on_message(message):
                 else:
                     await client.send_message(destination=message.channel,
                                               embed=ubget(message.server.id, ubu, message))
-                    
-
+    ### POKER GAME
+    ### POKER GAME
+    ### POKER GAME
+    if message.content == cmdprefix(message) + "togglepokergames":
+        if hasadmin(message) == False:
+            await client.send_message(destination=message.channel,embed=embedder(
+                "You do not have permissions to do this!","",0xfb0006,message))
+        else:
+            global POKERENABLED
+            if POKERENABLED:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Poker Games turned off!", "", 0x13e823, message))
+                POKERENABLED = False
+            else:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Poker Games turned on!", "", 0x13e823, message))
+                POKERENABLED = True
+    if cmdprefix(message) + "pokergame" in message.content:
+        if hasbotmod(message) == False:
+            await client.send_message(destination=message.channel,embed=embedder(
+                "You do not have permissions to do this!","",0xfb0006,message))
+        else:
+            if not POKERENABLED:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "All Poker Games are disabled!", "", 0xfb0006, message))
+            else:
+                if MAINAPJD.getjoin(ownername=message.author.name) is not None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "You already have an Active Poker Joining Session!", "To remove it, use *" + cmdprefix(message) + "pokergamecancel*", 0xfbc200, message))
+                else:
+                    # Poker Game Settings
+                    PG_ACTIONCHANNEL = None
+                    PG_DISPLAYCHANNEL = None
+                    PG_STARTING = 2000
+                    PG_SMALLBLIND = 50
+                    PG_BIGBLIND = 100
+                    PG_ROUNDS = 10
+                    PG_LEAVINGPENALTY = 1000
+                    PG_JOINLATE = False
+                    PGVALID = False
+                    PGCANCEL = False
+                    pge = embedder(message.author.name + "'s Poker Game","",0xc7f8fc,message)
+                    pge.add_field(name="Poker Action Commands Channel:",value="NOT SET",inline=True)
+                    pge.add_field(name="Poker Game Display Channel:",value="NOT SET",inline=True)
+                    pge.add_field(name="Starting Cost",value="2000",inline=True)
+                    pge.add_field(name="Small Blind Cost",value="50",inline=True)
+                    pge.add_field(name="Big Blind Cost",value="100",inline=True)
+                    pge.add_field(name="Rounds",value="10",inline=True)
+                    pge.add_field(name="Leaving Penalty (0 if none)",value="1000",inline=True)
+                    pge.add_field(name="Joining Late Allowed",value="False",inline=True)
+                    pge.add_field(name="Commands",value="p>actioncommands <channel>,p>gamedisplay <channel>,"
+                                                        "p>smallblind <cost>,p>bigblind <cost>,p>rounds <number>,"
+                                                        "p>leavingpenalty <cost>,p>joinlate <true/false>")
+                    PGMAIN = await client.send_message(destination=message.channel,embed=pge)
+                    PGDISPLAY = await client.send_message(destination=message.channel,embed=
+                        embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message))
+                    while not PGVALID:
+                        PGR = await client.wait_for_message(author=message.author)
+                        PGR = str(PGR.content)
+                        if PGR.startswith("p>actioncommands "):
+                            pgm = PGR.split(" ")
+                            pgac = findchannel(message,pgm[1])
+                            if pgac is None:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Channel!", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY,embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY,embed=PGN)
+                            else:
+                                PG_ACTIONCHANNEL = pgac
+                                pge.set_field_at(0,name="Poker Action Commands Channel:",value=PG_ACTIONCHANNEL.name,inline=True)
+                                await client.edit_message(message=PGMAIN,embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Channel set.", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>gamedisplay "):
+                            pgm = PGR.split(" ")
+                            pggd = findchannel(message, pgm[1])
+                            if pggd is None:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Channel!", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY,embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY,embed=PGN)
+                            else:
+                                PG_DISPLAYCHANNEL = pggd
+                                pge.set_field_at(1,name="Poker Game Display Channel:",value=PG_DISPLAYCHANNEL.name,inline=True)
+                                await client.edit_message(message=PGMAIN,embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Channel set.", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>starting "):
+                            pgm = PGR.split(" ")
+                            pgs = ""
+                            try:
+                                pgs = int(pgm[1])
+                            except:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Amount!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            if pgs != "":
+                                PG_STARTING = pgs
+                                pge.set_field_at(2, name="Starting Cost", value=str(PG_STARTING), inline=True)
+                                await client.edit_message(message=PGMAIN, embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Starting set.",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>smallblind "):
+                            pgm = PGR.split(" ")
+                            pgsb = ""
+                            try:
+                                pgsb = int(pgm[1])
+                            except:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Cost!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            if pgsb != "":
+                                PG_SMALLBLIND = pgsb
+                                pge.set_field_at(3,name="Small Blind Cost",value=str(PG_SMALLBLIND),inline=True)
+                                await client.edit_message(message=PGMAIN,embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Small Blind set.", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>bigblind "):
+                            pgm = PGR.split(" ")
+                            pgbb = ""
+                            try:
+                                pgbb = int(pgm[1])
+                            except:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Cost!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            if pgbb != "":
+                                PG_BIGBLIND = pgbb
+                                pge.set_field_at(4, name="Big Blind Cost", value=str(PG_BIGBLIND), inline=True)
+                                await client.edit_message(message=PGMAIN, embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Big Blind set.",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>rounds "):
+                            pgm = PGR.split(" ")
+                            pgr = ""
+                            try:
+                                pgr = int(pgm[1])
+                            except:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Rounds!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            if pgr != "":
+                                PG_ROUNDS = pgr
+                                pge.set_field_at(5, name="Rounds", value=str(PG_ROUNDS), inline=True)
+                                await client.edit_message(message=PGMAIN, embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Rounds set.",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>leavingpenalty "):
+                            pgm = PGR.split(" ")
+                            pglp = ""
+                            try:
+                                pglp = int(pgm[1])
+                            except:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Invalid Leaving Penalty!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            if pglp != "":
+                                PG_LEAVINGPENALTY = pglp
+                                pge.set_field_at(6, name="Leaving Penalty (0 if none)", value=str(PG_LEAVINGPENALTY), inline=True)
+                                await client.edit_message(message=PGMAIN, embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Leaving Penalty set.",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>joinlate "):
+                            pgm = PGR.split(" ")
+                            pgjl = pgm[1].lower()
+                            pgjlp = False
+                            if pgjl == "true": pgjl = True; pgjlp = True
+                            elif pgjl == "false": pgjl = False; pgjlp = True
+                            else:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.",
+                                               "Invalid Join Late Condition!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            if pgjlp:
+                                PG_JOINLATE = pgjl
+                                pge.set_field_at(7, name="Joining Late Allowed", value=str(PG_JOINLATE),
+                                                 inline=True)
+                                await client.edit_message(message=PGMAIN, embed=pge)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "Joining Late set.",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                        elif PGR.startswith("p>cancel"):
+                            PGCANCEL = True
+                            PGVALID = True
+                        elif PGR.startswith("p>done"):
+                            if PG_ACTIONCHANNEL is None or PG_DISPLAYCHANNEL is None:
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.",
+                                               "Channels not Set!",
+                                               0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                                time.sleep(3)
+                                PGN = embedder("Say 'p>cancel' to cancel, or 'p>done' to finish.", "", 0xc7f8fc, message)
+                                await client.edit_message(message=PGDISPLAY, embed=PGN)
+                            else:
+                                PGVALID = True
+                    await client.delete_message(message=PGDISPLAY)
+                    if PGCANCEL:
+                        await client.edit_message(message=PGMAIN,embed=embedder("Poker Game cancelled.","",0x13e823,message))
+                    else:
+                        await client.delete_message(message=PGMAIN)
+                        if PG_STARTING < 500: PG_STARTING = 500
+                        pjs = poker.UBIvaluechange(user=message.author,type="dec",val=PG_STARTING,server=message.server)
+                        if pjs is None:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "UnbelievaBoat Currency Servers could not be accessed!", "", 0xfb0006, message))
+                        elif pjs <= 0:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "You do not have enough Balance to pay the Starting! (" + str(PG_STARTING) + ")", "", 0xfb0006, message))
+                            pjs = poker.UBIvaluechange(user=message.author, type="inc", val=PG_STARTING,
+                                                       server=message.server)
+                        else:
+                            if PG_SMALLBLIND < 50: PG_SMALLBLIND = 50
+                            if PG_BIGBLIND < 100: PG_BIGBLIND = 100
+                            if PG_ROUNDS < 2: PG_ROUNDS = 2
+                            pj = ActivePokerJoin(ownerplayer=message.author,ownerstarting=PG_STARTING,
+                                                 actionchannel=PG_ACTIONCHANNEL,displaychannel=PG_DISPLAYCHANNEL,
+                                                 smallblind=PG_SMALLBLIND,bigblind=PG_BIGBLIND,starting=PG_STARTING,
+                                                 rounds=PG_ROUNDS,leavingpenalty=PG_LEAVINGPENALTY,joinlate=PG_JOINLATE,
+                                                 message=message)
+                            MAINAPJD.addjoin(pj)
+                            await client.send_message(destination=message.channel,embed=embedder(
+                                "Poker Game created! Use ?pokerad <your username> to get users to Join!",
+                                "(" + str(PG_STARTING) + ") was subtracted from your Bank as starting",0x13e823,message))
+    if cmdprefix(message) + "pokerad" in message.content:
+        pa = str(message.content).replace(cmdprefix(message) + "pokerad ","")
+        paj = finduser(message,pa)
+        if paj is None:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Invalid User!", "Usage: *" + cmdprefix(message) + "pokerad <username>*",
+                0xfbc200, message))
+        else:
+            paj = MAINAPJD.getjoin(paj.name)
+            if paj is None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "No Poker Game found by that username!", "Usage: *" + cmdprefix(message) + "pokerad <username>*", 0xfbc200, message))
+            else:
+                await client.send_message(destination=message.channel, embed=embedder(paj.ad, "", 0xc7f8fc, message))
+    if cmdprefix(message) + "pokergamecancel" in message.content:
+        pcj = MAINAPJD.getjoin(message.author.name)
+        if pcj is None:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You have not started a Poker Game!", "Usage: *" + cmdprefix(message) + "pokegame*", 0xfbc200, message))
+        else:
+            pjr = poker.UBIvaluechange(user=message.author, type="inc", val=pcj.starting,server=message.server)
+            if pjr is None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "UnbelievaBoat Currency Servers could not be accessed!", "", 0xfb0006, message))
+            else:
+                MAINAPJD.removejoin(pcj)
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "Poker Game cancelled.","(" + str(pcj.starting) + ") was added back to your Bank.", 0x13e823, message))
+    if cmdprefix(message) + "pokerjoin" in message.content:
+        ppj = str(message.content).replace(cmdprefix(message) + "pokerjoin ","")
+        ppj = finduser(message,ppj)
+        if ppj is None:
+            await client.send_message(destination=message.channel, embed=embedder(
+                "Invalid User!", "Usage: *" + cmdprefix(message) + "pokerjoin <username>*",
+                0xfbc200, message))
+        else:
+            ppaj = MAINAPJD.getjoin(ppj)
+            if ppaj is None:
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "No Poker Game found by that username!", "Usage: *" + cmdprefix(message) + "pokerjoin <username>*",
+                    0xfbc200, message))
+            else:
+                pjstarting = ppaj.starting
+                pjsr = poker.UBIvaluechange(user=message.author, type="dec", val=pjstarting, server=message.server)
+                if pjsr is None:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "UnbelievaBoat Currency Servers could not be accessed!", "", 0xfb0006, message))
+                else:
+                    if pjsr <= 0:
+                        await client.send_message(destination=message.channel, embed=embedder(
+                        "You do not have enough Balance to pay the Starting! (" + str(pjstarting) + ")", "", 0xfb0006,
+                        message))
+                        pjsr = poker.UBIvaluechange(user=message.author, type="inc", val=pjstarting,
+                                                    server=message.server)
+                    else:
+                        ppaj.addplayer(message.author,pjstarting)
+                        await client.send_message(destination=message.channel, embed=embedder(
+                            "Joined " + ppaj.owner.name + "'s Poker Game!", "",0x13e823, message))
+                        jm = "Server: " + message.server.name
+                        jm += "\n`" + message.author.name + "` has joined your Poker Game!"
+                        await client.send_message(destination=ppaj.owner,content=jm)
 
 client.run(runpass)
