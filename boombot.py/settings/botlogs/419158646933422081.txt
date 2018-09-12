@@ -1,0 +1,64 @@
+BOTCONSOLE 2018-09-07 00:42:41.034377
+BotConsole 2018-09-07 00:42:41.034472 Gunners Meme Squad 2: Gunners Meme Squad 2 connected and ready
+BotConsole 2018-09-07 00:42:41.097932 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 00:42:41.098145 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:42:41.098412 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-07 00:42:59.377168
+BotConsole 2018-09-07 00:42:59.377206 Gunners Meme Squad 2: Gunners Meme Squad 2 connected and ready
+BotConsole 2018-09-07 00:42:59.444424 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 00:42:59.444523 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:42:59.444746 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-07 00:44:01.171676 Gunners Meme Squad 2: GunnerBones changed the Server Updates Channel to announcements
+BotConsole 2018-09-07 00:44:01.306056 Gunners Meme Squad 2: GunnerBones changed the Server Updates Channel to announcements
+BotConsole 2018-09-07 00:46:15.224411 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 00:46:15.224563 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:46:15.224802 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-07 00:46:15.225921 Gunners Meme Squad 2: GunnerBones gave HardNuttage Botmod
+BotConsole 2018-09-07 00:46:39.367822 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 00:46:39.367992 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:46:39.368255 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-07 00:46:39.369386 Gunners Meme Squad 2: GunnerBones gave Loading... Botmod
+BotConsole 2018-09-07 00:48:56.901050 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 00:48:56.901205 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:48:56.901448 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-07 00:48:56.902565 Gunners Meme Squad 2: GunnerBones gave PowerfulNeurons Botmod
+BotConsole 2018-09-07 00:49:02.023706 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 00:49:02.023854 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:49:02.024144 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-07 00:49:02.025211 Gunners Meme Squad 2: GunnerBones gave ScrammbledEggs Botmod
+BotConsole 2018-09-07 02:08:02.068469 Gunners Meme Squad 2: GunnerBones added Role Nice Guy to Ozzy
+BotConsole 2018-09-07 20:10:58.168461 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-07 20:10:58.168540 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 20:10:58.168835 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-07 20:10:58.348256 Gunners Meme Squad 2: GunnerBones added Persisted Role Slam Jam to TyPier
+BOTCONSOLE 2018-09-09 19:42:41.205609
+BotConsole 2018-09-09 19:42:41.205649 Gunners Meme Squad 2: Gunners Meme Squad 2 connected and ready
+BotConsole 2018-09-09 19:42:41.282330 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-09 19:42:41.282423 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-09 19:42:41.282655 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-11 15:32:03.153295 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-11 15:32:03.153378 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 15:32:03.153621 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-11 15:32:03.249660 Gunners Meme Squad 2: GunnerBones added Persisted Role Boneless Boi to TyPier
+BotConsole 2018-09-11 15:32:16.790704 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-11 15:32:16.790782 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 15:32:16.791027 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BotConsole 2018-09-11 15:32:16.862565 Gunners Meme Squad 2: GunnerBones added Persisted Role Boneless Boi to ScrammbledEggs
+BotConsole 2018-09-11 15:32:24.132181 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-11 15:32:24.132258 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 15:32:24.132485 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-11 21:03:51.598728
+BotConsole 2018-09-11 21:03:51.601740 Gunners Meme Squad 2: Gunners Meme Squad 2 connected and ready
+BotConsole 2018-09-11 21:03:51.779744 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-11 21:03:51.783733 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 21:03:51.787722 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-11 21:11:28.953609
+BotConsole 2018-09-11 21:11:28.956634 Gunners Meme Squad 2: Gunners Meme Squad 2 connected and ready
+BotConsole 2018-09-11 21:11:29.128037 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-11 21:11:29.132027 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 21:11:29.136016 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-11 21:12:59.551788
+BotConsole 2018-09-11 21:12:59.554777 Gunners Meme Squad 2: Gunners Meme Squad 2 connected and ready
+BotConsole 2018-09-11 21:12:59.723951 Gunners Meme Squad 2: Settings files reupdated
+BotConsole 2018-09-11 21:12:59.727942 Gunners Meme Squad 2: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 21:12:59.730932 Gunners Meme Squad 2: [AutoDuplicates] No duplicates found, aborting

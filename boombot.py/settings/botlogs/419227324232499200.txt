@@ -122,38 +122,78 @@ BotConsole 2018-08-16 19:52:52.716808 Boom Bot Dev Zone: Boom Bot Dev Zone conne
 BotConsole 2018-08-16 19:52:52.787993 Boom Bot Dev Zone: Settings files reupdated
 BotConsole 2018-08-16 19:52:52.788068 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
 BotConsole 2018-08-16 19:52:52.788365 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:02:08.198578
-BotConsole 2018-08-19 15:02:08.198684 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:02:08.286841 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:02:08.286979 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:02:08.288211 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:02:21.888864
-BotConsole 2018-08-19 15:02:21.889010 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:02:21.890432 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:02:21.890521 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:02:21.890846 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:06:26.768208
-BotConsole 2018-08-19 15:06:26.768412 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:06:27.185953 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:06:27.186156 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:06:27.187519 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:07:42.196481
-BotConsole 2018-08-19 15:07:42.196609 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:07:42.198111 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:07:42.198202 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:07:42.198531 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:12:42.463149
-BotConsole 2018-08-19 15:12:42.463256 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:12:42.547769 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:12:42.547934 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:12:42.549318 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:17:06.081446
-BotConsole 2018-08-19 15:17:06.081614 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:17:06.083036 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:17:06.083162 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:17:06.083539 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
-BOTCONSOLE 2018-08-19 15:18:50.098297
-BotConsole 2018-08-19 15:18:50.098430 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
-BotConsole 2018-08-19 15:18:50.099832 Boom Bot Dev Zone: Settings files reupdated
-BotConsole 2018-08-19 15:18:50.099914 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
-BotConsole 2018-08-19 15:18:50.100230 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-19 14:24:01.439325
+BotConsole 2018-08-19 14:24:01.439400 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-19 14:24:01.510582 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-19 14:24:01.510812 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-19 14:24:01.511121 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-19 14:26:30.014515
+BotConsole 2018-08-19 14:26:30.014616 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-19 14:26:30.077674 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-19 14:26:30.077793 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-19 14:26:30.078062 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-19 14:30:37.618391
+BotConsole 2018-08-19 14:30:37.618479 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-19 14:30:37.679971 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-19 14:30:37.680088 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-19 14:30:37.680378 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-19 14:34:06.232108
+BotConsole 2018-08-19 14:34:06.232219 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-19 14:34:06.293917 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-19 14:34:06.294121 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-19 14:34:06.294405 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-19 15:05:56.746346
+BotConsole 2018-08-19 15:05:56.746385 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-19 15:05:56.808108 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-19 15:05:56.808180 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-19 15:05:56.808436 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-08-29 14:57:45.015218
+BotConsole 2018-08-29 14:57:45.015264 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-08-29 14:57:45.086541 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-08-29 14:57:45.086602 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-08-29 14:57:45.086833 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-06 23:19:08.938128
+BotConsole 2018-09-06 23:19:08.938171 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-06 23:19:09.007078 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-06 23:19:09.007169 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-06 23:19:09.007412 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-07 00:34:10.489653
+BotConsole 2018-09-07 00:34:10.489742 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-09-07 00:35:30.275430
+BotConsole 2018-09-07 00:35:30.275514 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-09-07 00:37:16.489172
+BotConsole 2018-09-07 00:37:16.489254 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-09-07 00:38:40.298186
+BotConsole 2018-09-07 00:38:40.298270 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-09-07 00:40:16.286705
+BotConsole 2018-09-07 00:40:16.286790 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BOTCONSOLE 2018-09-07 00:42:41.034698
+BotConsole 2018-09-07 00:42:41.034779 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-07 00:42:41.107068 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-07 00:42:41.107175 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:42:41.107477 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-07 00:42:59.377361
+BotConsole 2018-09-07 00:42:59.377400 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-07 00:42:59.454178 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-07 00:42:59.454233 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-07 00:42:59.454475 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-09 19:42:41.205823
+BotConsole 2018-09-09 19:42:41.205865 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-09 19:42:41.292039 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-09 19:42:41.292109 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-09 19:42:41.292340 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-11 21:03:51.607695
+BotConsole 2018-09-11 21:03:51.611683 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-11 21:03:51.815648 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-11 21:03:51.819664 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 21:03:51.822629 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-11 21:11:28.963583
+BotConsole 2018-09-11 21:11:28.967572 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-11 21:11:29.169952 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-11 21:11:29.173941 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 21:11:29.177905 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting
+BOTCONSOLE 2018-09-11 21:12:59.570734
+BotConsole 2018-09-11 21:12:59.573703 Boom Bot Dev Zone: Boom Bot Dev Zone connected and ready
+BotConsole 2018-09-11 21:12:59.759851 Boom Bot Dev Zone: Settings files reupdated
+BotConsole 2018-09-11 21:12:59.772819 Boom Bot Dev Zone: [AutoDuplicates] STARTING AUTO DUPLICATE-REMOVING CYCLE
+BotConsole 2018-09-11 21:12:59.777780 Boom Bot Dev Zone: [AutoDuplicates] No duplicates found, aborting

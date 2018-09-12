@@ -650,7 +650,9 @@ def finduser(message,uname):
         uname = idreplace(uname)
         umember = discord.utils.get(message.server.members,id=uname)
     else:
-        umember = discord.utils.find(lambda m: uname.lower() in m.name.lower(),message.server.members)
+        umember = discord.utils.find(lambda m: uname.lower() == m.name.lower(),message.server.members)
+        if umember is None:
+            umember = discord.utils.find(lambda m: uname.lower() in m.name.lower(),message.server.members)
     return umember
 
 def findchannel(message,uchannel):
@@ -662,7 +664,9 @@ def findchannel(message,uchannel):
     return uchannel
 
 def findrole(message,urolename):
-    urole = discord.utils.find(lambda r: urolename.lower() in r.name.lower(),message.server.roles)
+    urole = discord.utils.find(lambda r: urolename.lower() == r.name.lower(),message.server.roles)
+    if urole is None:
+        urole = discord.utils.find(lambda r: urolename.lower() in r.name.lower(),message.server.roles)
     return urole
 
 def findemoji(message,uemojiname):
@@ -2083,6 +2087,114 @@ async def on_message(message):
                 except discord.errors.Forbidden:
                     await client.send_message(destination=message.channel, embed=embedder(
                         "Boom Bot does not have permissions to do this!", "", 0xfb0006, message))
+    if cmdprefix(message) + "persistinfo" in message.content:
+        if not hasbotmod(message):
+            await client.send_message(destination=message.channel, embed=embedder(
+                "You do not have permissions to do this!", "", 0xfb0006, message))
+            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                MAINABC.getconsole(message.server).formatlog(type="COMMAND_DENIED", mod=message.author,
+                                                             cmd="Persist Info")))
+        else:
+            rilist = []
+            ftext = stngmultiplelines(message.server,2)
+            ftext = ftext.replace("\n", "")
+            if ftext == "":
+                await client.send_message(destination=message.channel, embed=embedder(
+                    "No Persisted Roles found!",
+                    "Use " + cmdprefix(message) + "persistedrole <user> <role> to create persisted roles", 0xfbc200,
+                    message))
+            else:
+                ftext = ftext.split(";")
+                for data in ftext:
+                    if len(data) >= 10:
+                        dph = data.replace("[", "")
+                        dph = dph.replace("]", "")
+                        dph = dph.replace("'", "")
+                        dph = dph.replace(" ", "")
+                        dph = dph.split(",")
+                        dphu = discord.utils.get(message.server.members, id=dph[0])
+                        dphr = discord.utils.get(message.server.roles, id=dph[1])
+                        if dphu == None or dphr == None:
+                            print("Skipping User " + dph[0] + " Role " + dph[1] + " (Probably not in the server)")
+                        else:
+                            dph[0] = dphu
+                            dph[1] = dphr
+                            rilist.append(dph)
+                if len(rilist) == 0:
+                    await client.send_message(destination=message.channel, embed=embedder(
+                        "No Valid Persisted Roles found!",
+                        "Use " + cmdprefix(message) + "persistrole <user> <role> to create persisted roles", 0xfbc200,
+                        message))
+                else:
+                    tistop = False
+                    if message.content != cmdprefix(message) + "persistinfo":
+                        tii = str(message.content).replace(cmdprefix(message) + "persistinfo ", "")
+                        if len(tii) < 2:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Invalid user!",
+                                "Use " + cmdprefix(message) + "persistinfo <optional user> if specifing a user",
+                                0xfbc200, message))
+                            tistop = True
+                        else:
+                            tiu = finduser(message, tii)
+                            if tiu == None:
+                                await client.send_message(destination=message.channel, embed=embedder(
+                                    "Invalid user!",
+                                    "Use " + cmdprefix(message) + "persistinfo <optional user> if specifing a user",
+                                    0xfbc200, message))
+                                tistop = True
+                            else:
+                                riph = []
+                                for data in rilist:
+                                    if data[0] == tiu:
+                                        riph.append(data)
+                                rilist = riph
+                    if not tistop:
+                        tisecondstop = False
+                        if len(rilist) > 25:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "WARNING: There are " + str(int(len(rilist) / 5)) + " pages of Persisted Roles, and could clutter this chat. Continue anyways?", "Type Yes or No", 0xfbc200,
+                                message))
+                            tipr = await client.wait_for_message(author=message.author)
+                            tipr = tipr.content
+                            if tipr != "Yes":
+                                await client.send_message(destination=message.channel, embed=embedder("Persist Info aborted!","", 0x13e823,message))
+                                tisecondstop = True
+                        if not tisecondstop:
+                            await client.send_message(destination=message.channel, embed=embedder(
+                                "Showing info for " + str(len(rilist)) + " Persisted Role users:", "", 0x13e823, message))
+                            fecount = 0
+                            for n in range(0, len(rilist)):
+                                if n % 5 == 0:
+                                    fecount += 1
+                            feextra = len(rilist) - (fecount * 5)
+                            if len(rilist) < 5:
+                                iel = embedder("Page 1", "", 0xc7f8fc, message)
+                                for l in range(0, len(rilist)):
+                                    iel.add_field(name=(rilist[l])[0].name,
+                                                  value=" [" + (rilist[l])[1].name + "]", inline=False)
+                                await client.send_message(destination=message.channel, embed=iel)
+                            else:
+                                for p in range(0, fecount - 1):
+                                    ie = embedder("Page " + str((p + 1)), "", 0xc7f8fc, message)
+                                    p = p * 5
+                                    ie.add_field(name=(rilist[p])[0].name,value=" [" + (rilist[p])[1].name + "]", inline=False)
+                                    ie.add_field(name=(rilist[p + 1])[0].name,value=" [" + (rilist[p + 1])[1].name + "]", inline=False)
+                                    ie.add_field(name=(rilist[p + 2])[0].name,value=" [" + (rilist[p + 2])[1].name + "]", inline=False)
+                                    ie.add_field(name=(rilist[p + 3])[0].name,value=" [" + (rilist[p + 3])[1].name + "]", inline=False)
+                                    ie.add_field(name=(rilist[p + 4])[0].name,value=" [" + (rilist[p + 4])[1].name + "]", inline=False)
+                                    await client.send_message(destination=message.channel, embed=ie)
+                                if feextra > 0:
+                                    fepage = fecount + 1
+                                    iee = embedder("Page " + fepage, "", 0xc7f8fc, message)
+                                    for l in range(fecount - feextra, fecount + 1):
+                                        ie.add_field(name=(rilist[l])[0].name,
+                                                     value=" [" + (rilist[l])[1].name + "]", inline=False)
+                                    await client.send_message(destination=message.channel, embed=iee)
+                            MAINABC.addlog(message.server, MAINABC.getconsole(message.server).printlog(
+                                MAINABC.getconsole(message.server).formatlog(type="COMMAND", mod=message.author,
+                                                                             cmd="Persist Info")))
+                            stngupdater(message.server)
     if cmdprefix(message) + "cmdlist" in message.content:
         cle1 = embedder("Boom Bot currently functioning command list", " ", 0xc7f8fc, message)
         cle2 = embedder("", " ", 0xc7f8fc, message)
@@ -2094,6 +2206,7 @@ async def on_message(message):
         cle1.add_field(name=cmdprefix(message) + "persistrole <user> <role>",value="[BM] Toggles a role on a user that persists to them, even if they leave the server",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedrole <user> <role> <time>",value="[BM] Toggles a role on a user that only lasts for a certain amount of days",inline=True)
         cle1.add_field(name=cmdprefix(message) + "timedinfo <optional user>",value="[BM] Shows all users with a timed role, or check a specific user")
+        cle1.add_field(name=cmdprefix(message) + "persistinfo <optional user>",value="[BM] Shows all users with a persisted role, or check a specific user")
         cle1.add_field(name=cmdprefix(message) + "rolemembers <role>",value="[BM] Lists all users with a role")
         cle1.add_field(name=cmdprefix(message) + "timedemoji <emoji> <time>",value="[BM] Toggles a time limit on an Emoji", inline=True)
         cle1.add_field(name=cmdprefix(message) + "removeduplicates",value="[BM] Removes duplicate timed/persisted roles found in settings")
